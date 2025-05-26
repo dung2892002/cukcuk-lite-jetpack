@@ -1,4 +1,4 @@
-package com.example.cukcuk.ui.theme
+package com.example.cukcuk.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
