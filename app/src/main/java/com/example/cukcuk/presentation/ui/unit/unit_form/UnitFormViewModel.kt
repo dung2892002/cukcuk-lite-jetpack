@@ -1,0 +1,59 @@
+package com.example.cukcuk.presentation.ui.unit.unit_form
+
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.cukcuk.domain.dtos.ResponseData
+import com.example.cukcuk.domain.model.Unit
+import com.example.cukcuk.domain.usecase.unit.CreateUnitUseCase
+import com.example.cukcuk.domain.usecase.unit.GetUnitDetailUseCase
+import com.example.cukcuk.domain.usecase.unit.UpdateUnitUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import java.util.UUID
+import javax.inject.Inject
+
+@HiltViewModel
+class UnitFormViewModel @Inject constructor(
+    private val createUnitUseCase: CreateUnitUseCase,
+    private val updateUnitUseCase: UpdateUnitUseCase,
+    private val getUnitDetailUseCase: GetUnitDetailUseCase
+) : ViewModel() {
+
+    private val _unit = mutableStateOf<Unit>(Unit(
+        UnitID = null,
+        UnitName = "",
+        Description = "",
+        Inactive = true,
+        CreatedDate = null,
+        ModifiedDate = null,
+        CreatedBy = "",
+        ModifiedBy = ""
+    ))
+    val unit: State<Unit> = _unit
+
+    private val _errorMessage = mutableStateOf<String?>("")
+    val errorMessage: State<String?> = _errorMessage
+
+    fun fetchUnitDetail(unitId: UUID) {
+        _unit.value = getUnitDetailUseCase(unitId)
+    }
+
+    fun submitForm() {
+        viewModelScope.launch {
+            val response = if (_unit.value.UnitID == null) {
+                createUnitUseCase(_unit.value)
+            } else {
+                updateUnitUseCase(_unit.value)
+            }
+
+            _errorMessage.value = if (!response.isSuccess) null else response.message
+        }
+    }
+
+    fun updateNewUnitName(name: String) {
+        _unit.value = _unit.value.copy(UnitName = name)
+
+    }
+}

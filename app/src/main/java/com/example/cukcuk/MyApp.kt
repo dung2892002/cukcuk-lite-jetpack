@@ -2,9 +2,12 @@ package com.example.cukcuk
 
 import android.app.Application
 import android.content.Context
+import dagger.hilt.android.HiltAndroidApp
 import java.io.FileOutputStream
 import java.io.IOException
 
+
+@HiltAndroidApp
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()

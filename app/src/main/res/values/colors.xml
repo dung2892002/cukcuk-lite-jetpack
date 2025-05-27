@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="bg_login_via_account">#1A73E7</color>
+    <color name="nav_item_selected">#FFCCCCCC</color>
+    <color name="gray">#FFCCCCCC</color>
+    <color name="gray_80">#EBEBEB</color>
+    <color name="dish_selected">#F4F4F4</color>
+    <color name="dish_select_order_value">#e0e0e0</color>
+    <color name="main_color">#078cf8</color>
+    <color name="footer_select_dish">#E2EEFF</color>
+    <color name="header_statistic">#E7E7E7</color>
+    <color name="header_statistic_text">#A6A6A6</color>
+    <color name="header_statistic_inventory">#F5F7FA</color>
+    <color name="statistic_background_color">#E4E4E4</color>
+    <color name="select_all">#BBCDE4</color>
+    <color name="text_not_inactive">#943737</color>
+    <color name="tt">#001F54</color>
+    <color name="badge_nav_item">#FF0000</color>
+    <color name="loading_overlay">#40000000</color>"
 </resources>
