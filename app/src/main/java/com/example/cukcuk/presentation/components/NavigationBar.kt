@@ -20,15 +20,12 @@ fun AppNavigationBarOverlay(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        // Click ra ngoài để đóng
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.4f))
                 .clickable { onClose() }
         )
-
-        // Menu bên trái
         AppNavigationBarContent(
             currentScreen = currentScreen,
             onSelectScreen = onSelectScreen,
@@ -49,7 +46,7 @@ fun AppNavigationBarContent(
     Surface(
         tonalElevation = 8.dp,
         shadowElevation = 4.dp,
-        color = MaterialTheme.colorScheme.surface,
+        color = Color.White,
         modifier = modifier
             .width(240.dp)
             .fillMaxHeight()

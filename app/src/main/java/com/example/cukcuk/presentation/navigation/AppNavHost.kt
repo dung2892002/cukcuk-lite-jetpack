@@ -10,6 +10,7 @@ import com.example.cukcuk.presentation.ui.home.HomeScreen
 import com.example.cukcuk.presentation.ui.inventory.inventory_form.InventoryFormScreen
 import com.example.cukcuk.presentation.ui.inventory.inventory_list.InventoryListScreen
 import com.example.cukcuk.presentation.ui.invoice.invoice_form.InvoiceFormScreen
+import com.example.cukcuk.presentation.ui.unit.unit_list.UnitListScreen
 
 
 @Composable
@@ -19,12 +20,6 @@ fun AppNavHost(navController: NavHostController,) {
             HomeScreen(navController)
         }
 
-        // Màn hình danh sách Inventory
-        composable("inventory_list") {
-            InventoryListScreen(navController)
-        }
-
-        // Màn hình Form (có thể nhận inventoryId hoặc không)
         composable(
             route = "inventory_form?inventoryId={inventoryId}",
             arguments = listOf(
@@ -49,6 +44,19 @@ fun AppNavHost(navController: NavHostController,) {
             )
         ) { backStackEntry ->
             InvoiceFormScreen(navController, backStackEntry)
+        }
+
+        composable(
+            route = "unit_list?currentUnitId={currentUnitId}",
+            arguments = listOf(
+                navArgument("currentUnitId") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) { backStackEntry ->
+            UnitListScreen(navController, backStackEntry)
         }
     }
 }

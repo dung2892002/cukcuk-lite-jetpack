@@ -17,20 +17,33 @@ import java.util.UUID
 @Composable
 fun UnitForm(
     unitId: UUID?,
-    onClose: () -> Unit,
+    onClose: (Boolean) -> Unit,
     viewModel: UnitFormViewModel = hiltViewModel()
 ) {
+
     LaunchedEffect(unitId) {
-        unitId?.let {
-            viewModel.fetchUnitDetail(it)
+        println("id: $unitId")
+        if (unitId == null) {
+            println("Theem moi")
+        }
+        else {
+            println("Cap nhat")
+            viewModel.fetchUnitDetail(unitId)
         }
     }
 
     val unit = viewModel.unit.value
     val errorMessage = viewModel.errorMessage.value
 
+    fun closeForm(reload: Boolean) {
+        viewModel.resetValue()
+        onClose(reload)
+    }
+
     LaunchedEffect(errorMessage) {
-        if (errorMessage == null) onClose()
+        if (errorMessage == null) {
+            closeForm(true)
+        }
     }
 
     Box(
@@ -65,14 +78,15 @@ fun UnitForm(
                 Button(
                     onClick = {
                         viewModel.submitForm()
-                        onClose()
                     },
                     modifier = Modifier.weight(1f)
                 ) {
                     Text("Submit")
                 }
                 Button(
-                    onClick = onClose,
+                    onClick = {
+                        closeForm(false)
+                    },
                     modifier = Modifier.weight(1f)
                 ) {
                     Text("Cancel")

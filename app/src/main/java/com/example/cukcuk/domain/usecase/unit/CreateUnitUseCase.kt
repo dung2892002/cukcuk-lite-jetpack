@@ -12,7 +12,7 @@ class CreateUnitUseCase @Inject constructor(
 ) {
     operator fun invoke(unit: Unit) : ResponseData {
         var response = ResponseData(false, "Có lỗi xảy ra")
-        response.isSuccess = repository.checkExistUnitName(unit.UnitName, null)
+        response.isSuccess = !repository.checkExistUnitName(unit.UnitName.trim(), null)
         if (!response.isSuccess) {
             response.message = "Đơn vị tính ${unit.UnitName} đã tồn tại"
             return response

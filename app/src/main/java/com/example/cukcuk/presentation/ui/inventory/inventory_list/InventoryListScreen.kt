@@ -1,6 +1,7 @@
 package com.example.cukcuk.presentation.ui.inventory.inventory_list
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,10 +37,9 @@ fun InventoryListScreen(
     viewModel: InventoryListViewModel = hiltViewModel()
 ) {
 
-
     val inventories = viewModel.inventories.value
 
-    LazyColumn {
+    LazyColumn{
         items(inventories) { inventory ->
             InventoryItem(inventory, onClick = {
                 navController.navigate("inventory_form?inventoryId=${inventory.InventoryID}")
@@ -59,7 +59,7 @@ fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
     ) {
         Card(
             modifier = Modifier.size(48.dp),
-            shape = RoundedCornerShape(4.dp),
+            shape = RoundedCornerShape(24.dp),
             elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(contentColor = ImageHelper.parseColor(inventory.Color))
         ) {

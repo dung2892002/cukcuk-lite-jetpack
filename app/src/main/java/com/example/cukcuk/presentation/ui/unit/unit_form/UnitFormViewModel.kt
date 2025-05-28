@@ -37,7 +37,8 @@ class UnitFormViewModel @Inject constructor(
     val errorMessage: State<String?> = _errorMessage
 
     fun fetchUnitDetail(unitId: UUID) {
-        _unit.value = getUnitDetailUseCase(unitId)
+        val fetchedUnit = getUnitDetailUseCase(unitId)
+        _unit.value = fetchedUnit
     }
 
     fun submitForm() {
@@ -47,13 +48,27 @@ class UnitFormViewModel @Inject constructor(
             } else {
                 updateUnitUseCase(_unit.value)
             }
-
-            _errorMessage.value = if (!response.isSuccess) null else response.message
+            println(response.message)
+            _errorMessage.value = if (response.isSuccess) null else response.message
         }
     }
 
     fun updateNewUnitName(name: String) {
         _unit.value = _unit.value.copy(UnitName = name)
+    }
 
+    fun resetValue() {
+        _unit.value = Unit(
+            UnitID = null,
+            UnitName = "",
+            Description = "",
+            Inactive = true,
+            CreatedDate = null,
+            ModifiedDate = null,
+            CreatedBy = "",
+            ModifiedBy = ""
+        )
+
+        _errorMessage.value = ""
     }
 }

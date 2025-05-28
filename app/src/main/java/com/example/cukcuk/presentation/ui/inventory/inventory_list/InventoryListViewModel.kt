@@ -26,7 +26,7 @@ class InventoryListViewModel @Inject constructor(
 
     fun loadInventories() {
         viewModelScope.launch {
-            val data = getInventoryListUseCase()
+            val data = getInventoryListUseCase.invoke()
             _inventories.value = data
         }
     }

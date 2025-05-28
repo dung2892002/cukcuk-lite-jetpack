@@ -19,6 +19,6 @@ data class Inventory(
     var Color: String,
     var IconFileName: String,
     var UseCount: Int,
-    var UnitID: UUID? = null,
+    var UnitID: UUID?,
     var UnitName: String
 )
