@@ -12,7 +12,7 @@ class DeleteUnitUseCase @Inject constructor(
     operator fun invoke(unit: Unit) : ResponseData {
         var response = ResponseData(false, "Có lỗi xảy ra")
 
-        response.isSuccess = repository.checkUseByInventory(unit.UnitID!!)
+        response.isSuccess = !repository.checkUseByInventory(unit.UnitID!!)
         if (!response.isSuccess) {
             response.message = "Đơn vị tính ${unit.UnitName} đang được sử dụng"
             return response

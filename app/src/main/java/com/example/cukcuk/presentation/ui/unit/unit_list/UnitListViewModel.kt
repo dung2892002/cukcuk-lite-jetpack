@@ -21,11 +21,18 @@ class UnitListViewModel @Inject constructor(
     private val _units = mutableStateOf<List<Unit>>(emptyList())
     val units: State<List<Unit>> = _units
 
-    private val _unitUpdateID = mutableStateOf<UUID?>(null)
-    val unitUpdateID: State<UUID?> = _unitUpdateID
+    private val _unitUpdate = mutableStateOf<Unit?>(null)
+    val unitUpdate: State<Unit?> = _unitUpdate
+
+    private val _unitSelected = mutableStateOf<Unit?>(null)
+    val unitSelected: State<Unit?> = _unitSelected
 
     private val _isFormOpen = mutableStateOf(false)
     val isFormOpen: State<Boolean> = _isFormOpen
+
+    private val _isOpenDialogDelete = mutableStateOf(false)
+    val isOpenDialogDelete: State<Boolean> = _isOpenDialogDelete
+
 
     init {
         loadUnits()
@@ -35,29 +42,47 @@ class UnitListViewModel @Inject constructor(
         viewModelScope.launch {
             val data = getAllUnitUseCase()
             _units.value = data
-            _unitUpdateID.value = null
+            _unitUpdate.value = null
+        }
+    }
+
+    fun findUnitSelected(unitId: UUID?) {
+        _unitSelected.value = _units.value.find { it.UnitID == unitId }
+    }
+
+    fun selectUnit(unit: Unit) {
+        _unitSelected.value = unit
+    }
+
+
+    fun deleteUnit() {
+        val response = deleteUnitUseCase(_unitUpdate.value!!)
+        println(response)
+        if (response.isSuccess) {
+            if (_unitUpdate.value?.UnitID == _unitSelected.value?.UnitID)
+                _unitSelected.value = null
+            closeFormAndDialog(true)
         }
     }
 
 
-    fun deleteUnit(unit: Unit) {
-        val response = deleteUnitUseCase(unit)
-        if (response.isSuccess) loadUnits()
-    }
-
-    fun backScreen() {
-        println("backScreen")
-    }
-
-    fun openForm(unitId: UUID? = null) {
-        _unitUpdateID.value = unitId
+    fun openForm(unit: Unit? = null) {
+        _unitUpdate.value = unit
         _isFormOpen.value = true
     }
 
-    fun closeForm(reload: Boolean) {
+    fun closeFormAndDialog(reload: Boolean) {
+        _unitUpdate.value = null
         _isFormOpen.value = false
-        _unitUpdateID.value = null
+        _isOpenDialogDelete.value = false
 
         if(reload) loadUnits()
     }
+
+    fun openDialogDelete(unit: Unit) {
+        _unitUpdate.value = unit
+        _isOpenDialogDelete.value = true
+    }
+
+
 }

@@ -2,16 +2,15 @@ package com.example.cukcuk.presentation.ui.unit.unit_form
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.cukcuk.presentation.components.CukcukDialog
 import java.util.UUID
 
 @Composable
@@ -22,12 +21,7 @@ fun UnitForm(
 ) {
 
     LaunchedEffect(unitId) {
-        println("id: $unitId")
-        if (unitId == null) {
-            println("Theem moi")
-        }
-        else {
-            println("Cap nhat")
+        if (unitId != null) {
             viewModel.fetchUnitDetail(unitId)
         }
     }
@@ -49,49 +43,49 @@ fun UnitForm(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.5f))
+            .background(Color.Black.copy(alpha = 0.5f)),
+        contentAlignment = Alignment.Center
     ) {
-        Column(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(24.dp)
-                .background(Color.White)
-                .padding(16.dp)
-                .fillMaxWidth(0.8f),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            TextField(
-                value = unit.UnitName,
-                onValueChange = { newName ->
-                    viewModel.updateNewUnitName(name = newName)
-                },
-                label = { Text("Unit Name") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Button(
-                    onClick = {
-                        viewModel.submitForm()
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text("Submit")
-                }
-                Button(
-                    onClick = {
-                        closeForm(false)
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text("Cancel")
-                }
-            }
-        }
+        UnitFormContent(
+            unit = unit,
+            onUnitNameChange = { viewModel.updateNewUnitName(it) },
+            onSubmit = { viewModel.submitForm() },
+            onCancel = { closeForm(false) },
+        )
     }
 }
+
+@Composable
+fun UnitFormContent(
+    unit: com.example.cukcuk.domain.model.Unit,
+    onUnitNameChange: (String) -> Unit,
+    onSubmit: () -> Unit,
+    onCancel: () -> Unit
+) {
+    CukcukDialog(
+        title = if (unit.UnitID == null) "Thêm đơn vị tính" else "Sửa đơn vị tính",
+        message = unit.UnitName,
+        onConfirm = onSubmit,
+        onCancel = onCancel,
+        confirmButtonText = "CẤT",
+        cancelButtonText = "HỦY BỎ",
+        onValueChange = onUnitNameChange
+    )
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewUnitFormContent() {
+    MaterialTheme {
+        UnitFormContent(
+            unit = com.example.cukcuk.domain.model.Unit().copy(
+                UnitID = null,
+                UnitName = "abc"),
+            onUnitNameChange = {},
+            onSubmit = {},
+            onCancel = {}
+        )
+    }
+}
+

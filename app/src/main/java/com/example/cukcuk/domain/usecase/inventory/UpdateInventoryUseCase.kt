@@ -7,7 +7,7 @@ import javax.inject.Inject
 class UpdateInventoryUseCase @Inject constructor(
     private val repository: InventoryRepository
 ){
-    suspend operator fun invoke(inventory: Inventory) {
-        repository.updateInventory(inventory)
+    operator fun invoke(inventory: Inventory) : Boolean {
+        return repository.updateInventory(inventory)
     }
 }

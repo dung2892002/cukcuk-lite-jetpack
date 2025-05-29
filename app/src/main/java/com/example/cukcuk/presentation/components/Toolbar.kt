@@ -14,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cukcuk.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,7 +26,7 @@ fun Toolbar(
     title: String,
     menuTitle: String?,
     hasMenuAction: Boolean = false,
-    onBackClick: () -> Unit,     // => hàm không tham số trả về Unit
+    onBackClick: () -> Unit,
     onMenuClick: () -> Unit,
     navigationIcon: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
 ) {
@@ -63,6 +65,8 @@ fun Toolbar(
                     modifier = Modifier.clickable{ onMenuClick() }.padding(end = 10.dp))
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Blue, titleContentColor = Color.White)
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = colorResource(R.color.main_color),
+            titleContentColor = Color.White)
     )
 }

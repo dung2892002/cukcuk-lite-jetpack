@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">cukcuk</string>
     <string name="inventory_inactive">ngừng bán</string>
+    <string name="dialog_content">CUKCUK LITE</string>
 </resources>

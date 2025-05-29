@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
-import com.example.cukcuk.presentation.components.AppNavigationBarOverlay
 import com.example.cukcuk.presentation.components.Toolbar
 import com.example.cukcuk.utils.FormatDisplay
 import java.util.UUID
@@ -48,15 +47,34 @@ fun InventoryFormScreen(
 ) {
 
     var inventory = viewModel.inventory.value
-
     val inventoryId = backStackEntry.arguments?.getString("inventoryId")
     val title = if (inventoryId == null) "Thêm món" else "Sửa món"
 
+    val errorMessage = viewModel.errorMessage.value
+
+    LaunchedEffect(errorMessage) {
+        if (errorMessage == null) {
+            navController.popBackStack()
+        }
+    }
+
+
+
     LaunchedEffect(inventoryId) {
-        println("id: $inventoryId")
         if (inventoryId != null) {
             val inventoryIdUUID = UUID.fromString(inventoryId)
             viewModel.loadInventory(inventoryIdUUID)
+        }
+    }
+
+    val selectedUnit = navController
+        .currentBackStackEntry
+        ?.savedStateHandle
+        ?.getLiveData<com.example.cukcuk.domain.model.Unit>("selectedUnit")
+
+    LaunchedEffect(selectedUnit?.value) {
+        selectedUnit?.value?.let {
+            viewModel.updateUnit(it)
         }
     }
 

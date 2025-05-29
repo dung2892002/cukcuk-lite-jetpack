@@ -26,26 +26,12 @@ class InventoryFormViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _inventory = mutableStateOf(
-        Inventory(
-            InventoryID = null,
-            InventoryCode = "",
-            InventoryName = "Test",
-            InventoryType = 0,
-            Price = 0.0,
-            Description = "",
-            Inactive = true,
-            CreatedDate = LocalDateTime.now(),
-            CreatedBy = "",
-            ModifiedDate = LocalDateTime.now(),
-            ModifiedBy = "",
-            Color = "#00FF00",
-            IconFileName = "ic_default.png",
-            UseCount = 0,
-            UnitID = null,
-            UnitName = ""
-        )
+        Inventory()
     )
     val inventory: State<Inventory> = _inventory
+
+    private val _errorMessage = mutableStateOf<String?>("")
+    val errorMessage: State<String?> = _errorMessage
 
     val _showSelectColor = mutableStateOf(true)
     val showSelectColor: State<Boolean> = _showSelectColor
@@ -60,7 +46,16 @@ class InventoryFormViewModel @Inject constructor(
     }
 
     fun submit() {
-
+        viewModelScope.launch {
+            val response = if (_inventory.value.InventoryID == null) {
+                println("them moi")
+                createInventoryUseCase(_inventory.value)
+            } else {
+                println("update")
+                updateInventoryUseCase(_inventory.value)
+            }
+            _errorMessage.value = if (response) null else "co loi xay ra"
+        }
     }
 
     fun updateInventoryName(name: String) {

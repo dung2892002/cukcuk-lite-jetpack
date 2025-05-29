@@ -21,16 +21,7 @@ class UnitFormViewModel @Inject constructor(
     private val getUnitDetailUseCase: GetUnitDetailUseCase
 ) : ViewModel() {
 
-    private val _unit = mutableStateOf<Unit>(Unit(
-        UnitID = null,
-        UnitName = "",
-        Description = "",
-        Inactive = true,
-        CreatedDate = null,
-        ModifiedDate = null,
-        CreatedBy = "",
-        ModifiedBy = ""
-    ))
+    private val _unit = mutableStateOf<Unit>(Unit())
     val unit: State<Unit> = _unit
 
     private val _errorMessage = mutableStateOf<String?>("")
@@ -48,7 +39,6 @@ class UnitFormViewModel @Inject constructor(
             } else {
                 updateUnitUseCase(_unit.value)
             }
-            println(response.message)
             _errorMessage.value = if (response.isSuccess) null else response.message
         }
     }
@@ -58,17 +48,7 @@ class UnitFormViewModel @Inject constructor(
     }
 
     fun resetValue() {
-        _unit.value = Unit(
-            UnitID = null,
-            UnitName = "",
-            Description = "",
-            Inactive = true,
-            CreatedDate = null,
-            ModifiedDate = null,
-            CreatedBy = "",
-            ModifiedBy = ""
-        )
-
+        _unit.value = Unit()
         _errorMessage.value = ""
     }
 }

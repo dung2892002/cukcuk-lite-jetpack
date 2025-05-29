@@ -1,7 +1,6 @@
 package com.example.cukcuk.presentation.ui.inventory.inventory_list
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,12 +15,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -38,6 +39,11 @@ fun InventoryListScreen(
 ) {
 
     val inventories = viewModel.inventories.value
+
+    LaunchedEffect(Unit) {
+        viewModel.loadInventories()
+    }
+
 
     LazyColumn{
         items(inventories) { inventory ->
@@ -90,7 +96,7 @@ fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
                 )
                 if (!inventory.Inactive) {
                     Text(
-                        text = "Ngừng bán",
+                        text = stringResource(R.string.inventory_inactive),
                         color = Color.Red,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(start = 8.dp)
