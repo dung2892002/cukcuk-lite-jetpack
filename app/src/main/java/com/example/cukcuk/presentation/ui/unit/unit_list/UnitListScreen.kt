@@ -44,6 +44,7 @@ import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukButton
 import com.example.cukcuk.presentation.components.CukcukDialog
+import com.example.cukcuk.presentation.components.CukcukImageBox
 import com.example.cukcuk.presentation.components.Toolbar
 import com.example.cukcuk.presentation.ui.unit.unit_form.UnitForm
 import java.util.UUID
@@ -107,7 +108,9 @@ fun UnitListScreen(
                     modifier = Modifier.weight(1f)
                 )
             }
-        }
+        },
+
+        containerColor = Color.White
     ) { paddingValues ->
             LazyColumn(
                 modifier = Modifier
@@ -193,23 +196,12 @@ fun UnitItem(
             contentAlignment = Alignment.Center
         ) {
             if (unit.UnitID == unitSelectedId) {
-                Box(
-                    modifier = Modifier
-                        .size(28.dp)
-                        .background(
-                            color = colorResource(id = R.color.color_unit_selected),
-                            shape = RoundedCornerShape(14.dp)
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_yes),
-                        contentDescription = "Ảnh ví dụ",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
-
+                CukcukImageBox(
+                    size = 28,
+                    imageSize = 20,
+                    iconDrawable = painterResource(R.drawable.ic_yes),
+                    colorRes = colorResource(R.color.color_unit_selected)
+                )
             }
         }
 

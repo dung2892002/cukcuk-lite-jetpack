@@ -25,4 +25,8 @@
     <color name="badge_nav_item">#FF0000</color>
     <color name="loading_overlay">#40000000</color>"
     <color name="color_unit_selected">#4CAF50</color>
+    <color name="inventory_price">#cccccc</color>
+    <color name="color_inactive_block">#9B0B0B</color>
+    <color name="background_form_select_image_inventory">#f5f7fa</color>
+    <color name="calculator_button">#E4E4E4</color>
 </resources>

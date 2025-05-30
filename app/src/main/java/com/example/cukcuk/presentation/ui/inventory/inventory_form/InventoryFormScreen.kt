@@ -2,6 +2,7 @@ package com.example.cukcuk.presentation.ui.inventory.inventory_form
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,8 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Scaffold
@@ -26,6 +29,9 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -35,7 +41,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import com.example.cukcuk.R
+import com.example.cukcuk.presentation.components.CukcukButton
+import com.example.cukcuk.presentation.components.CukcukDialog
+import com.example.cukcuk.presentation.components.CukcukImageBox
 import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.ui.calculator.CalculatorDialog
 import com.example.cukcuk.utils.FormatDisplay
 import java.util.UUID
 
@@ -48,17 +59,20 @@ fun InventoryFormScreen(
 
     var inventory = viewModel.inventory.value
     val inventoryId = backStackEntry.arguments?.getString("inventoryId")
-    val title = if (inventoryId == null) "Thêm món" else "Sửa món"
 
     val errorMessage = viewModel.errorMessage.value
+    val showSelectColor = viewModel.showSelectColor.value
+    val showSelectImage = viewModel.showSelectImage.value
+    val showDialogDelete = viewModel.isOpenDialogDelete.value
+    val showCalculator = viewModel.showCalculator.value
+
+
 
     LaunchedEffect(errorMessage) {
         if (errorMessage == null) {
             navController.popBackStack()
         }
     }
-
-
 
     LaunchedEffect(inventoryId) {
         if (inventoryId != null) {
@@ -79,8 +93,45 @@ fun InventoryFormScreen(
     }
 
     Scaffold(
+        containerColor = Color.White,
         topBar = {
-            Toolbar(title,"Cất", false, {navController.popBackStack()}, {viewModel.submit()} )
+            Toolbar(
+                title = if (inventory.InventoryID == null) "Thêm món" else "Sửa món",
+                menuTitle =  "Cất",
+                false,
+                onBackClick =  {navController.popBackStack()},
+                onMenuClick = {viewModel.submit()} )
+        },
+        bottomBar = {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 20.dp)
+                    .background(
+                        color = Color.White
+                    ),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                if (inventoryId != null) {
+                    CukcukButton(
+                        title = "XÓA",
+                        bgColor = Color.Red,
+                        textColor = Color.White,
+                        onClick = {
+                            viewModel.openDialogDelete()
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                CukcukButton(
+                    title = "CẤT",
+                    bgColor = colorResource(R.color.main_color),
+                    textColor = Color.White,
+                    onClick = {
+                        viewModel.submit()
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     ) { innerPadding ->
         Column(
@@ -102,7 +153,7 @@ fun InventoryFormScreen(
                 value = FormatDisplay.formatNumber(inventory.Price.toString()),
                 isRequired = false,
                 onClick = {
-                    print("bat may tinh")
+                    viewModel.openCalculator()
                 }
             )
 
@@ -118,7 +169,126 @@ fun InventoryFormScreen(
                     }
                 }
             )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(vertical = 10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(vertical = 10.dp)
+                ) {
+                    FormRowLabel(
+                        label = "Màu sắc"
+                    )
+
+                    CukcukImageBox(
+                        color = inventory.Color,
+                        imageName = null,
+                        iconDrawable = painterResource(R.drawable.ic_colors),
+                        onClick = {
+                            viewModel.openSelectColor()
+                        }
+                    )
+                }
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                ) {
+                    FormRowLabel(
+                        label = "Biểu tượng"
+                    )
+
+                    CukcukImageBox(
+                        color = inventory.Color,
+                        imageName = inventory.IconFileName,
+                        onClick = {
+                            viewModel.openSelectImage()
+                        }
+                    )
+                }
+            }
+
+            if (inventoryId != null) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    FormRowLabel(
+                        label = "Trạng thái"
+                    )
+
+                    Checkbox(
+                        checked = !inventory.Inactive,
+                        colors = CheckboxDefaults.colors(
+                            uncheckedColor = colorResource(R.color.main_color),
+                            checkedColor = colorResource(R.color.main_color),
+                            checkmarkColor = Color.White
+                        ),
+                        onCheckedChange = { viewModel.updateInactive(it) }
+                    )
+                    Text(text = "Ngừng bán", fontSize = 16.sp)
+                }
+            }
+
         }
+    }
+
+    if (showDialogDelete) {
+        CukcukDialog(
+            title = stringResource(R.string.dialog_content),
+            message = "Bạn có chắc muốn xóa món ${inventory.InventoryName} không?",
+            onConfirm = {
+                viewModel.delete()
+            },
+            onCancel = {
+                viewModel.closeDialogDelete()
+            },
+            confirmButtonText = "CÓ",
+            cancelButtonText = "KHÔNG",
+        )
+    }
+
+    if (showSelectColor) {
+            ColorInventoryForm(
+                currentColor = inventory.Color,
+                onSelectColor = {
+                    viewModel.updateColor(it)
+                    viewModel.closeSelectColor()
+                },
+                onCloseForm = {
+                    viewModel.closeSelectColor()
+                }
+            )
+    }
+
+    if (showSelectImage) {
+        ImageInventoryForm(
+            onSelectImage = {
+                viewModel.updateIconFileName(it)
+                viewModel.closeSelectImage()
+            },
+            onCloseForm = {
+                viewModel.closeSelectImage()
+            }
+        )
+    }
+
+    if (showCalculator) {
+        CalculatorDialog(
+            input = inventory.Price.toString(),
+            title = "Giá bán",
+            message = "Giá bán",
+            maxValue = 999999999.0,
+            minValue = 0.0,
+            onClose = {
+                viewModel.closeCalculator()
+            },
+            onSubmit = {
+                viewModel.updatePrice(it.toDouble())
+            },
+        )
     }
 }
 
@@ -149,18 +319,9 @@ fun FormRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Label + Required marker
-        Text(
-            buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color.Gray)) {
-                    append(label)
-                }
-                if (isRequired) {
-                    withStyle(style = SpanStyle(color = Color.Red)) {
-                        append(" *")
-                    }
-                }
-            },
-            modifier = Modifier.padding(horizontal = 10.dp)
+        FormRowLabel(
+            label = label,
+            isRequired = isRequired
         )
 
         if (onValueChange != null) {
@@ -211,3 +372,23 @@ fun FormRow(
     }
 }
 
+
+@Composable
+fun FormRowLabel(
+    label: String,
+    isRequired: Boolean = false
+) {
+    Text(
+        buildAnnotatedString {
+            withStyle(style = SpanStyle(color = Color.Gray, fontSize = 14.sp)) {
+                append(label)
+            }
+            if (isRequired) {
+                withStyle(style = SpanStyle(color = Color.Red)) {
+                    append(" *")
+                }
+            }
+        },
+        modifier = Modifier.padding(horizontal = 10.dp)
+    )
+}
