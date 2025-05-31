@@ -113,9 +113,10 @@ class CalculatorViewModel @Inject constructor() : ViewModel() {
                     if (label == "0" || label == "000") return
                     input = label
                 } else {
-                    if (!hasTwoDecimalPlaces(input) && checkMaxLengthInput())
+                    if (!hasTwoDecimalPlaces(input) && checkMaxLengthInput()) {
                         println("pass")
                         input += label
+                    }
                 }
                 _resultValue.value = input
             }
@@ -150,9 +151,11 @@ class CalculatorViewModel @Inject constructor() : ViewModel() {
         _submitState.value = false
         _message.value = message
         firstInput = true
-        _maxLengthValue.intValue = FormatDisplay.formatExpression(max.toString()).length
+        _maxLengthValue.intValue = max.toLong()
+                                        .let { kotlin.math.abs(it) }
+                                        .toString().length
 
-        println(_resultValue.value)
+        println(_maxLengthValue.intValue)
     }
 
     fun setValue(value: String) {
@@ -254,13 +257,7 @@ class CalculatorViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun checkMaxLengthInput() : Boolean {
-        val input = _resultValue.value
-        if (input.contains('+') || input.contains('-')) {
-            val last = Regex("(?=[+-])").split(input).last()
-            return last.length < _maxLengthValue.intValue - 1
-        }
-        val result = input.length < _maxLengthValue.intValue - 1
-        return result
+        return _resultValue.value.split(Regex("[+-]")).last().length < _maxLengthValue.intValue
     }
 
     private fun isValidDecimalInput(input: String) : Boolean {
