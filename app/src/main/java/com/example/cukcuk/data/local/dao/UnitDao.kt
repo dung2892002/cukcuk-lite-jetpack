@@ -9,11 +9,12 @@ import com.example.cukcuk.utils.getBoolean
 import com.example.cukcuk.utils.getDateTime
 import com.example.cukcuk.utils.getString
 import com.example.cukcuk.utils.getUUID
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.UUID
 import javax.inject.Inject
 
 class UnitDao @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private val db: SQLiteDatabase by lazy {
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)

@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.os.Build
 import java.util.Locale
 
+@Suppress("DEPRECATION")
 object LocaleHelper {
 
     @SuppressLint("ObsoleteSdkInt")

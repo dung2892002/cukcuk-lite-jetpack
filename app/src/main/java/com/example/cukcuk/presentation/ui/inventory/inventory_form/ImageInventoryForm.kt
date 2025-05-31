@@ -38,6 +38,19 @@ fun ImageInventoryForm(
     onSelectImage: (String) -> Unit,
     onCloseForm: () -> Unit,
 ) {
+
+    val context = LocalContext.current
+    val imageListState = remember { mutableStateOf<List<Pair<String, ImageBitmap>>>(emptyList()) }
+    val isLoaded = remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        val images = loadAllImagesFromAssets(context, "icon_default")
+        imageListState.value = images
+        isLoaded.value = true
+    }
+
+    if (!isLoaded.value) return
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -57,6 +70,7 @@ fun ImageInventoryForm(
                 .padding(vertical = 10.dp)
         ) {
             ImageInventoryGrid(
+                imageList = imageListState.value,
                 onSelectImage = {
                     onSelectImage(it)
                 }
@@ -85,16 +99,9 @@ fun ImageInventoryForm(
 
 @Composable
 fun ImageInventoryGrid(
+    imageList: List<Pair<String, ImageBitmap>>,
     onSelectImage: (String) -> Unit
 ) {
-    val context = LocalContext.current
-    val imageList = remember { mutableStateOf<List<Pair<String, ImageBitmap>>>(emptyList()) }
-
-    LaunchedEffect(Unit) {
-        val images = loadAllImagesFromAssets(context, "icon_default")
-        imageList.value = images
-    }
-
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(5),
@@ -104,8 +111,8 @@ fun ImageInventoryGrid(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(0.dp)
     ) {
-        items(imageList.value.size) { index ->
-            val (fileName, imageBitmap) = imageList.value[index]
+        items(imageList.size) { index ->
+            val (fileName, imageBitmap) = imageList[index]
 
             Box(
                 modifier = Modifier

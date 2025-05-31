@@ -2,6 +2,11 @@ package com.example.cukcuk.presentation.ui.inventory.inventory_form
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.model.Inventory
@@ -33,13 +38,13 @@ class InventoryFormViewModel @Inject constructor(
     private val _errorMessage = mutableStateOf<String?>("")
     val errorMessage: State<String?> = _errorMessage
 
-    val _showSelectColor = mutableStateOf(false)
+    private val _showSelectColor = mutableStateOf(false)
     val showSelectColor: State<Boolean> = _showSelectColor
 
-    val _showSelectImage = mutableStateOf(false)
+    private val _showSelectImage = mutableStateOf(false)
     val showSelectImage: State<Boolean> = _showSelectImage
 
-    val _showCalculator = mutableStateOf(false)
+    private val _showCalculator = mutableStateOf(false)
     val showCalculator: State<Boolean> = _showCalculator
 
     private val _isOpenDialogDelete = mutableStateOf(false)
@@ -71,6 +76,7 @@ class InventoryFormViewModel @Inject constructor(
     fun delete() {
         viewModelScope.launch {
             val response = deleteInventoryUseCase(_inventory.value)
+            if (response.isSuccess) closeDialogDelete()
             _errorMessage.value = response.message
         }
     }
@@ -132,5 +138,15 @@ class InventoryFormViewModel @Inject constructor(
 
     fun updateInactive(state: Boolean) {
         _inventory.value = _inventory.value.copy(Inactive = !state)
+    }
+
+    fun buildDialogContent() : AnnotatedString {
+        return buildAnnotatedString {
+            append("Bạn có chắc muốn xóa món ăn ")
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                append(inventory.value.InventoryName)
+            }
+            append(" không?")
+        }
     }
 }

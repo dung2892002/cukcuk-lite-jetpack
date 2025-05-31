@@ -1,5 +1,6 @@
 package com.example.cukcuk.presentation.ui.unit.unit_form
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -8,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.cukcuk.presentation.components.CukcukDialog
@@ -19,6 +21,7 @@ fun UnitForm(
     onClose: (Boolean) -> Unit,
     viewModel: UnitFormViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
 
     LaunchedEffect(unitId) {
         if (unitId != null) {
@@ -28,6 +31,7 @@ fun UnitForm(
 
     val unit = viewModel.unit.value
     val errorMessage = viewModel.errorMessage.value
+    val isShowForm = viewModel.isShowForm.value
 
     fun closeForm(reload: Boolean) {
         viewModel.resetValue()
@@ -35,7 +39,13 @@ fun UnitForm(
     }
 
     LaunchedEffect(errorMessage) {
-        if (errorMessage == null) {
+        if (errorMessage != null) {
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    LaunchedEffect(isShowForm) {
+        if (isShowForm == false) {
             closeForm(true)
         }
     }
@@ -64,7 +74,8 @@ fun UnitFormContent(
 ) {
     CukcukDialog(
         title = if (unit.UnitID == null) "Thêm đơn vị tính" else "Sửa đơn vị tính",
-        message = unit.UnitName,
+        message = null,
+        valueTextField = unit.UnitName,
         onConfirm = onSubmit,
         onCancel = onCancel,
         confirmButtonText = "CẤT",

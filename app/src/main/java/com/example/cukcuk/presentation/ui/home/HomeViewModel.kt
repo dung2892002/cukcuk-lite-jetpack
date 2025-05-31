@@ -14,7 +14,7 @@ class HomeViewModel @Inject constructor(
     private val _currentScreen = mutableStateOf(Screen.Sales)
     val currentScreen: State<Screen> = _currentScreen
 
-    private val _title = mutableStateOf("")
+    private val _title = mutableStateOf("Bán hàng")
     val title: State<String> = _title
 
 

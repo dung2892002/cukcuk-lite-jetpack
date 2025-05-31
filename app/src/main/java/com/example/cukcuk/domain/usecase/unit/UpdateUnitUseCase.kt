@@ -14,15 +14,14 @@ class UpdateUnitUseCase @Inject constructor(
         var response = ResponseData(false, "Có lỗi xảy ra")
         response.isSuccess = !repository.checkExistUnitName(unit.UnitName.trim(), unit.UnitID)
         if (!response.isSuccess) {
-            response.message = "Đơn vị tính ${unit.UnitName} đã tồn tại"
+            response.message = "Đơn vị tính <${unit.UnitName.trim()}> đã tồn tại"
             return response
         }
 
         unit.ModifiedDate = LocalDateTime.now()
+
         response.isSuccess = repository.updateUnit(unit)
-        if (!response.isSuccess) {
-            response.message = "Có lỗi xảy ra"
-        }
+        if (response.isSuccess) response.message = null
         return response
     }
 }

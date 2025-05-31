@@ -1,72 +1,103 @@
 package com.example.cukcuk.presentation.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cukcuk.R
+import com.example.cukcuk.presentation.theme.CukcukTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Toolbar(
     title: String,
     menuTitle: String?,
-    hasMenuAction: Boolean = false,
+    hasMenuIcon: Boolean = false,
     onBackClick: () -> Unit,
     onMenuClick: () -> Unit,
     navigationIcon: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
 ) {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = title,
-                color = Color.White,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center
-            )
-        },
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(colorResource(R.color.main_color))
+            .padding(top = 20.dp, start = 5.dp, end = 5.dp)
+            .height(56.dp)
+    ) {
+        Icon(
+            imageVector = navigationIcon,
+            tint = Color.White,
+            contentDescription = "Toggle Drawer",
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .clickable { onBackClick() }
+                .padding(10.dp)
+        )
 
-        navigationIcon = {
-            Icon(
-                navigationIcon,
-                tint = Color.White,
-                contentDescription = "Toggle Drawer",
-                modifier = Modifier.clickable{ onBackClick() }
-            )
-        },
+        Text(
+            text = title,
+            color = Color.White,
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.align(Alignment.Center)
+        )
 
-        actions = {
+        Box(
+            modifier = Modifier.align(Alignment.CenterEnd)
+        ) {
             if (menuTitle != null) {
                 Text(
                     text = menuTitle,
                     color = Color.White,
                     fontSize = 16.sp,
-                    modifier = Modifier.clickable{ onMenuClick() }.padding(end = 10.dp))
+                    modifier = Modifier
+                        .clickable { onMenuClick() }
+                        .padding(10.dp)
+                )
             }
-            if (hasMenuAction) {
+
+            if (hasMenuIcon) {
                 Icon(
-                    Icons.Default.Add,
+                    imageVector = Icons.Default.Add,
                     tint = Color.White,
                     contentDescription = "Thêm mới",
-                    modifier = Modifier.clickable{ onMenuClick() }.padding(end = 10.dp))
+                    modifier = Modifier
+                        .clickable { onMenuClick() }
+                        .padding(10.dp)
+                )
             }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colorResource(R.color.main_color),
-            titleContentColor = Color.White)
-    )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ToolbarPreview() {
+    CukcukTheme {
+        Toolbar(
+            title = "Thống kê",
+            menuTitle = null,
+            hasMenuIcon = false,
+            onBackClick = {},
+            onMenuClick = {}
+        )
+    }
 }

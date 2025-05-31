@@ -2,6 +2,11 @@ package com.example.cukcuk.presentation.ui.unit.unit_list
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.model.Unit
@@ -33,6 +38,9 @@ class UnitListViewModel @Inject constructor(
     private val _isOpenDialogDelete = mutableStateOf(false)
     val isOpenDialogDelete: State<Boolean> = _isOpenDialogDelete
 
+    private val _errorMessage = mutableStateOf<String?>(null)
+    val errorMessage: State<String?> = _errorMessage
+
 
     init {
         loadUnits()
@@ -57,7 +65,7 @@ class UnitListViewModel @Inject constructor(
 
     fun deleteUnit() {
         val response = deleteUnitUseCase(_unitUpdate.value!!)
-        println(response)
+        setErrorMessage(response.message)
         if (response.isSuccess) {
             if (_unitUpdate.value?.UnitID == _unitSelected.value?.UnitID)
                 _unitSelected.value = null
@@ -84,5 +92,17 @@ class UnitListViewModel @Inject constructor(
         _isOpenDialogDelete.value = true
     }
 
+    fun setErrorMessage(message: String?) {
+        _errorMessage.value = message
+    }
 
+    fun buildDialogContent() : AnnotatedString {
+        return buildAnnotatedString {
+            append("Bạn có chắc muốn xóa đơn vị tính ")
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                append(unitUpdate.value?.UnitName)
+            }
+            append(" không?")
+        }
+    }
 }

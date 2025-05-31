@@ -4,7 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Unit
 import com.example.cukcuk.domain.usecase.unit.CreateUnitUseCase
 import com.example.cukcuk.domain.usecase.unit.GetUnitDetailUseCase
@@ -24,8 +23,11 @@ class UnitFormViewModel @Inject constructor(
     private val _unit = mutableStateOf<Unit>(Unit())
     val unit: State<Unit> = _unit
 
-    private val _errorMessage = mutableStateOf<String?>("")
+    private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: State<String?> = _errorMessage
+
+    private val _isShowForm = mutableStateOf(true)
+    val isShowForm: State<Boolean> = _isShowForm
 
     fun fetchUnitDetail(unitId: UUID) {
         val fetchedUnit = getUnitDetailUseCase(unitId)
@@ -39,7 +41,8 @@ class UnitFormViewModel @Inject constructor(
             } else {
                 updateUnitUseCase(_unit.value)
             }
-            _errorMessage.value = if (response.isSuccess) null else response.message
+            _isShowForm.value = !response.isSuccess
+            _errorMessage.value = response.message
         }
     }
 
@@ -49,6 +52,7 @@ class UnitFormViewModel @Inject constructor(
 
     fun resetValue() {
         _unit.value = Unit()
-        _errorMessage.value = ""
+        _errorMessage.value = null
+        _isShowForm.value = true
     }
 }

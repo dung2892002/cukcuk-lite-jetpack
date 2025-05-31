@@ -238,7 +238,8 @@ fun InventoryFormScreen(
     if (showDialogDelete) {
         CukcukDialog(
             title = stringResource(R.string.dialog_content),
-            message = "Bạn có chắc muốn xóa món ${inventory.InventoryName} không?",
+            message = viewModel.buildDialogContent(),
+            valueTextField = null,
             onConfirm = {
                 viewModel.delete()
             },

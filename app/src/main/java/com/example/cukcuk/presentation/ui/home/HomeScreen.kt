@@ -39,7 +39,7 @@ fun HomeScreen(
                 Toolbar(
                     title = title,
                     menuTitle = null,
-                    hasMenuAction = currentScreen!= Screen.Statistics,
+                    hasMenuIcon = currentScreen!= Screen.Statistics,
                     onBackClick = {viewModel.showNavigationView()},
                     onMenuClick = {
                         if (currentScreen == Screen.Sales) {

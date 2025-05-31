@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,7 +38,8 @@ import com.example.cukcuk.R
 @Composable
 fun CukcukDialogContent(
     title: String,
-    message: String,
+    message: AnnotatedString? = null,
+    valueTextField: String? = null,
     onConfirm: () -> Unit,
     onCancel: () -> Unit,
     confirmButtonText: String,
@@ -57,7 +59,7 @@ fun CukcukDialogContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(colorResource(R.color.main_color))
-                    .padding(6.dp),
+                    .padding(start = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -73,7 +75,9 @@ fun CukcukDialogContent(
                     painter = painterResource(R.drawable.quit_icon),
                     contentDescription = "Close",
                     tint = Color.Unspecified,
-                    modifier = Modifier.combinedClickable(onClick = onCancel)
+                    modifier = Modifier
+                        .combinedClickable(onClick = onCancel)
+                        .padding(10.dp)
                 )
             }
 
@@ -85,13 +89,17 @@ fun CukcukDialogContent(
                     .heightIn(min = 60.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
-                if (onValueChange == null) Text(
-                    text = message,
-                    style = MaterialTheme.typography.bodyMedium)
+                if (valueTextField == null) {
+                    Text(
+                        text = message!!,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+
                 else {
                     BasicTextField(
-                        value = message,
-                        onValueChange =  onValueChange,
+                        value = valueTextField,
+                        onValueChange =  onValueChange!!,
                         maxLines = 1,
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.Black,
@@ -146,7 +154,8 @@ fun CukcukDialogContent(
 @Composable
 fun CukcukDialog(
     title: String,
-    message: String,
+    message: AnnotatedString? = null,
+    valueTextField: String?,
     onConfirm: () -> Unit,
     onCancel: () -> Unit,
     confirmButtonText: String,
@@ -157,6 +166,7 @@ fun CukcukDialog(
         CukcukDialogContent(
             title = title,
             message = message,
+            valueTextField = valueTextField,
             onConfirm = onConfirm,
             onCancel = onCancel,
             confirmButtonText = confirmButtonText,
@@ -171,10 +181,12 @@ fun CukcukDialog(
 @Preview(showBackground = true)
 @Composable
 fun PreviewCukcukDialogContent() {
+
     MaterialTheme {
         CukcukDialogContent(
             title = "Xác nhận xóa",
-            message = "Suất",
+            message = null,
+            valueTextField = null,
             onConfirm = {},
             onCancel = {},
             confirmButtonText = "CÓ ",
