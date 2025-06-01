@@ -4,20 +4,20 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 data class InvoiceDetail(
-    var InvoiceDetailID: UUID?,
-    var InvoiceDetailType: Int,
-    var InvoiceID: UUID?,
-    var InventoryID: UUID?,
-    var InventoryName: String,
-    var UnitID: UUID?,
-    var UnitName: String,
-    var Quantity: Double,
-    var UnitPrice: Double,
-    var Amount: Double,
-    var Description: String,
-    var SortOrder: Int,
-    var CreatedDate: LocalDateTime?,
-    var CreatedBy: String,
-    var ModifiedDate: LocalDateTime?,
-    var ModifiedBy: String
+    var InvoiceDetailID: UUID? = null,
+    var InvoiceDetailType: Int = 0,
+    var InvoiceID: UUID? = null,
+    var InventoryID: UUID? = null,
+    var InventoryName: String = "",
+    var UnitID: UUID? = null,
+    var UnitName: String = "",
+    var Quantity: Double = 0.0,
+    var UnitPrice: Double = 0.0,
+    var Amount: Double = 0.0,
+    var Description: String = "",
+    var SortOrder: Int = 0,
+    var CreatedDate: LocalDateTime?= null,
+    var CreatedBy: String = "",
+    var ModifiedDate: LocalDateTime? = null,
+    var ModifiedBy: String = ""
 )

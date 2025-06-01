@@ -17,4 +17,5 @@ abstract class UnitModule {
     abstract fun bindUnitRepository(
         impl: UnitRepositoryImpl
     ): UnitRepository
+
 }

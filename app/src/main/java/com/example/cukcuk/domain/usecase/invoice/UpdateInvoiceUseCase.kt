@@ -1,0 +1,132 @@
+package com.example.cukcuk.domain.usecase.invoice
+
+import com.example.cukcuk.domain.dtos.InventorySelect
+import com.example.cukcuk.domain.dtos.InvoiceDetailChangeResult
+import com.example.cukcuk.domain.dtos.ResponseData
+import com.example.cukcuk.domain.model.Invoice
+import com.example.cukcuk.domain.model.InvoiceDetail
+import com.example.cukcuk.domain.repository.InvoiceRepository
+import com.example.cukcuk.utils.FormatDisplay
+import java.time.LocalDateTime
+import java.util.UUID
+import javax.inject.Inject
+
+class UpdateInvoiceUseCase @Inject constructor(
+    private val repository: InvoiceRepository
+) {
+    operator fun invoke(invoice: Invoice,
+                        inventoriesSelect: List<InventorySelect>) : ResponseData {
+        var response = ResponseData(false, "Có lỗi xảy ra")
+
+        if (invoice.Amount == 0.0) {
+            response.message = "Vui lòng chọn món"
+            return response
+        }
+
+        val lastInvoicesDetail = if (invoice.InvoiceID != null) repository.getListInvoicesDetail(invoice.InvoiceID!!) else mutableListOf<InvoiceDetail>()
+        val filteredList = inventoriesSelect.filter { it.quantity > 0.0 }.toMutableList<InventorySelect>()
+
+        val result = handleProcessInvoiceDetails(invoice, lastInvoicesDetail, filteredList)
+
+        invoice.InvoiceDetails = (result.toCreate + result.toUpdate + result.unchanged).sortedBy { it.SortOrder }.toMutableList()
+        invoice.ListItemName = buildListItemName(invoice.InvoiceDetails)
+        invoice.ReceiveAmount = invoice.Amount
+
+        response.isSuccess = repository.updateInvoice(invoice, result.toCreate, result.toUpdate, result.toDelete)
+        if (response.isSuccess) response.message = null
+
+        return response
+    }
+
+    private fun buildListItemName(invoiceDetails: List<InvoiceDetail>) : String {
+        var builder = StringBuilder()
+        invoiceDetails.forEachIndexed { index, item ->
+            val itemName = item.InventoryName
+            val quantity = FormatDisplay.formatNumber(item.Quantity.toString())
+
+            builder.append("$itemName ($quantity)")
+            if (index != invoiceDetails.lastIndex) {
+                builder.append(", ")
+            }
+        }
+
+        return builder.toString()
+    }
+
+    private fun handleProcessInvoiceDetails(
+        invoice: Invoice,
+        details: MutableList<InvoiceDetail>,
+        inventorySelects: MutableList<InventorySelect>
+    ): InvoiceDetailChangeResult {
+
+        val toCreate = mutableListOf<InvoiceDetail>()
+        val toUpdate = mutableListOf<InvoiceDetail>()
+        val toDelete = mutableListOf<InvoiceDetail>()
+        val unchanged = mutableListOf<InvoiceDetail>()
+
+        // Tạo map từ InventoryID để dễ tra cứu
+        val currentDetailMap = details.associateBy { it.InventoryID }
+        val selectedInventoryIds = inventorySelects.map { it.inventory.InventoryID }.toSet()
+
+        var sortOrder = 0
+
+        // 1. Duyệt các mặt hàng đang được chọn (từ UI)
+        for (it in inventorySelects) {
+            val matchingDetail = currentDetailMap[it.inventory.InventoryID]
+            sortOrder++
+            if (matchingDetail == null) {
+                val newDetail = InvoiceDetail(
+                    InvoiceDetailID = UUID.randomUUID(),
+                    InvoiceDetailType = 0,
+                    InvoiceID = invoice.InvoiceID,
+                    InventoryID = it.inventory.InventoryID,
+                    InventoryName = it.inventory.InventoryName,
+                    UnitID = it.inventory.UnitID,
+                    UnitName = it.inventory.UnitName,
+                    Quantity = it.quantity,
+                    UnitPrice = it.inventory.Price,
+                    Amount = it.quantity * it.inventory.Price,
+                    Description = "",
+                    SortOrder = sortOrder,
+                    CreatedDate = LocalDateTime.now(),
+                    ModifiedDate = LocalDateTime.now(),
+                    CreatedBy = "",
+                    ModifiedBy = ""
+                )
+                toCreate.add(newDetail)
+            } else {
+                if (matchingDetail.Quantity != it.quantity ) {
+                    val updatedDetail = matchingDetail.copy(
+                        Quantity = it.quantity,
+                        UnitPrice = it.inventory.Price,
+                        SortOrder = sortOrder
+                    )
+                    toUpdate.add(updatedDetail)
+                }
+
+                else {
+                    val details = matchingDetail.copy(
+                        Quantity = it.quantity,
+                        UnitPrice = it.inventory.Price,
+                        SortOrder = sortOrder
+                    )
+                    unchanged.add(details)
+                }
+            }
+        }
+
+        // 2. Tìm các chi tiết bị xóa (không còn trong danh sách chọn)
+        for (detail in details) {
+            if (detail.InventoryID !in selectedInventoryIds) {
+                toDelete.add(detail)
+            }
+        }
+
+        return InvoiceDetailChangeResult(
+            toCreate = toCreate,
+            toUpdate = toUpdate,
+            toDelete = toDelete,
+            unchanged = unchanged
+        )
+    }
+}
