@@ -20,6 +20,7 @@ import com.example.cukcuk.presentation.components.AppNavigationBarOverlay
 import com.example.cukcuk.presentation.components.Toolbar
 import com.example.cukcuk.presentation.enums.Screen
 import com.example.cukcuk.presentation.ui.inventory.inventory_list.InventoryListScreen
+import com.example.cukcuk.presentation.ui.invoice.invoice_list.InvoiceListScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +59,7 @@ fun HomeScreen(
                     .background(Color.White)
             ) {
                 when (currentScreen) {
-                    Screen.Sales -> Text("Màn hình Bán hàng", Modifier.align(Alignment.Center))
+                    Screen.Sales -> InvoiceListScreen(navController)
                     Screen.Menu -> InventoryListScreen(navController)
                     Screen.Statistics -> Text("Màn hình Thống kê", Modifier.align(Alignment.Center))
                 }

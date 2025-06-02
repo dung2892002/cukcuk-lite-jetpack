@@ -24,7 +24,7 @@ class UpdateInvoiceUseCase @Inject constructor(
         }
 
         val lastInvoicesDetail = if (invoice.InvoiceID != null) repository.getListInvoicesDetail(invoice.InvoiceID!!) else mutableListOf<InvoiceDetail>()
-        val filteredList = inventoriesSelect.filter { it.quantity > 0.0 }.toMutableList<InventorySelect>()
+        val filteredList = inventoriesSelect.filter { it.quantity.value > 0.0 }.toMutableList<InventorySelect>()
 
         val result = handleProcessInvoiceDetails(invoice, lastInvoicesDetail, filteredList)
 
@@ -33,7 +33,7 @@ class UpdateInvoiceUseCase @Inject constructor(
         invoice.ReceiveAmount = invoice.Amount
 
         response.isSuccess = repository.updateInvoice(invoice, result.toCreate, result.toUpdate, result.toDelete)
-        if (response.isSuccess) response.message = null
+        if (response.isSuccess) response.message = invoice.InvoiceID.toString()
 
         return response
     }
@@ -83,9 +83,9 @@ class UpdateInvoiceUseCase @Inject constructor(
                     InventoryName = it.inventory.InventoryName,
                     UnitID = it.inventory.UnitID,
                     UnitName = it.inventory.UnitName,
-                    Quantity = it.quantity,
+                    Quantity = it.quantity.value,
                     UnitPrice = it.inventory.Price,
-                    Amount = it.quantity * it.inventory.Price,
+                    Amount = it.quantity.value * it.inventory.Price,
                     Description = "",
                     SortOrder = sortOrder,
                     CreatedDate = LocalDateTime.now(),
@@ -95,9 +95,9 @@ class UpdateInvoiceUseCase @Inject constructor(
                 )
                 toCreate.add(newDetail)
             } else {
-                if (matchingDetail.Quantity != it.quantity ) {
+                if (matchingDetail.Quantity != it.quantity.value ) {
                     val updatedDetail = matchingDetail.copy(
-                        Quantity = it.quantity,
+                        Quantity = it.quantity.value,
                         UnitPrice = it.inventory.Price,
                         SortOrder = sortOrder
                     )
@@ -106,7 +106,7 @@ class UpdateInvoiceUseCase @Inject constructor(
 
                 else {
                     val details = matchingDetail.copy(
-                        Quantity = it.quantity,
+                        Quantity = it.quantity.value,
                         UnitPrice = it.inventory.Price,
                         SortOrder = sortOrder
                     )

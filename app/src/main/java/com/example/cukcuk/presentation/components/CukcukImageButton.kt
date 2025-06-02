@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +20,7 @@ fun CukcukImageButton(
     onClick: () -> Unit,
     bgColor: Color,
     icon: Painter,
+    tint: Color = Color.Unspecified,
     modifier: Modifier = Modifier
 ) {
     Button(
@@ -30,10 +31,11 @@ fun CukcukImageButton(
         contentPadding = PaddingValues(10.dp)
 
     ) {
-        Image(
+        Icon(
             painter = icon,
             contentDescription = null,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(24.dp),
+            tint = tint
         )
     }
 }

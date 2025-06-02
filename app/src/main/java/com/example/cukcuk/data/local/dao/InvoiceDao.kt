@@ -53,7 +53,7 @@ class InvoiceDao  @Inject constructor(
             SELECT InvoiceID, InvoiceDate, Amount, NumberOfPeople, TableName, ListItemName, InvoiceDate, ReceiveAmount
             FROM Invoice 
             WHERE PaymentStatus = 0 
-            ORDER BY InvoiceDate DESC
+            ORDER BY CreatedDate DESC
         """.trimIndent()
 
         var cursor: Cursor? = null

@@ -10,6 +10,7 @@ import com.example.cukcuk.presentation.ui.home.HomeScreen
 import com.example.cukcuk.presentation.ui.inventory.inventory_form.InventoryFormScreen
 import com.example.cukcuk.presentation.ui.inventory.inventory_list.InventoryListScreen
 import com.example.cukcuk.presentation.ui.invoice.invoice_form.InvoiceFormScreen
+import com.example.cukcuk.presentation.ui.invoice.invoice_payment.PaymentScreen
 import com.example.cukcuk.presentation.ui.unit.unit_list.UnitListScreen
 
 
@@ -57,6 +58,19 @@ fun AppNavHost(navController: NavHostController,) {
             )
         ) { backStackEntry ->
             UnitListScreen(navController, backStackEntry)
+        }
+
+        composable(
+            route = "payment?invoiceId={invoiceId}",
+            arguments = listOf(
+                navArgument("invoiceId") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) { backStackEntry ->
+            PaymentScreen(navController, backStackEntry)
         }
     }
 }

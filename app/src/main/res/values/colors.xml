@@ -23,10 +23,16 @@
     <color name="text_not_inactive">#943737</color>
     <color name="tt">#001F54</color>
     <color name="badge_nav_item">#FF0000</color>
-    <color name="loading_overlay">#40000000</color>"
+    <color name="loading_overlay">#40000000</color>
     <color name="color_unit_selected">#4CAF50</color>
     <color name="inventory_price">#cccccc</color>
     <color name="color_inactive_block">#9B0B0B</color>
     <color name="background_form_select_image_inventory">#f5f7fa</color>
     <color name="calculator_button">#E4E4E4</color>
+    <color name="dollar_icon_color">#FF9800</color>
+    <color name="invoice_item_color">#E6E6E6</color>
+    <color name="invoice_list_background">#C3D9E5EF</color>
+    <color name="invoice_form_bottom_first">#DEDEDE</color>
+    <color name="invoice_form_bottom_last">#BABABA</color>
+    <color name="background_color">#DCDCDC</color>
 </resources>

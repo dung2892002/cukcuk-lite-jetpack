@@ -5,7 +5,7 @@ import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.repository.InvoiceRepository
 import javax.inject.Inject
 
-class PaymentInvoiceRepository @Inject constructor(
+class PaymentInvoiceUseCase @Inject constructor(
     private val repository: InvoiceRepository
 ){
     operator fun invoke(invoice: Invoice) : ResponseData {

@@ -8,7 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun CukcukButton(
@@ -16,20 +18,25 @@ fun CukcukButton(
     onClick: () -> Unit,
     bgColor: Color,
     textColor: Color,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    padding: Int = 10,
+    fontSize: Int = 16
 ) {
     Button(
         modifier = modifier,
         colors = ButtonDefaults.buttonColors(containerColor = bgColor),
         onClick = onClick,
         shape = RoundedCornerShape(4.dp),
-        contentPadding = PaddingValues(10.dp)
+        contentPadding = PaddingValues(padding.dp)
 
     ) {
         Text(
             text = title,
             color = textColor,
-            softWrap = false)
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            softWrap = false,
+            fontSize = fontSize.sp)
     }
 }
 

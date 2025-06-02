@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +33,8 @@ fun CukcukImageBox(
     iconDrawable: Painter? = null,
     onClick: (() -> Unit)? = null,
     size: Int = 48,
-    imageSize: Int = 36
+    imageSize: Int = 36,
+    tintIcon: Color = Color.Unspecified
 ) {
     val context = LocalContext.current
     Box(
@@ -57,9 +59,10 @@ fun CukcukImageBox(
             }
         }
         if (iconDrawable != null) {
-            Image(
+            Icon(
                 painter = iconDrawable,
                 contentDescription = null,
+                tint = tintIcon,
                 modifier = Modifier
                     .width(imageSize.dp)
                     .height(imageSize.dp)
