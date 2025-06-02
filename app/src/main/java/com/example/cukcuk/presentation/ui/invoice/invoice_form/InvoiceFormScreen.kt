@@ -37,6 +37,7 @@ import com.example.cukcuk.presentation.components.CukcukButton
 import com.example.cukcuk.presentation.components.CukcukImageButton
 import com.example.cukcuk.presentation.components.Toolbar
 import com.example.cukcuk.presentation.ui.calculator.CalculatorDialog
+import com.example.cukcuk.presentation.ui.calculator.IntegerCalculatorDialog
 import com.example.cukcuk.utils.FormatDisplay
 import java.util.UUID
 
@@ -66,10 +67,6 @@ fun InvoiceFormScreen(
         if (errorMessage != null) {
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
         }
-    }
-
-    fun close() {
-        navController.popBackStack()
     }
 
     fun payment() {
@@ -258,7 +255,7 @@ fun InvoiceFormScreen(
     }
 
     if (showCalculatorTableName) {
-        CalculatorDialog(
+        IntegerCalculatorDialog(
             input = invoice.TableName,
             title = "Nhập số bàn",
             message = "Số bàn",
@@ -274,7 +271,7 @@ fun InvoiceFormScreen(
     }
 
     if (showCalculatorNumberPeople) {
-        CalculatorDialog(
+        IntegerCalculatorDialog(
             input = invoice.NumberOfPeople.toString(),
             title = "Nhập số người",
             message = "Số người",
@@ -284,7 +281,8 @@ fun InvoiceFormScreen(
                 viewModel.closeCalculator()
             },
             onSubmit = {
-                viewModel.updateNewNumberPeople(it.toInt())
+                println(it)
+                viewModel.updateNewNumberPeople(it.toDouble().toInt())
             }
         )
     }

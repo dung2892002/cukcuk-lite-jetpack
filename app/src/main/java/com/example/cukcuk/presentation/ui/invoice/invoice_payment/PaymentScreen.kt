@@ -42,7 +42,7 @@ import com.example.cukcuk.R
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.presentation.components.CukcukButton
 import com.example.cukcuk.presentation.components.Toolbar
-import com.example.cukcuk.presentation.ui.calculator.CalculatorDialog
+import com.example.cukcuk.presentation.ui.calculator.DoubleCalculatorDialog
 import com.example.cukcuk.utils.FormatDisplay.formatNumber
 import com.example.cukcuk.utils.FormatDisplay.formatTo12HourWithCustomAMPM
 import java.util.UUID
@@ -261,15 +261,11 @@ fun PaymentScreen(
     }
 
     if (showCalculator) {
-        CalculatorDialog(
+        DoubleCalculatorDialog(
             input = invoice.ReceiveAmount.toString(),
-            title = "Nhập tiền khách đưa",
             message = "Số tiền",
             maxValue = 999999999.0,
             minValue = 0.0,
-            onClose = {
-                viewModel.closeCalculator()
-            },
             onSubmit = {
                 viewModel.updateAmount(it.toDouble())
             }
