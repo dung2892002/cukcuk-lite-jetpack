@@ -7,14 +7,12 @@ import com.example.cukcuk.domain.dtos.StatisticByInventory
 import com.example.cukcuk.domain.dtos.StatisticByTime
 import com.example.cukcuk.domain.dtos.StatisticOverview
 import com.example.cukcuk.presentation.enums.StateStatistic
-import com.example.cukcuk.utils.DateTimeHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
-import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
 
 class StatisticDao @Inject constructor(
@@ -58,7 +56,6 @@ class StatisticDao @Inject constructor(
                 val thisMonth = cursor.getDouble(3)
                 val thisYear = cursor.getDouble(4)
 
-                val now = LocalDateTime.now()
 
                 result.add(StatisticOverview(
                     yesterday,
@@ -329,7 +326,7 @@ class StatisticDao @Inject constructor(
                         Amount = amount,
                         UnitName = unit,
                         Percentage = 0.0,
-                        Color = colors[sortOrder - 1],
+                        Color = if (sortOrder - 1 < colors.size) colors[sortOrder - 1] else colors[colors.size - 1],
                         SortOrder = sortOrder++
                     )
                 )

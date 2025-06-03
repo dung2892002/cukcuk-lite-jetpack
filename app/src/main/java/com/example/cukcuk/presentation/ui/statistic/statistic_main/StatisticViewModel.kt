@@ -1,6 +1,7 @@
 package com.example.cukcuk.presentation.ui.statistic.statistic_main
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.cukcuk.domain.dtos.RequestStatisticByInventory
@@ -43,6 +44,8 @@ class StatisticViewModel @Inject constructor(
     private val _showDialogSelectTime = mutableStateOf(false)
     val showDialogSelectTime: State<Boolean> = _showDialogSelectTime
 
+    private val _totalAmount = mutableDoubleStateOf(0.0)
+    val totalAmount: State<Double> = _totalAmount
 
     fun changeState(state: StateStatistic) {
         if (state != StateStatistic.Other){
@@ -103,6 +106,7 @@ class StatisticViewModel @Inject constructor(
 
     fun getStatisticByInventory(start: LocalDateTime, end: LocalDateTime) {
         _statisticByInventory.value = getStatisticByInventoryUseCase(start, end)
+        _totalAmount.doubleValue = _statisticByInventory.value.sumOf { it.Amount }
     }
 
     fun openDialogSelectState() {

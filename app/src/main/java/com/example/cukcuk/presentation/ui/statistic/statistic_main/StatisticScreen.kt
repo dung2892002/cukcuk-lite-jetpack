@@ -42,6 +42,8 @@ fun StatisticScreen(
     val showDialogSelectState = viewModel.showDialogSelectState.value
     val showDialogSelectTime = viewModel.showDialogSelectTime.value
 
+    val totalAmount = viewModel.totalAmount.value
+
     LaunchedEffect(Unit) {
         viewModel.getStatisticOverview()
     }
@@ -101,12 +103,13 @@ fun StatisticScreen(
                 )
             }
             StateStatistic.Other -> {
-                if (statisticByInventory.isEmpty()) {
-                    StatisticNoData()
-                } else {
+                if (statisticByInventory.isNotEmpty() && totalAmount != 0.0) {
                     StatisticByInventoryBlock(
-                        statisticByInventory = statisticByInventory
+                        statisticByInventory = statisticByInventory,
+                        totalAmount
                     )
+                } else {
+                    StatisticNoData()
                 }
             }
             else -> {

@@ -21,12 +21,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cukcuk.domain.dtos.StatisticByInventory
 import com.example.cukcuk.presentation.components.CukcukTextBox
+import com.example.cukcuk.presentation.components.PieChartStatisticInventory
 import com.example.cukcuk.utils.FormatDisplay
 
 @Composable
 fun StatisticByInventoryBlock(
-    statisticByInventory: List<StatisticByInventory>
+    statisticByInventory: List<StatisticByInventory>,
+    totalAmount: Double
 ) {
+
+
     Column {
         Box(
             modifier = Modifier
@@ -37,7 +41,10 @@ fun StatisticByInventoryBlock(
                     color = Color.White
                 )
         ){
-            Text("bieu do")
+            PieChartStatisticInventory(
+                items = statisticByInventory,
+                totalAmount = totalAmount
+            )
         }
 
         LazyColumn(

@@ -28,10 +28,8 @@ fun StatisticByInventoryScreen(
 
 ) {
     val request = sharedViewModel.requestStatisticByInventory.value
-    println(request)
-
-
     val statisticByInventory = viewModel.statisticByInventory.value
+    val totalAmount = viewModel.totalAmount.value
 
     Scaffold(
         topBar = {
@@ -67,7 +65,12 @@ fun StatisticByInventoryScreen(
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center
                 )
-                StatisticByInventoryBlock(statisticByInventory)
+                if (statisticByInventory.isNotEmpty() && totalAmount != 0.0) {
+                    StatisticByInventoryBlock(
+                        statisticByInventory = statisticByInventory,
+                        totalAmount = totalAmount
+                    )
+                }
             }
         }
     }
