@@ -11,6 +11,7 @@ import com.example.cukcuk.domain.dtos.StatisticOverview
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticByInventoryUseCase
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticByTimeUseCase
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticOverviewUseCase
+import com.example.cukcuk.presentation.enums.LineChartLabels
 import com.example.cukcuk.presentation.enums.StateStatistic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDateTime
@@ -23,6 +24,7 @@ class StatisticViewModel @Inject constructor(
     private val getStatisticOverviewUseCase: GetStatisticOverviewUseCase,
     private val getStatisticByInventoryUseCase: GetStatisticByInventoryUseCase
 ) : ViewModel() {
+
     private val _title = mutableStateOf(StateStatistic.Overview.title)
     val title: State<String> = _title
 
@@ -46,6 +48,9 @@ class StatisticViewModel @Inject constructor(
 
     private val _totalAmount = mutableDoubleStateOf(0.0)
     val totalAmount: State<Double> = _totalAmount
+
+    private val _lineChartLabel = mutableStateOf(LineChartLabels.DAY_IN_WEEK)
+    val lineChartLabels: State<LineChartLabels> = _lineChartLabel
 
     fun changeState(state: StateStatistic) {
         if (state != StateStatistic.Other){
@@ -102,6 +107,18 @@ class StatisticViewModel @Inject constructor(
 
     fun getStatisticByTime(state: StateStatistic) {
         _statisticByTime.value = getStatisticByTimeUseCase(state)!!
+        when(state) {
+            StateStatistic.ThisWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
+            StateStatistic.LastWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
+            StateStatistic.ThisMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
+            StateStatistic.LastMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
+            StateStatistic.ThisYear -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
+            else -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
+        }
+    }
+
+    fun setLineChartLabels(label: LineChartLabels) {
+        _lineChartLabel.value = label
     }
 
     fun getStatisticByInventory(start: LocalDateTime, end: LocalDateTime) {

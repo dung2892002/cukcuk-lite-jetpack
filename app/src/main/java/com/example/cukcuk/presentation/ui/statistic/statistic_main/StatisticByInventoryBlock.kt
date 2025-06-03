@@ -29,8 +29,6 @@ fun StatisticByInventoryBlock(
     statisticByInventory: List<StatisticByInventory>,
     totalAmount: Double
 ) {
-
-
     Column {
         Box(
             modifier = Modifier

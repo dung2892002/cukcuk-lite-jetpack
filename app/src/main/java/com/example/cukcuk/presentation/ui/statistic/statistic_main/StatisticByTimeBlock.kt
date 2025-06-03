@@ -27,11 +27,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.cukcuk.R
 import com.example.cukcuk.domain.dtos.StatisticByTime
+import com.example.cukcuk.presentation.components.LineChartStatisticByTime
+import com.example.cukcuk.presentation.enums.LineChartLabels
 import com.example.cukcuk.utils.FormatDisplay
 
 @Composable
 fun StatisticByTimeBlock(
     statisticByTime: List<StatisticByTime>,
+    label: LineChartLabels,
     onItemClick: (StatisticByTime) -> Unit
 ) {
     Column(
@@ -48,7 +51,16 @@ fun StatisticByTimeBlock(
                 )
                 .height(180.dp)
         ){
-            Text("bieu do")
+            LineChartStatisticByTime(
+                statisticByTime,
+                label
+            ) {
+                when(label) {
+                    LineChartLabels.DAY_IN_WEEK -> it.TimeStart.dayOfWeek.value - 1
+                    LineChartLabels.DAY_IN_MONTH -> it.TimeStart.dayOfMonth - 1
+                    else -> it.TimeStart.monthValue - 1
+                }
+            }
         }
 
 

@@ -31,10 +31,7 @@ fun PieChartStatisticInventory(
     items: List<StatisticByInventory>,
     totalAmount: Double
 ) {
-
-
     val context = LocalContext.current
-    val pieChart = PieChart(context)
 
     val mainParts = items.take(6)
     val otherParts = items.drop(6)
@@ -44,30 +41,28 @@ fun PieChartStatisticInventory(
     val colors = mutableListOf<Int>()
 
     mainParts.forEach {
-        entries.add(PieEntry(it.Percentage.toFloat(), "${String.format("%.1f", it.Percentage)}%"))
+        entries.add(PieEntry(it.Percentage.toFloat(), "${"%.1f".format(it.Percentage)}%"))
         colors.add(it.Color.toColorInt())
     }
 
     if (otherParts.isNotEmpty()) {
-        entries.add(PieEntry(otherTotal.toFloat(), "${String.format("%.1f", otherTotal)}%"))
+        entries.add(PieEntry(otherTotal.toFloat(), "${"%.1f".format(otherTotal)}%"))
         colors.add(Color.GRAY)
     }
 
-    val dataSet = PieDataSet(entries, "")
-    dataSet.colors = colors
-
-    // ✨ Hiển thị giá trị bên ngoài lát cắt và đường nối
-    dataSet.setDrawValues(true)
-    dataSet.valueTextColor = Color.BLACK
-    dataSet.valueTextSize = 12f
-    dataSet.valueFormatter = PercentFormatter(pieChart)
-
-    dataSet.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-    dataSet.xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-    dataSet.valueLinePart1Length = 0.4f
-    dataSet.valueLinePart2Length = 0.2f
-    dataSet.valueLineColor = Color.BLACK
-    dataSet.valueLineWidth = 1f
+    val dataSet = PieDataSet(entries, "").apply {
+        this.colors = colors
+        setDrawValues(true)
+        valueTextColor = Color.BLACK
+        valueTextSize = 12f
+        valueFormatter = PercentFormatter()
+        yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+        xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+        valueLinePart1Length = 0.4f
+        valueLinePart2Length = 0.2f
+        valueLineColor = Color.BLACK
+        valueLineWidth = 1f
+    }
 
     val pieData = PieData(dataSet)
 
@@ -75,31 +70,31 @@ fun PieChartStatisticInventory(
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp),
-        factory = { context ->
-            pieChart.apply {
-                data = pieData
-                description.isEnabled = false
-                legend.isEnabled = false
-                setUsePercentValues(true)
-                setDrawEntryLabels(false)
+        factory = { PieChart(context) },
+        update = { pieChart ->
+            pieChart.data = pieData
+            pieChart.description.isEnabled = false
+            pieChart.legend.isEnabled = false
+            pieChart.setUsePercentValues(true)
+            pieChart.setDrawEntryLabels(false)
 
-                setHoleColor(Color.WHITE)
-                isDrawHoleEnabled = true
-                holeRadius = 75f
-                transparentCircleRadius = 80f
+            pieChart.setHoleColor(Color.WHITE)
+            pieChart.isDrawHoleEnabled = true
+            pieChart.holeRadius = 75f
+            pieChart.transparentCircleRadius = 80f
 
-                centerText = generateCenterText(totalAmount)
-                setCenterTextSize(16f)
-                setCenterTextColor(Color.BLACK)
+            pieChart.centerText = generateCenterText(totalAmount)
+            pieChart.setCenterTextSize(14f)
+            pieChart.setCenterTextColor(Color.BLACK)
 
-                setExtraOffsets(5f, 10f, 5f, 10f)
+            pieChart.setExtraOffsets(5f, 10f, 5f, 10f)
 
-                invalidate()
-                animateY(1000, Easing.EaseInOutQuad)
-            }
+            pieChart.invalidate()
+            pieChart.animateY(1000, Easing.EaseInOutQuad)
         }
     )
 }
+
 
 fun generateCenterText(totalAmount: Double): AnnotatedString {
     val line1 = "Tổng\ndoanh thu\n"

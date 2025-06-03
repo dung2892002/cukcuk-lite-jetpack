@@ -43,6 +43,7 @@ fun StatisticScreen(
     val showDialogSelectTime = viewModel.showDialogSelectTime.value
 
     val totalAmount = viewModel.totalAmount.value
+    val lineChartLabels = viewModel.lineChartLabels.value
 
     LaunchedEffect(Unit) {
         viewModel.getStatisticOverview()
@@ -118,6 +119,7 @@ fun StatisticScreen(
                 } else {
                     StatisticByTimeBlock(
                         statisticByTime = statisticByTime,
+                        label = lineChartLabels,
                         onItemClick = {
                             val request = viewModel.createRequestByStatisticTime(it)
                             sharedViewModel.setRequestStatisticByInventory(request)
