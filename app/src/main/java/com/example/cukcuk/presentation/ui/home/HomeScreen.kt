@@ -8,9 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.zIndex
@@ -19,14 +17,17 @@ import androidx.navigation.NavHostController
 import com.example.cukcuk.presentation.components.AppNavigationBarOverlay
 import com.example.cukcuk.presentation.components.Toolbar
 import com.example.cukcuk.presentation.enums.Screen
+import com.example.cukcuk.presentation.shared.SharedViewModel
 import com.example.cukcuk.presentation.ui.inventory.inventory_list.InventoryListScreen
 import com.example.cukcuk.presentation.ui.invoice.invoice_list.InvoiceListScreen
+import com.example.cukcuk.presentation.ui.statistic.statistic_main.StatisticScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel()
+    sharedViewModel: SharedViewModel,
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
 
     var showNavigationBar = viewModel.showNavigationBar.value
@@ -61,7 +62,7 @@ fun HomeScreen(
                 when (currentScreen) {
                     Screen.Sales -> InvoiceListScreen(navController)
                     Screen.Menu -> InventoryListScreen(navController)
-                    Screen.Statistics -> Text("Màn hình Thống kê", Modifier.align(Alignment.Center))
+                    Screen.Statistics -> StatisticScreen(navController, sharedViewModel)
                 }
             }
         }

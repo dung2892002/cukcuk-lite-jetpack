@@ -24,6 +24,7 @@ import com.example.cukcuk.R
 import com.example.cukcuk.presentation.theme.CukcukTheme
 import com.example.cukcuk.utils.ImageHelper
 import com.example.cukcuk.utils.ImageHelper.loadImageFromAssets
+import com.example.cukcuk.utils.ImageHelper.loadOtherImageFromAssets
 
 @Composable
 fun CukcukImageBox(
@@ -34,7 +35,8 @@ fun CukcukImageBox(
     onClick: (() -> Unit)? = null,
     size: Int = 48,
     imageSize: Int = 36,
-    tintIcon: Color = Color.Unspecified
+    tintIcon: Color = Color.Unspecified,
+    fromIconDefaultFolder: Boolean = true
 ) {
     val context = LocalContext.current
     Box(
@@ -47,7 +49,9 @@ fun CukcukImageBox(
     )
     {
         if (imageName != null) {
-            val imageBitmap: ImageBitmap? = loadImageFromAssets(context,imageName)
+            val imageBitmap: ImageBitmap? =
+                if (fromIconDefaultFolder) loadImageFromAssets(context,imageName)
+                else loadOtherImageFromAssets(context,imageName)
             imageBitmap?.let {
                 Image(
                     bitmap = it,

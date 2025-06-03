@@ -1,24 +1,28 @@
 package com.example.cukcuk.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.cukcuk.presentation.shared.SharedViewModel
 import com.example.cukcuk.presentation.ui.home.HomeScreen
 import com.example.cukcuk.presentation.ui.inventory.inventory_form.InventoryFormScreen
-import com.example.cukcuk.presentation.ui.inventory.inventory_list.InventoryListScreen
 import com.example.cukcuk.presentation.ui.invoice.invoice_form.InvoiceFormScreen
 import com.example.cukcuk.presentation.ui.invoice.invoice_payment.PaymentScreen
+import com.example.cukcuk.presentation.ui.statistic.statistic_by_inventory.StatisticByInventoryScreen
 import com.example.cukcuk.presentation.ui.unit.unit_list.UnitListScreen
 
 
 @Composable
-fun AppNavHost(navController: NavHostController,) {
+fun AppNavHost(navController: NavHostController) {
+    val sharedViewModel: SharedViewModel = hiltViewModel()
+
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            HomeScreen(navController)
+            HomeScreen(navController, sharedViewModel)
         }
 
         composable(
@@ -71,6 +75,12 @@ fun AppNavHost(navController: NavHostController,) {
             )
         ) { backStackEntry ->
             PaymentScreen(navController, backStackEntry)
+        }
+
+        composable (
+            route = "statistic_by_inventory"
+        ) {
+            StatisticByInventoryScreen(navController, sharedViewModel)
         }
     }
 }

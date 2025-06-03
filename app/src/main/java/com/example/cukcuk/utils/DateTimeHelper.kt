@@ -1,11 +1,9 @@
 package com.example.cukcuk.utils
-import android.annotation.SuppressLint
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoField
-import java.time.temporal.IsoFields
 
 object DateTimeHelper {
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -13,81 +11,63 @@ object DateTimeHelper {
     fun parseToLocalDateTimeOrNow(dateString: String?): LocalDateTime {
         return try {
             LocalDateTime.parse(dateString, formatter)
-        } catch (e: Exception) {
+        } catch (ex: Exception) {
+            ex.printStackTrace()
             LocalDateTime.now()
         }
     }
 
-    fun getCurrentWeek(): Pair<Int, Int> {
-        val today = LocalDate.now()
-        val week = today.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
-        val year = today.get(IsoFields.WEEK_BASED_YEAR)
-        return Pair(year, week)
+    fun getYesterday(): Pair<LocalDateTime, LocalDateTime> {
+        val date = LocalDate.now().minusDays(1)
+        val start = date.atStartOfDay()
+        val end = date.atTime(LocalTime.MAX)
+        return Pair(start, end)
     }
 
-    fun getPreviousWeek(): Pair<Int, Int> {
-        val (year, week) = getCurrentWeek()
-        return if (week > 1) {
-            Pair(year, week - 1)
-        } else {
-            val prevYear = year - 1
-            val lastWeek = getWeeksInYear(prevYear)
-            Pair(prevYear, lastWeek)
-        }
+    fun getToday(): Pair<LocalDateTime, LocalDateTime> {
+        val date = LocalDate.now()
+        val start = date.atStartOfDay()
+        val end = date.atTime(LocalTime.MAX)
+        return Pair(start, end)
     }
 
-    fun getWeeksInYear(year: Int): Int {
-        val date = LocalDate.of(year, 12, 28)
-        return date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
+
+    fun getThisWeek(): Pair<LocalDateTime, LocalDateTime> {
+        val start = LocalDate.now().with(DayOfWeek.MONDAY).atStartOfDay()
+        val end = LocalDateTime.now()
+        return Pair(start, end)
     }
 
-    fun getStartAndEndOfWeek(year: Int, week: Int): Pair<LocalDateTime, LocalDateTime> {
-        val startOfWeek = LocalDate
-            .ofYearDay(year, 1)
-            .with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, week.toLong())
-            .with(ChronoField.DAY_OF_WEEK, 1) // Thứ Hai
-
-        val endOfWeek = startOfWeek.plusDays(6)
-
-        return Pair(startOfWeek.atStartOfDay(), endOfWeek.atTime(LocalTime.MAX))
+    fun getLastWeek(): Pair<LocalDateTime, LocalDateTime> {
+        val start = LocalDate.now().with(DayOfWeek.MONDAY).minusWeeks(1).atStartOfDay()
+        val end = start.plusDays(6).with(LocalTime.MAX)
+        return Pair(start, end)
     }
 
-    fun getStartAndEndOfCurrentMonth(): Pair<LocalDateTime, LocalDateTime> {
+    fun getThisMonth(): Pair<LocalDateTime, LocalDateTime> {
         val now = LocalDate.now()
-        val start = now.withDayOfMonth(1)
-        val end = now.withDayOfMonth(now.lengthOfMonth())
-        return Pair(start.atStartOfDay(), end.atTime(LocalTime.MAX))
+        val start = now.withDayOfMonth(1).atStartOfDay()
+        return Pair(start, LocalDateTime.now())
     }
 
-    fun getStartAndEndOfPreviousMonth(): Pair<LocalDateTime, LocalDateTime> {
-        val now = LocalDate.now().minusMonths(1)
-        val start = now.withDayOfMonth(1)
-        val end = now.withDayOfMonth(now.lengthOfMonth())
-        return Pair(start.atStartOfDay(), end.atTime(LocalTime.MAX))
+    fun getLastMonth(): Pair<LocalDateTime, LocalDateTime> {
+        val lastMonth = LocalDate.now().minusMonths(1)
+        val start = lastMonth.withDayOfMonth(1).atStartOfDay()
+        val end = lastMonth.withDayOfMonth(lastMonth.lengthOfMonth()).atTime(LocalTime.MAX)
+        return Pair(start, end)
     }
 
-    // ✅ Năm nay
-    fun getStartAndEndOfCurrentYear(): Pair<LocalDateTime, LocalDateTime> {
-        val year = LocalDate.now().year
-        val start = LocalDate.of(year, 1, 1)
-        val end = LocalDate.of(year, 12, 31)
-        return Pair(start.atStartOfDay(), end.atTime(LocalTime.MAX))
+    fun getThisYear(): Pair<LocalDateTime, LocalDateTime> {
+        val now = LocalDate.now()
+        val start = now.withDayOfYear(1).atStartOfDay()
+        val end = LocalDateTime.now()
+        return Pair(start, end)
     }
 
-    // ✅ Năm trước
-    fun getStartAndEndOfPreviousYear(): Pair<LocalDateTime, LocalDateTime> {
-        val year = LocalDate.now().year - 1
-        val start = LocalDate.of(year, 1, 1)
-        val end = LocalDate.of(year, 12, 31)
-        return Pair(start.atStartOfDay(), end.atTime(LocalTime.MAX))
-    }
-
-
-    fun getStartOfDay(dateTime: LocalDateTime) : LocalDateTime {
-        return dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0)
-    }
-
-    fun getEndOfDay(dateTime: LocalDateTime) : LocalDateTime {
-        return dateTime.withHour(23).withMinute(59).withSecond(59).withNano(0)
+    fun getLastYear(): Pair<LocalDateTime, LocalDateTime> {
+        val lastYear = LocalDate.now().minusYears(1)
+        val start = lastYear.withDayOfYear(1).atStartOfDay()
+        val end = LocalDate.of(lastYear.year, 12, 31).atTime(LocalTime.MAX)
+        return Pair(start, end)
     }
 }

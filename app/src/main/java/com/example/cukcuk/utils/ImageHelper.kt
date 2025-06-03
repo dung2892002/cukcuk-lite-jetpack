@@ -41,6 +41,18 @@ object ImageHelper {
         }
     }
 
+    fun loadOtherImageFromAssets(context: Context, fileName: String): ImageBitmap? {
+        return try {
+            val inputStream = context.assets.open("icons/$fileName")
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            inputStream.close()
+            bitmap?.asImageBitmap()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     suspend fun loadAllImagesFromAssets(
         context: Context,
         folder: String

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import com.example.cukcuk.domain.dtos.StatisticByInventory
 import com.example.cukcuk.domain.dtos.StatisticByTime
 import com.example.cukcuk.domain.dtos.StatisticOverview
+import com.example.cukcuk.presentation.enums.StateStatistic
 import com.example.cukcuk.utils.DateTimeHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.DayOfWeek
@@ -59,30 +60,35 @@ class StatisticDao @Inject constructor(
 
                 val now = LocalDateTime.now()
 
-                result.add(StatisticOverview("Hôm qua", yesterday,
-                    DateTimeHelper.getStartOfDay(now.minusDays(1)),
-                    DateTimeHelper.getEndOfDay(now.minusDays(1)),
-                    colors[0], icons[0]
+                result.add(StatisticOverview(
+                    yesterday,
+                    colors[0],
+                    icons[0],
+                    StateStatistic.Yesterday
                 ))
-                result.add(StatisticOverview("Hôm nay", today,
-                    DateTimeHelper.getStartOfDay(now),
-                    DateTimeHelper.getEndOfDay(now),
-                    colors[1], icons[1]
+                result.add(StatisticOverview(
+                    today,
+                    colors[1],
+                    icons[1],
+                    StateStatistic.Today
                 ))
-                result.add(StatisticOverview("Tuần này", thisWeek,
-                    DateTimeHelper.getStartOfDay(now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))),
-                    DateTimeHelper.getEndOfDay(now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))),
-                    colors[2], icons[2]
+                result.add(StatisticOverview(
+                    thisWeek,
+                    colors[2],
+                    icons[2],
+                    StateStatistic.ThisWeek
                 ))
-                result.add(StatisticOverview("Tháng này", thisMonth,
-                    DateTimeHelper.getStartOfDay(now.withDayOfMonth(1)),
-                    DateTimeHelper.getEndOfDay(now.with(TemporalAdjusters.lastDayOfMonth())),
-                    colors[3], icons[3]
+                result.add(StatisticOverview(
+                    thisMonth,
+                    colors[3],
+                    icons[3],
+                    StateStatistic.ThisMonth
                 ))
-                result.add(StatisticOverview("Năm nay", thisYear,
-                    DateTimeHelper.getStartOfDay(now.withDayOfYear(1)),
-                    DateTimeHelper.getEndOfDay(now.with(TemporalAdjusters.lastDayOfYear())),
-                    colors[4], icons[4]
+                result.add(StatisticOverview(
+                    thisYear,
+                    colors[4],
+                    icons[4],
+                    StateStatistic.ThisYear
                 ))
             }
         }

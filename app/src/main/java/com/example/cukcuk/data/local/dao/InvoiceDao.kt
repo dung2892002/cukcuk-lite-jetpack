@@ -333,6 +333,7 @@ class InvoiceDao  @Inject constructor(
         return try {
             db.beginTransaction()
             val values = ContentValues().apply {
+                put("InvoiceDate", invoice.InvoiceDate.toString())
                 put("ReceiveAmount", invoice.ReceiveAmount)
                 put("ReturnAmount", invoice.ReturnAmount)
                 put("RemainAmount", invoice.RemainAmount)
