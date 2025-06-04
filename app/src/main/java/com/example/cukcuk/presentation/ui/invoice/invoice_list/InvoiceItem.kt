@@ -52,7 +52,7 @@ fun InvoiceItem(
                 RoundedCornerShape(topStart = 2.dp, bottomStart = 2.dp)
             )
             .background(
-                color = Color.White
+                color = colorResource(R.color.white)
             )
     ) {
         Column(
@@ -80,7 +80,11 @@ fun InvoiceItem(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CukcukTextBox(
-                colorRes = if (invoice.TableName.isEmpty()) colorResource(R.color.invoice_item_color) else colorResource(R.color.teal_700),
+                colorRes =
+                    if (invoice.TableName.isEmpty())
+                        colorResource(R.color.invoice_item_color)
+                    else
+                        colorResource(R.color.invoice_table_block_exist),
                 textValue = invoice.TableName,
                 size = 64
             )
@@ -92,7 +96,7 @@ fun InvoiceItem(
                 ) {
                     Text(
                         text = invoice.NumberOfPeople.toString(),
-                        color = Color.Gray,
+                        color = Color.DarkGray,
                         fontSize = 20.sp,
                         modifier = Modifier.padding(end = 6.dp)
 
@@ -100,7 +104,7 @@ fun InvoiceItem(
 
                     Icon(
                         painter = painterResource(R.drawable.user_icon),
-                        tint = colorResource(R.color.bg_login_via_account),
+                        tint = colorResource(R.color.main_color_bold),
                         contentDescription = null,
                         modifier = Modifier.size(20.dp)
                     )
@@ -134,7 +138,7 @@ fun InvoiceItem(
                     .clickable{
                         onItemClicked()
                     }
-                    .padding(horizontal = 10.dp),
+                    .padding(start = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(

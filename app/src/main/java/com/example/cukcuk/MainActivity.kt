@@ -12,12 +12,20 @@ import androidx.navigation.compose.rememberNavController
 import com.example.cukcuk.presentation.navigation.AppNavHost
 import com.example.cukcuk.presentation.theme.CukcukTheme
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val config = resources.configuration
+        val locale = Locale("vi")
+        Locale.setDefault(locale)
+        config.setLocale(locale)
+        createConfigurationContext(config)
+
         setContent {
             CukcukTheme {
                 Surface(

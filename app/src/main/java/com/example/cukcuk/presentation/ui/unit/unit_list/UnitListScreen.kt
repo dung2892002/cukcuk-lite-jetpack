@@ -32,7 +32,6 @@ import java.util.UUID
 @Composable
 fun UnitListScreen(
     navController: NavHostController,
-    backStackEntry: NavBackStackEntry,
     viewModel: UnitListViewModel = hiltViewModel()
 
 ) {
@@ -43,16 +42,9 @@ fun UnitListScreen(
     val unitUpdate = viewModel.unitUpdate.value
     val isOpenDialogDelete = viewModel.isOpenDialogDelete.value
 
-    var unitSelectedIDArg = backStackEntry.arguments?.getString("currentUnitId")
-
     val unitSelected = viewModel.unitSelected.value
-
     val errorMessage = viewModel.errorMessage.value
 
-    LaunchedEffect(unitSelectedIDArg) {
-        if (unitSelectedIDArg != null)
-            viewModel.findUnitSelected(UUID.fromString(unitSelectedIDArg))
-    }
 
     LaunchedEffect(errorMessage) {
         if (errorMessage != null) {

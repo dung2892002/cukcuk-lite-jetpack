@@ -2,4 +2,17 @@
 <resources>
 
     <style name="Theme.Cukcuk" parent="android:Theme.Material.Light.NoActionBar" />
+    >
+
+
+
+    <style name="CustomDatePickerDialogTheme" parent="android:ThemeOverlay.Material.Dialog">
+        <item name="android:colorAccent">@color/main_color</item>  <!-- Màu chọn, highlight -->
+        <item name="android:headerBackground">@color/main_color</item> <!-- Header background -->
+        <item name="android:textColorPrimary">@android:color/black</item> <!-- Text màu đen -->
+        <item name="android:textColorSecondary">@android:color/black</item> <!-- Text phụ -->
+        <item name="android:datePickerDialogTheme">@style/CustomDatePickerDialogTheme</item>
+        <item name="android:colorPrimary">@color/main_color</item>
+    </style>
+
 </resources>

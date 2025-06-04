@@ -129,7 +129,7 @@ fun IntegerCalculatorDialog(
                         .height(48.dp)
                         .padding(horizontal = 5.dp)
                         .border(
-                            width = 1.dp,
+                            width = (1/2).dp,
                             color = Color.Gray,
                             shape = RoundedCornerShape(2.dp)
                         )
@@ -153,7 +153,12 @@ fun IntegerCalculatorDialog(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp)
-                        .padding(horizontal = 5.dp),
+                        .padding(horizontal = 5.dp)
+                        .border(
+                            width = (1/2).dp,
+                            color = Color.Gray,
+                            shape = RoundedCornerShape(4.dp)
+                        ),
                     icon = painterResource(R.drawable.ic_remove)
                 )
             }
@@ -179,6 +184,11 @@ fun IntegerCalculatorDialog(
                                 .weight(1f)
                                 .height(48.dp)
                                 .padding(horizontal = 5.dp)
+                                .border(
+                                    width = (1/2).dp,
+                                    color = Color.Gray,
+                                    shape = RoundedCornerShape(4.dp)
+                                )
                         )
                     }
                 }
@@ -203,6 +213,11 @@ fun IntegerCalculatorDialog(
                         .weight(1f)
                         .height(48.dp)
                         .padding(horizontal = 5.dp)
+                        .border(
+                            width = (1/2).dp,
+                            color = Color.Gray,
+                            shape = RoundedCornerShape(4.dp)
+                        )
                 )
 
                 CukcukButton(

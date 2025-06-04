@@ -48,7 +48,7 @@ fun ColorInventoryForm(
                 .align(Alignment.Center)
                 .wrapContentSize()
                 .background(
-                    color = colorResource(R.color.background_form_select_image_inventory),
+                    color = colorResource(R.color.background_color),
                     shape = RoundedCornerShape(4.dp)
                 )
                 .padding(vertical = 10.dp)

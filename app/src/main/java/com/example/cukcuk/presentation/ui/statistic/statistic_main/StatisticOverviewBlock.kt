@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -37,6 +38,7 @@ fun StatisticOverViewBlock(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
+            .clip(RoundedCornerShape(4.dp))
             .background(color = Color.White)
             .border(
                 width = 1.dp,
@@ -71,7 +73,7 @@ fun StatisticOverViewBlock(
                         .drawBehind{
                             val xStart = 0
                             val xEnd = size.width
-                            val y = size.height
+                            val y = size.height - 1f
                             val strokeWidth = 1.dp.toPx()
 
                             if (index != statisticOverview.size - 1) {

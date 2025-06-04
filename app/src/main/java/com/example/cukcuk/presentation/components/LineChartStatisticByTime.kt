@@ -6,8 +6,11 @@ import android.graphics.Color
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import com.example.cukcuk.R
 import com.example.cukcuk.presentation.enums.LineChartLabels
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -23,6 +26,10 @@ fun LineChartStatisticByTime(
 ) {
     val amountMap = mutableMapOf<Int, Float>()
     val xLabels = label.labels
+
+    val context = LocalContext.current
+    val lineColor =  ContextCompat.getColor(context, R.color.line_data_color)
+
     statisticList.forEach {
         val index = labelMapper(it)
         amountMap[index] = it.Amount.toFloat()
@@ -37,10 +44,9 @@ fun LineChartStatisticByTime(
     AndroidView(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp),
+            .height(180.dp),
         factory = { context ->
             LineChart(context).apply {
-                // Thiết lập cố định một lần
                 xAxis.position = XAxis.XAxisPosition.BOTTOM
                 axisRight.isEnabled = false
                 description.isEnabled = false
@@ -48,10 +54,9 @@ fun LineChartStatisticByTime(
             }
         },
         update = { lineChart ->
-            // Cập nhật dữ liệu mỗi lần Composable recomposes
             val dataSet = LineDataSet(entries, null).apply {
-                color = Color.GREEN
-                setCircleColors(Color.GREEN)
+                color = lineColor
+                setCircleColors(lineColor)
                 setDrawCircleHole(false)
                 valueTextColor = Color.BLACK
                 lineWidth = 1f
@@ -82,7 +87,7 @@ fun LineChartStatisticByTime(
                 setDrawLabels(true)
                 setDrawGridLines(true)
                 setDrawZeroLine(false)
-                zeroLineColor = Color.GRAY
+                zeroLineColor = lineColor
                 zeroLineWidth = 0.5f
                 enableGridDashedLine(10f, 5f, 0f)
             }

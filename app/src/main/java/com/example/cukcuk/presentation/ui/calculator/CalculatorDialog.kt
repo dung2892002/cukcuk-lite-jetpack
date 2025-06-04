@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -86,11 +87,13 @@ fun CalculatorDialog(
             .fillMaxSize()
             .background(Color.Black.copy(alpha = 0.3f))
             .clickable(enabled = false) {}
-            .padding(horizontal = 10.dp),
+            .padding(horizontal = 20.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(
-            Modifier.background(Color.LightGray)
+            Modifier
+                .background(Color.LightGray)
+                .clip(RoundedCornerShape(4.dp))
         ) {
             Row(
                 modifier = Modifier
@@ -130,7 +133,7 @@ fun CalculatorDialog(
                         .fillMaxWidth()
                         .height(48.dp)
                         .border(
-                            width = 1.dp,
+                            width = (1/2).dp,
                             color = Color.Gray,
                             shape = RoundedCornerShape(2.dp)
                         )
@@ -168,6 +171,11 @@ fun CalculatorDialog(
                                         modifier = Modifier
                                             .weight(1f)
                                             .height(48.dp)
+                                            .border(
+                                                width = (1/2).dp,
+                                                color = Color.Gray,
+                                                shape = RoundedCornerShape(4.dp)
+                                            )
                                     )
                                 if (key == "Xóa")
                                     CukcukImageButton(
@@ -178,7 +186,12 @@ fun CalculatorDialog(
                                         bgColor = colorResource(R.color.calculator_button),
                                         modifier = Modifier
                                             .weight(1f)
-                                            .height(48.dp),
+                                            .height(48.dp)
+                                            .border(
+                                                width = (1/2).dp,
+                                                color = Color.Gray,
+                                                shape = RoundedCornerShape(4.dp)
+                                            ),
                                         icon = painterResource(R.drawable.ic_remove)
                                     )
 
@@ -193,6 +206,11 @@ fun CalculatorDialog(
                                         modifier = Modifier
                                             .weight(1f)
                                             .height(48.dp)
+                                            .border(
+                                                width = 1.dp,
+                                                color = colorResource(R.color.main_color),
+                                                shape = RoundedCornerShape(4.dp)
+                                            )
                                     )
 
                                 if (key == "XONG" && isCalculateState == false)
@@ -206,6 +224,11 @@ fun CalculatorDialog(
                                         modifier = Modifier
                                             .weight(1f)
                                             .height(48.dp)
+                                            .border(
+                                                width = 1.dp,
+                                                color = colorResource(R.color.main_color),
+                                                shape = RoundedCornerShape(4.dp)
+                                            )
                                     )
                             }
                         }

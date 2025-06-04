@@ -4,18 +4,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.AppNavigationBarOverlay
 import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.enums.NavItem
 import com.example.cukcuk.presentation.enums.Screen
 import com.example.cukcuk.presentation.shared.SharedViewModel
 import com.example.cukcuk.presentation.ui.inventory.inventory_list.InventoryListScreen
@@ -34,6 +35,10 @@ fun HomeScreen(
     var currentScreen = viewModel.currentScreen.value
     var title = viewModel.title.value
 
+    fun navigateToScreen(navItem: NavItem) {
+        println(navItem)
+    }
+
     val scaffoldContent = @Composable {
         Scaffold(
             Modifier.background(Color.White),
@@ -48,7 +53,7 @@ fun HomeScreen(
                             navController.navigate("invoice_form")
                         } else navController.navigate("inventory_form")
                     },
-                    navigationIcon = Icons.Default.Menu
+                    icon = painterResource(R.drawable.ic_menu)
                 )
             }
         )
@@ -75,11 +80,11 @@ fun HomeScreen(
             AppNavigationBarOverlay(
                 currentScreen = currentScreen,
                 onSelectScreen = { viewModel.navigateScreen(it) },
+                onSelectNewScreen = { navigateToScreen(it) },
                 onClose = { viewModel.hideNavigationView() },
                 modifier = Modifier.zIndex(1f)
             )
         }
     }
-
 }
 

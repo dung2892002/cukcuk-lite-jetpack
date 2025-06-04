@@ -18,6 +18,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,16 +46,9 @@ import java.util.UUID
 @Composable
 fun InvoiceFormScreen(
     navController: NavHostController,
-    backStackEntry: NavBackStackEntry,
     viewModel: InvoiceFormViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val invoiceIdArgs = backStackEntry.arguments?.getString("invoiceId")
-
-    LaunchedEffect(invoiceIdArgs) {
-        val invoiceId = invoiceIdArgs?.let { UUID.fromString(it) }
-        viewModel.fetchData(invoiceId)
-    }
 
     val invoice = viewModel.invoice.value
     val inventoriesSelect = viewModel.inventoriesSelect
@@ -120,7 +115,7 @@ fun InvoiceFormScreen(
                         painter = painterResource(R.drawable.ic_table),
                         contentDescription = null,
                         tint = colorResource(R.color.main_color),
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.padding(end = 6.dp).size(24.dp)
                     )
 
                     CukcukButton(
@@ -140,7 +135,7 @@ fun InvoiceFormScreen(
                         painter = painterResource(R.drawable.user_icon),
                         contentDescription = null,
                         tint = colorResource(R.color.main_color),
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.padding(horizontal = 6.dp).size(24.dp)
                     )
 
                     CukcukButton(
@@ -175,10 +170,11 @@ fun InvoiceFormScreen(
                 }
                 Row(
                     modifier = Modifier
+                        .padding(bottom = 20.dp)
                         .background(
                             color = colorResource(R.color.invoice_form_bottom_last)
                         )
-                        .padding(start = 10.dp, end = 10.dp, bottom = 20.dp, top = 10.dp),
+                        .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
@@ -189,7 +185,7 @@ fun InvoiceFormScreen(
                         bgColor = Color.White,
                         icon = painterResource(R.drawable.ic_microphone),
                         tint = colorResource(R.color.main_color),
-                        modifier = Modifier.height(40.dp).weight(1f)
+                        modifier = Modifier.size(40.dp)
                     )
 
                     CukcukButton(
@@ -209,7 +205,7 @@ fun InvoiceFormScreen(
                         onClick = {
                             payment()
                         },
-                        modifier = Modifier.height(40.dp).weight(2f)
+                        modifier = Modifier.height(40.dp).weight(3f)
                     )
                 }
             }

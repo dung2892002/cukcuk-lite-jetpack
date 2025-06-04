@@ -46,7 +46,10 @@ fun InventoryListScreen(
     }
 
 
-    LazyColumn{
+    LazyColumn(
+        modifier = Modifier
+            .background(color = colorResource(R.color.background_color))
+    ){
         items(inventories) { inventory ->
             InventoryItem(inventory, onClick = {
                 navController.navigate("inventory_form?inventoryId=${inventory.InventoryID}")
@@ -58,9 +61,11 @@ fun InventoryListScreen(
 @Composable
 fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .padding(8.dp)
-            .clickable { onClick() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = colorResource(R.color.inventory_item_background))
+            .clickable { onClick() }
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
 
     ) {
@@ -85,7 +90,7 @@ fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
                 Text(
                     text = "Giá bán: ${FormatDisplay.formatNumber(inventory.Price.toString())}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = colorResource(R.color.inventory_price)
+                    color = colorResource(R.color.background_color_bold)
                 )
                 if (!inventory.Inactive) {
                     Text(
@@ -95,7 +100,7 @@ fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp))
                             .background(
-                                color = colorResource(R.color.color_inactive_block)
+                                color = colorResource(R.color.background_color_bold)
                             )
                             .padding(horizontal = 8.dp),
                     )
@@ -105,7 +110,7 @@ fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
 
         Image(
             painter = painterResource(id = R.drawable.ic_arrow_right),
-            contentDescription = "Ảnh ví dụ",
+            contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.size(20.dp)
         )

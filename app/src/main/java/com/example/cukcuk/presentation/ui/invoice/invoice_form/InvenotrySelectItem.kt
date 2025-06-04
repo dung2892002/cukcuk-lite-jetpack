@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -47,7 +49,7 @@ fun InventorySelectItem(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = if (item.quantity.value > 0) Color.LightGray else Color.White
+                color = if (item.quantity.value > 0) colorResource(R.color.inventory_selected) else Color.White
             )
     ) {
         Row(
@@ -60,7 +62,7 @@ fun InventorySelectItem(
                     val strokeWidth = 1.dp.toPx()
                     val xStart = 0f
                     val xEnd = size.width
-                    val y = size.height - strokeWidth
+                    val y = size.height
 
                     drawLine(
                         color = Color.LightGray,
@@ -87,7 +89,7 @@ fun InventorySelectItem(
                 }
                 else {
                     CukcukImageBox(
-                        colorRes = colorResource(R.color.color_unit_selected),
+                        colorRes = colorResource(R.color.inventory_selected_icon),
                         iconDrawable = painterResource(R.drawable.ic_yes),
                         imageSize = 24,
                         onClick = {
@@ -115,9 +117,12 @@ fun InventorySelectItem(
         if (item.quantity.value > 0) {
             Row(
                 modifier = Modifier
-                    .background(Color.LightGray)
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 10.dp),
+                    .padding(end = 10.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(
+                        colorResource(R.color.inventory_selected)
+                    )
+                    .align(Alignment.CenterEnd),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
 
@@ -149,7 +154,7 @@ fun InventorySelectItem(
                 CukcukImageBox(
                     colorRes = Color.White,
                     iconDrawable = painterResource(R.drawable.icon_add),
-                    tintIcon = colorResource(R.color.color_unit_selected),
+                    tintIcon = colorResource(R.color.inventory_selected_icon),
                     size = 40,
                     imageSize = 32,
                     onClick = {

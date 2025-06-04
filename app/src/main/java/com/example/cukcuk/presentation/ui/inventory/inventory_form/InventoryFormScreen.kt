@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
@@ -39,7 +37,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukButton
@@ -48,17 +45,14 @@ import com.example.cukcuk.presentation.components.CukcukImageBox
 import com.example.cukcuk.presentation.components.Toolbar
 import com.example.cukcuk.presentation.ui.calculator.CalculatorDialog
 import com.example.cukcuk.utils.FormatDisplay
-import java.util.UUID
 
 @Composable
 fun InventoryFormScreen(
     navController: NavHostController,
-    backStackEntry: NavBackStackEntry,
     viewModel: InventoryFormViewModel = hiltViewModel()
 ) {
 
     var inventory = viewModel.inventory.value
-    val inventoryId = backStackEntry.arguments?.getString("inventoryId")
 
     val errorMessage = viewModel.errorMessage.value
     val showSelectColor = viewModel.showSelectColor.value
@@ -66,20 +60,12 @@ fun InventoryFormScreen(
     val showDialogDelete = viewModel.isOpenDialogDelete.value
     val showCalculator = viewModel.showCalculator.value
 
-
-
     LaunchedEffect(errorMessage) {
         if (errorMessage == null) {
             navController.popBackStack()
         }
     }
 
-    LaunchedEffect(inventoryId) {
-        if (inventoryId != null) {
-            val inventoryIdUUID = UUID.fromString(inventoryId)
-            viewModel.loadInventory(inventoryIdUUID)
-        }
-    }
 
     val selectedUnit = navController
         .currentBackStackEntry
@@ -111,7 +97,7 @@ fun InventoryFormScreen(
                     ),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                if (inventoryId != null) {
+                if (inventory.InventoryID != null) {
                     CukcukButton(
                         title = "XÓA",
                         bgColor = Color.Red,
@@ -211,7 +197,7 @@ fun InventoryFormScreen(
                 }
             }
 
-            if (inventoryId != null) {
+            if (inventory.InventoryID != null) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -361,7 +347,7 @@ fun FormRow(
         Box(modifier = Modifier.width(32.dp)) {
             if (onClick != null) {
                 Icon(
-                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    painter = painterResource(R.drawable.ic_arrow_right),
                     tint = Color.Gray,
                     contentDescription = null,
                     modifier = Modifier

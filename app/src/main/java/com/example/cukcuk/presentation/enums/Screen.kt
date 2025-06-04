@@ -1,7 +1,9 @@
 package com.example.cukcuk.presentation.enums
 
-enum class Screen(val displayName: String) {
-    Sales("Bán hàng"),
-    Menu("Thực đơn"),
-    Statistics("Doanh thu")
+import com.example.cukcuk.R
+
+enum class Screen(val displayName: String, val iconResId: Int) {
+    Sales("Bán hàng", R.drawable.ic_nav_sale),
+    Menu("Thực đơn", R.drawable.ic_nav_menu),
+    Statistics("Doanh thu", R.drawable.ic_nav_statistic)
 }

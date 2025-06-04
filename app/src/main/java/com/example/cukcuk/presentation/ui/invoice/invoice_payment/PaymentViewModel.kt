@@ -1,7 +1,9 @@
 package com.example.cukcuk.presentation.ui.invoice.invoice_payment
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Invoice
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PaymentViewModel @Inject constructor(
     private val getInvoiceDataToPaymentUseCase: GetInvoiceDataToPaymentUseCase,
-    private val paymentInvoiceUseCase: PaymentInvoiceUseCase
+    private val paymentInvoiceUseCase: PaymentInvoiceUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _invoice = mutableStateOf(Invoice(
@@ -23,12 +26,22 @@ class PaymentViewModel @Inject constructor(
     ))
     val invoice: State<Invoice> = _invoice
 
+    private val _invoiceDetailsCount = mutableIntStateOf(0)
+    val invoiceDetailCounts: State<Int> = _invoiceDetailsCount
+
     private val _showCalculator = mutableStateOf(false)
     val showCalculator: State<Boolean> = _showCalculator
 
+    init {
+        val currentUnitId = savedStateHandle.get<String>("invoiceId")?.let { UUID.fromString(it) }
+        if (currentUnitId != null) {
+            loadData(currentUnitId)
+        }
+    }
 
     fun loadData(invoiceId: UUID) {
         _invoice.value = getInvoiceDataToPaymentUseCase(invoiceId)
+        _invoiceDetailsCount.intValue = _invoice.value.InvoiceDetails.size
     }
 
     fun updateAmount(receiveMoney: Double) {

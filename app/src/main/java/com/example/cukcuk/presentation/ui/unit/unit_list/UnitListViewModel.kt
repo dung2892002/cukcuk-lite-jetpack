@@ -7,6 +7,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.model.Unit
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class UnitListViewModel @Inject constructor(
     private val getAllUnitUseCase: GetAllUnitUseCase,
     private val deleteUnitUseCase: DeleteUnitUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _units = mutableStateOf<List<Unit>>(emptyList())
@@ -44,6 +46,8 @@ class UnitListViewModel @Inject constructor(
 
     init {
         loadUnits()
+        val currentUnitId = savedStateHandle.get<String>("currentUnitId")?.let { UUID.fromString(it) }
+        findUnitSelected(currentUnitId)
     }
 
     private fun loadUnits() {

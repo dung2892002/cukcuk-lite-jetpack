@@ -1,6 +1,5 @@
 package com.example.cukcuk.utils
 
-import android.annotation.SuppressLint
 import android.database.Cursor
 import androidx.core.database.getDoubleOrNull
 import java.time.LocalDateTime
@@ -23,11 +22,3 @@ fun Cursor.getInt(column: String) : Int =
 
 fun Cursor.getDouble(column: String) : Double =
     getDoubleOrNull(getColumnIndexOrThrow(column))?:0.0
-
-@SuppressLint("NewApi")
-fun Cursor.getDateTimeOrNull(columnName: String): LocalDateTime? {
-    val index = getColumnIndexOrThrow(columnName)
-    if (isNull(index)) return null
-    val value = getString(index)
-    return value?.let { LocalDateTime.parse(it) }
-}

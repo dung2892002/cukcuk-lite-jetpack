@@ -145,7 +145,10 @@ class StatisticViewModel @Inject constructor(
     fun handleStatisticByInventory(start: LocalDateTime, end: LocalDateTime) {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         getStatisticByInventory(start, end)
-        _title.value = "Từ ${start.format(formatter)} - ${end.format(formatter)}"
+        if (start.toLocalDate() == end.toLocalDate())
+            _title.value = "${start.format(formatter)}"
+        else
+            _title.value = "Từ ${start.format(formatter)} - ${end.format(formatter)}"
         _currentState.value = StateStatistic.Other
         closeDialogSelectTime()
     }

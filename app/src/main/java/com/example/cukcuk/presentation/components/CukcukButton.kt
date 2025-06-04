@@ -1,5 +1,6 @@
 package com.example.cukcuk.presentation.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -27,8 +28,7 @@ fun CukcukButton(
         colors = ButtonDefaults.buttonColors(containerColor = bgColor),
         onClick = onClick,
         shape = RoundedCornerShape(4.dp),
-        contentPadding = PaddingValues(padding.dp)
-
+        contentPadding = PaddingValues(padding.dp),
     ) {
         Text(
             text = title,

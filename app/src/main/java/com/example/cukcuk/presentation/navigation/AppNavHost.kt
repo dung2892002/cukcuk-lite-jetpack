@@ -35,7 +35,7 @@ fun AppNavHost(navController: NavHostController) {
                 }
             )
         ) { backStackEntry ->
-            InventoryFormScreen(navController, backStackEntry)
+            InventoryFormScreen(navController)
         }
 
         composable(
@@ -48,7 +48,7 @@ fun AppNavHost(navController: NavHostController) {
                 }
             )
         ) { backStackEntry ->
-            InvoiceFormScreen(navController, backStackEntry)
+            InvoiceFormScreen(navController)
         }
 
         composable(
@@ -61,7 +61,7 @@ fun AppNavHost(navController: NavHostController) {
                 }
             )
         ) { backStackEntry ->
-            UnitListScreen(navController, backStackEntry)
+            UnitListScreen(navController)
         }
 
         composable(
@@ -74,7 +74,7 @@ fun AppNavHost(navController: NavHostController) {
                 }
             )
         ) { backStackEntry ->
-            PaymentScreen(navController, backStackEntry)
+            PaymentScreen(navController,)
         }
 
         composable (

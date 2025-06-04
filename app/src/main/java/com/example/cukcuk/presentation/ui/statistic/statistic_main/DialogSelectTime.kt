@@ -1,6 +1,5 @@
 package com.example.cukcuk.presentation.ui.statistic.statistic_main
 
-import android.app.DatePickerDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -23,23 +23,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukButton
-import com.example.cukcuk.presentation.theme.CukcukTheme
+import com.example.cukcuk.presentation.components.CukcukDatePickerDialog
 import com.example.cukcuk.utils.DateTimeHelper
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DialogSelectTime(
     onClose: () -> Unit,
@@ -47,7 +46,6 @@ fun DialogSelectTime(
 ) {
 
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    val context = LocalContext.current
 
     val defaultRange = DateTimeHelper.getThisMonth()
     var start by remember { mutableStateOf(defaultRange.first.toLocalDate()) }
@@ -168,44 +166,31 @@ fun DialogSelectTime(
     }
 
     if (showFromDatePicker) {
-        DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                start = LocalDate.of(year, month + 1, dayOfMonth)
+        CukcukDatePickerDialog(
+            input = start,
+            onDismissRequest = {
                 showFromDatePicker = false
             },
-            start.year,
-            start.monthValue - 1,
-            start.dayOfMonth
-        ).show()
-    }
-
-    if (showToDatePicker) {
-        DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                end = LocalDate.of(year, month + 1, dayOfMonth)
-                showToDatePicker = false
-            },
-            end.year,
-            end.monthValue - 1,
-            end.dayOfMonth
-        ).show()
-    }
-
-}
-
-@Preview
-@Composable
-fun DialogSelectTimePreview() {
-    CukcukTheme {
-        DialogSelectTime(
-            onSubmit = {
-                    start, end ->
-                println(start)
-                println(end)
-            },
-            onClose = {},
+            onDateSelected = { year, month, dayOfMonth ->
+                start = LocalDate.of(year, month + 1, dayOfMonth)
+                showFromDatePicker = false
+            }
         )
     }
+
+
+    if (showToDatePicker) {
+        CukcukDatePickerDialog(
+            input = end,
+            onDismissRequest = {
+                showToDatePicker = false
+            },
+            onDateSelected = { year, month, dayOfMonth ->
+                end = LocalDate.of(year, month + 1, dayOfMonth)
+                showToDatePicker = false
+            }
+        )
+    }
+
 }
+

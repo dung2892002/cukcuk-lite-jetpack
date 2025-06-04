@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.cukcuk.domain.dtos.InventorySelect
 import com.example.cukcuk.domain.model.Invoice
@@ -20,7 +21,8 @@ class InvoiceFormViewModel @Inject constructor(
     private val getInvoiceDetailUseCase: GetInvoiceDetailUseCase,
     private val getInventorySelectUseCase: GetInventorySelectUseCase,
     private val updateInvoiceUseCase: UpdateInvoiceUseCase,
-    private val createInvoiceUseCase: CreateInvoiceUseCase
+    private val createInvoiceUseCase: CreateInvoiceUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel(){
     private val _invoice = mutableStateOf<Invoice>(Invoice())
     val invoice: State<Invoice> = _invoice
@@ -42,6 +44,12 @@ class InvoiceFormViewModel @Inject constructor(
 
     private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: State<String?> = _errorMessage
+
+
+    init {
+        val id = savedStateHandle.get<String>("invoiceId")?.let { UUID.fromString(it) }
+        fetchData(id)
+    }
 
     fun fetchData(invoiceId: UUID?) {
         if (invoiceId != null) _invoice.value = getInvoiceDetailUseCase(invoiceId)

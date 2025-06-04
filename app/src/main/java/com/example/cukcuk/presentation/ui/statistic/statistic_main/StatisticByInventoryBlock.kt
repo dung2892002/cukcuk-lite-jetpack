@@ -84,7 +84,7 @@ fun StatisticByInventoryItem(
                 .drawBehind{
                     val xStart = 0
                     val xEnd = size.width
-                    val y = size.height
+                    val y = size.height -1f
                     val strokeWidth = 1.dp.toPx()
 
                     if (index != itemsSize - 1) {

@@ -3,7 +3,6 @@ package com.example.cukcuk.presentation.ui.statistic.statistic_main
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +23,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.cukcuk.R
 import com.example.cukcuk.domain.dtos.StatisticByTime
 import com.example.cukcuk.presentation.components.LineChartStatisticByTime
@@ -43,14 +44,20 @@ fun StatisticByTimeBlock(
 
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
                     color = Color.White
                 )
-                .height(180.dp)
         ){
+            Text(
+                text = "(Nghìn đồng)",
+                fontSize = 12.sp,
+                color = Color.Gray,
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+            )
+
             LineChartStatisticByTime(
                 statisticByTime,
                 label
@@ -61,6 +68,18 @@ fun StatisticByTimeBlock(
                     else -> it.TimeStart.monthValue - 1
                 }
             }
+
+            Text(
+                text = when(label) {
+                    LineChartLabels.MONTH_IN_YEAR -> "(Tháng)"
+                    else -> "(Ngày)"
+                },
+                fontSize = 12.sp,
+                color = Color.Gray,
+                modifier = Modifier.fillMaxWidth().padding(6.dp),
+                textAlign = TextAlign.End
+            )
+
         }
 
 
@@ -104,7 +123,7 @@ fun StatisticByTimeItem(
                 val strokeWidth = 1.dp.toPx()
                 val xStart = 0f
                 val xEnd = size.width
-                val y = size.height
+                val y = size.height - 1f
                 if (index < itemsSize - 1) {
                     drawLine(
                         color = Color.Gray,

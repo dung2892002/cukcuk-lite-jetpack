@@ -13,13 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -45,22 +44,16 @@ import com.example.cukcuk.presentation.components.Toolbar
 import com.example.cukcuk.presentation.ui.calculator.DoubleCalculatorDialog
 import com.example.cukcuk.utils.FormatDisplay.formatNumber
 import com.example.cukcuk.utils.FormatDisplay.formatTo12HourWithCustomAMPM
-import java.util.UUID
 
 @Composable
 fun PaymentScreen(
     navController: NavHostController,
-    backStackEntry: NavBackStackEntry,
     viewModel: PaymentViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
-    val invoiceIdArgs = backStackEntry.arguments?.getString("invoiceId")
-    LaunchedEffect(invoiceIdArgs) {
-        viewModel.loadData(UUID.fromString(invoiceIdArgs!!))
-    }
-
     val invoice = viewModel.invoice.value
+    val detailsCount = viewModel.invoiceDetailCounts.value
     val showCalculator = viewModel.showCalculator.value
 
     fun handlePayment() {
@@ -91,10 +84,10 @@ fun PaymentScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(
-                    color = colorResource(R.color.background_color)
-                )
                 .padding(paddingValue)
+                .background(
+                    color = colorResource(R.color.background_color_bold)
+                )
                 .padding(horizontal = 12.dp, vertical = 10.dp)
         ) {
             Column(
@@ -103,7 +96,7 @@ fun PaymentScreen(
                     .background(
                         color = Color.White
                     )
-                    .padding(start = 6.dp, end = 6.dp, top = 10.dp),
+                    .padding(start = 8.dp, end = 8.dp, top = 10.dp),
             ) {
                 Text(
                     text = "HÓA ĐƠN",
@@ -166,8 +159,12 @@ fun PaymentScreen(
                             )
                         }
                 ) {
-                    items(invoice.InvoiceDetails) { item ->
-                        InvoiceDetailItem(item = item)
+                    itemsIndexed (invoice.InvoiceDetails) {index, item ->
+                        InvoiceDetailItem(
+                            item = item,
+                            index = index,
+                            length = detailsCount
+                        )
                     }
                 }
 
@@ -208,6 +205,7 @@ fun PaymentScreen(
                         text = formatNumber(invoice.ReceiveAmount.toString()),
                         color = colorResource(R.color.main_color)
                     )
+
                     Icon(
                         painter = painterResource(R.drawable.ic_arrow_right),
                         contentDescription = null,
@@ -254,7 +252,7 @@ fun PaymentScreen(
                     handlePayment()
                 },
                 padding = 0,
-                modifier = Modifier.fillMaxWidth().height(56.dp),
+                modifier = Modifier.fillMaxWidth().height(48.dp),
                 fontSize = 20
             )
         }
@@ -333,7 +331,9 @@ fun TableHeader() {
 
 @Composable
 fun InvoiceDetailItem(
-    item: InvoiceDetail
+    item: InvoiceDetail,
+    index: Int,
+    length: Int
 ) {
     Row(
         modifier = Modifier
@@ -343,12 +343,14 @@ fun InvoiceDetailItem(
                 val xStart = 0f
                 val xEnd = size.width
                 val y = size.height
-                drawLine(
-                    color = Color.Gray,
-                    start = Offset(xStart, y),
-                    end = Offset(xEnd, y),
-                    strokeWidth = strokeWidth
-                )
+                if (index < length -1) {
+                    drawLine(
+                        color = Color.Gray,
+                        start = Offset(xStart, y),
+                        end = Offset(xEnd, y),
+                        strokeWidth = strokeWidth
+                    )
+                }
             }
             .padding(vertical = 10.dp)
     ) {

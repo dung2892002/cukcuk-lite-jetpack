@@ -14,7 +14,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.theme.CukcukTheme
 import com.example.cukcuk.utils.ImageHelper
@@ -51,7 +50,7 @@ fun CukcukTextBox(
 fun TextBoxPreview() {
     CukcukTheme {
         CukcukTextBox(
-            colorRes = colorResource(R.color.color_unit_selected),
+            colorRes = colorResource(R.color.inventory_selected_icon),
             textValue = "1"
         )
     }

@@ -73,7 +73,7 @@ fun UnitItem(
                     size = 28,
                     imageSize = 20,
                     iconDrawable = painterResource(R.drawable.ic_yes),
-                    colorRes = colorResource(R.color.color_unit_selected)
+                    colorRes = colorResource(R.color.unit_selected)
                 )
             }
         }

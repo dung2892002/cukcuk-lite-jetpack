@@ -7,6 +7,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.model.Inventory
@@ -27,7 +28,8 @@ class InventoryFormViewModel @Inject constructor(
     private val createInventoryUseCase: CreateInventoryUseCase,
     private val updateInventoryUseCase: UpdateInventoryUseCase,
     private val deleteInventoryUseCase: DeleteInventoryUseCase,
-    private val getInventory: GetInventoryDetailUseCase
+    private val getInventory: GetInventoryDetailUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _inventory = mutableStateOf(
@@ -52,6 +54,11 @@ class InventoryFormViewModel @Inject constructor(
 
 
     private var isLoaded = false
+    init {
+        val id = savedStateHandle.get<String>("inventoryId")?.let { UUID.fromString(it) }
+        if (id != null)
+        loadInventory(id)
+    }
 
     fun loadInventory(inventoryID: UUID) {
         if (isLoaded) return

@@ -17,13 +17,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.toColorInt
 import com.example.cukcuk.domain.dtos.StatisticByInventory
 import com.example.cukcuk.utils.FormatDisplay
-
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 
 @SuppressLint("DefaultLocale")
 @Composable
@@ -41,7 +40,7 @@ fun PieChartStatisticInventory(
     val colors = mutableListOf<Int>()
 
     mainParts.forEach {
-        entries.add(PieEntry(it.Percentage.toFloat(), "${"%.1f".format(it.Percentage)}%"))
+        entries.add(PieEntry(it.Percentage.toFloat()))
         colors.add(it.Color.toColorInt())
     }
 
@@ -55,7 +54,6 @@ fun PieChartStatisticInventory(
         setDrawValues(true)
         valueTextColor = Color.BLACK
         valueTextSize = 12f
-        valueFormatter = PercentFormatter()
         yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
         xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
         valueLinePart1Length = 0.4f
@@ -64,7 +62,15 @@ fun PieChartStatisticInventory(
         valueLineWidth = 1f
     }
 
-    val pieData = PieData(dataSet)
+    val pieData = PieData(dataSet).apply {
+        setValueFormatter(object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return String.format("%.1f%%", value)
+            }
+        })
+    }
+
+
 
     AndroidView(
         modifier = Modifier
@@ -86,10 +92,12 @@ fun PieChartStatisticInventory(
             pieChart.centerText = generateCenterText(totalAmount)
             pieChart.setCenterTextSize(14f)
             pieChart.setCenterTextColor(Color.BLACK)
-
             pieChart.setExtraOffsets(5f, 10f, 5f, 10f)
 
-            pieChart.invalidate()
+            pieChart.post {
+                pieChart.invalidate()
+            }
+
             pieChart.animateY(1000, Easing.EaseInOutQuad)
         }
     )
