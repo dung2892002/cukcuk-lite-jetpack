@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +23,7 @@ import com.example.cukcuk.presentation.shared.SharedViewModel
 import com.example.cukcuk.presentation.ui.inventory.inventory_list.InventoryListScreen
 import com.example.cukcuk.presentation.ui.invoice.invoice_list.InvoiceListScreen
 import com.example.cukcuk.presentation.ui.statistic.statistic_main.StatisticScreen
+import com.example.cukcuk.utils.SharedPrefManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,12 +33,26 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
 
+    val context = LocalContext.current
     var showNavigationBar = viewModel.showNavigationBar.value
     var currentScreen = viewModel.currentScreen.value
     var title = viewModel.title.value
+    var countSync = viewModel.countSync.value
 
     fun navigateToScreen(navItem: NavItem) {
-        println(navItem)
+        when (navItem) {
+            NavItem.SharedWithFriend -> println("SharedWithFriend")
+            NavItem.RatingApp -> println("RatingApp")
+            NavItem.Logout -> {
+                SharedPrefManager.setLoggedIn(context, false)
+                navController.navigate(navItem.route) {
+                    popUpTo(0) {inclusive = true}
+                    launchSingleTop = true
+                }
+            }
+            else -> navController.navigate(navItem.route)
+        }
+        viewModel.closeNavigationView()
     }
 
     val scaffoldContent = @Composable {
@@ -47,7 +63,7 @@ fun HomeScreen(
                     title = title,
                     menuTitle = null,
                     hasMenuIcon = currentScreen!= Screen.Statistics,
-                    onBackClick = {viewModel.showNavigationView()},
+                    onBackClick = {viewModel.openNavigationView()},
                     onMenuClick = {
                         if (currentScreen == Screen.Sales) {
                             navController.navigate("invoice_form")
@@ -81,8 +97,9 @@ fun HomeScreen(
                 currentScreen = currentScreen,
                 onSelectScreen = { viewModel.navigateScreen(it) },
                 onSelectNewScreen = { navigateToScreen(it) },
-                onClose = { viewModel.hideNavigationView() },
-                modifier = Modifier.zIndex(1f)
+                onClose = { viewModel.closeNavigationView() },
+                modifier = Modifier.zIndex(1f),
+                countSync = countSync
             )
         }
     }

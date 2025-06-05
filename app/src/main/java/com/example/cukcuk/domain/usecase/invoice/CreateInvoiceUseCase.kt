@@ -6,12 +6,14 @@ import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.domain.repository.InvoiceRepository
 import com.example.cukcuk.utils.FormatDisplay
+import com.example.cukcuk.utils.SynchronizeHelper
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
 class CreateInvoiceUseCase @Inject constructor(
-    private val repository: InvoiceRepository
+    private val repository: InvoiceRepository,
+    private val syncHelper: SynchronizeHelper
 ) {
     operator fun invoke(invoice: Invoice,
                         inventoriesSelect: List<InventorySelect>) : ResponseData {
@@ -51,7 +53,11 @@ class CreateInvoiceUseCase @Inject constructor(
         invoice.ListItemName = buildListItemName(invoice.InvoiceDetails)
 
         response.isSuccess = repository.createInvoice(invoice)
-        if (response.isSuccess) response.message = invoice.InvoiceID.toString()
+        if (response.isSuccess) {
+            response.message = invoice.InvoiceID.toString()
+            syncHelper.insertSync("Invoice", invoice.InvoiceID)
+            syncHelper.createInvoiceDetail(invoiceDetails)
+        }
 
         return response
     }

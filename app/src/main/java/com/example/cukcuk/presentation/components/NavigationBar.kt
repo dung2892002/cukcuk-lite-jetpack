@@ -25,6 +25,7 @@ import com.example.cukcuk.R
 import com.example.cukcuk.presentation.enums.NavItem
 import com.example.cukcuk.presentation.enums.NavItemGroup
 import com.example.cukcuk.presentation.enums.Screen
+import com.example.cukcuk.utils.ImageHelper
 
 
 @Composable
@@ -33,7 +34,8 @@ fun AppNavigationBarOverlay(
     onSelectScreen: (Screen) -> Unit,
     onSelectNewScreen: (NavItem) -> Unit,
     onClose: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    countSync: Int = 0
 ) {
     val scrollState = rememberScrollState()
 
@@ -88,7 +90,8 @@ fun AppNavigationBarOverlay(
                 currentScreen = currentScreen,
                 onSelectScreen = onSelectScreen,
                 onSelectNewScreen = onSelectNewScreen,
-                onClose = onClose
+                onClose = onClose,
+                countSync = countSync
             )
         }
     }
@@ -101,7 +104,8 @@ fun AppNavigationBarContent(
     onSelectScreen: (Screen) -> Unit,
     onSelectNewScreen: (NavItem) -> Unit,
     onClose: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    countSync: Int = 0
 ) {
 
     val screens = Screen.entries
@@ -160,7 +164,9 @@ fun AppNavigationBarContent(
                             label = item.label,
                             iconResId = item.iconResId,
                             selected = false,
-                            onClick = { onSelectNewScreen(item) }
+                            onClick = { onSelectNewScreen(item) },
+                            countSync = countSync,
+                            showBadge = item == NavItem.SynchronizeData
                         )
                     }
                 }
@@ -175,7 +181,9 @@ private fun NavigationItem(
     label: String,
     iconResId: Int,
     selected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    countSync: Int = 0,
+    showBadge: Boolean = false
 ) {
     Row(
         modifier = Modifier
@@ -197,8 +205,28 @@ private fun NavigationItem(
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
-            text = label
+            text = label,
+            modifier = Modifier.weight(1f)
         )
+        if (countSync > 0 && showBadge) {
+            Box(
+                modifier = Modifier
+                    .width(18.dp)
+                    .height(24.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(
+                        color = colorResource(R.color.bg_sync_count)
+                    ),
+                contentAlignment = Alignment.Center
+            )
+            {
+                Text(
+                    text = countSync.toString(),
+                    color = Color.White,
+                    fontSize = 16.sp
+                )
+            }
+        }
     }
 }
 

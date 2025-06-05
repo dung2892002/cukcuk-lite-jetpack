@@ -35,7 +35,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.domain.model.InvoiceDetail
@@ -363,7 +362,7 @@ fun InvoiceDetailItem(
         )
 
         Text(
-            text = item.Quantity.toString(),
+            text = formatNumber(item.Quantity.toString()),
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

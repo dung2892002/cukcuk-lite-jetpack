@@ -89,6 +89,7 @@ fun StatisticByTimeBlock(
                 .background(
                     color = Color.White
                 )
+                .padding(vertical = 4.dp)
         ) {
             itemsIndexed(statisticByTime) { index, item ->
                 StatisticByTimeItem(
@@ -116,7 +117,7 @@ fun StatisticByTimeItem(
             .fillMaxWidth()
             .height(42.dp)
             .clickable{
-                onClick()
+                if (item.Amount > 0 ) onClick()
             }
             .padding(start = 6.dp)
             .drawBehind{

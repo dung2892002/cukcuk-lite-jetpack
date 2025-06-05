@@ -22,3 +22,10 @@ fun Cursor.getInt(column: String) : Int =
 
 fun Cursor.getDouble(column: String) : Double =
     getDoubleOrNull(getColumnIndexOrThrow(column))?:0.0
+
+fun Cursor.getDateTimeOrNull(columnName: String): LocalDateTime? {
+    val index = getColumnIndexOrThrow(columnName)
+    if (isNull(index)) return null
+    val value = getString(index)
+    return value?.let { LocalDateTime.parse(it) }
+}

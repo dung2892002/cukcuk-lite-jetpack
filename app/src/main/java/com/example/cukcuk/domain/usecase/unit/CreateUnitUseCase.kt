@@ -3,12 +3,14 @@ package com.example.cukcuk.domain.usecase.unit
 import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Unit
 import com.example.cukcuk.domain.repository.UnitRepository
+import com.example.cukcuk.utils.SynchronizeHelper
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
 class CreateUnitUseCase @Inject constructor(
-    private val repository: UnitRepository
+    private val repository: UnitRepository,
+    private val syncHelper: SynchronizeHelper
 ) {
     operator fun invoke(unit: Unit) : ResponseData {
         var response = ResponseData(false, "Có lỗi xảy ra")
@@ -22,7 +24,10 @@ class CreateUnitUseCase @Inject constructor(
         unit.CreatedDate = LocalDateTime.now()
 
         response.isSuccess = repository.createUnit(unit)
-        if (response.isSuccess) response.message = null
+        if (response.isSuccess) {
+            response.message = null
+            syncHelper.insertSync("Unit", unit.UnitID)
+        }
         return response
     }
 }

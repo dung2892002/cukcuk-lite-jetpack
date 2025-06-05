@@ -1,6 +1,7 @@
 package com.example.cukcuk.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,144 +36,150 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.cukcuk.R
 
-@Composable
-fun CukcukDialogContent(
-    title: String,
-    message: AnnotatedString? = null,
-    valueTextField: String? = null,
-    onConfirm: () -> Unit,
-    onCancel: () -> Unit,
-    confirmButtonText: String,
-    cancelButtonText: String,
-    onValueChange: ((String) -> Unit)? = null
-) {
-    Surface(
-        shape = RoundedCornerShape(2.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Gray)
-    ) {
-        Column(
-            Modifier.background(Color.LightGray)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(colorResource(R.color.main_color))
-                    .padding(start = 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    modifier = Modifier.wrapContentHeight()
-                )
-
-                Icon(
-                    painter = painterResource(R.drawable.quit_icon),
-                    contentDescription = "Close",
-                    tint = Color.Unspecified,
-                    modifier = Modifier
-                        .combinedClickable(onClick = onCancel)
-                        .padding(10.dp)
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-                    .padding(10.dp)
-                    .heightIn(min = 60.dp),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                if (valueTextField == null) {
-                    Text(
-                        text = message!!,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-
-                else {
-                    BasicTextField(
-                        value = valueTextField,
-                        onValueChange =  onValueChange!!,
-                        maxLines = 1,
-                        textStyle = LocalTextStyle.current.copy(
-                            color = Color.Black,
-                            fontSize = 18.sp
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp),
-                        decorationBox = { innerTextField ->
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.CenterStart
-                            ) {
-                                innerTextField()
-                            }
-                        },
-                        cursorBrush = SolidColor(Color.Black),
-                        keyboardOptions = KeyboardOptions.Default
-                    )
-                }
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.End)
-            ) {
-
-                Spacer(modifier = Modifier.weight(3f))
-
-                CukcukButton(
-                    title = cancelButtonText,
-                    bgColor = Color.White,
-                    textColor = Color.Red,
-                    onClick = onCancel,
-                    modifier = Modifier.weight(2f)
-                )
-
-                CukcukButton(
-                    title = confirmButtonText,
-                    bgColor = colorResource(R.color.main_color),
-                    textColor = Color.White,
-                    onClick = onConfirm,
-                    modifier = Modifier.weight(2f)
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun CukcukDialog(
     title: String,
     message: AnnotatedString? = null,
-    valueTextField: String?,
+    valueTextField: String? = null,
+    placeHolderValue: String? = null,
+    colorBorderTextField: Color? = null,
     onConfirm: () -> Unit,
     onCancel: () -> Unit,
     confirmButtonText: String,
-    cancelButtonText: String,
-    onValueChange: ((String) -> Unit)? = null
+    cancelButtonText: String? = null,
+    onValueChange: ((String) -> Unit)? = null,
+    buttonTextSize: Int = 16
 ) {
     Dialog(onDismissRequest = onCancel) {
-        CukcukDialogContent(
-            title = title,
-            message = message,
-            valueTextField = valueTextField,
-            onConfirm = onConfirm,
-            onCancel = onCancel,
-            confirmButtonText = confirmButtonText,
-            cancelButtonText = cancelButtonText,
-            onValueChange = onValueChange
-        )
+        Surface(
+            shape = RoundedCornerShape(2.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Gray)
+        ) {
+            Column(
+                Modifier.background(Color.LightGray)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(colorResource(R.color.main_color))
+                        .padding(start = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        modifier = Modifier.wrapContentHeight()
+                    )
+
+                    Icon(
+                        painter = painterResource(R.drawable.quit_icon),
+                        contentDescription = "Close",
+                        tint = Color.Unspecified,
+                        modifier = Modifier
+                            .combinedClickable(onClick = onCancel)
+                            .padding(10.dp)
+                    )
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                        .padding(10.dp)
+                        .heightIn(min = 60.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    if (message != null) {
+                        Text(
+                            text = message,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+
+                    if (valueTextField != null) {
+
+                        BasicTextField(
+                            value = valueTextField,
+                            onValueChange = {
+                                onValueChange?.invoke(it)
+                            },
+                            maxLines = 1,
+                            textStyle = LocalTextStyle.current.copy(
+                                color = Color.Black,
+                                fontSize = 16.sp
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(48.dp)
+                                .border(
+                                    width =  1.dp,
+                                    color = colorBorderTextField ?: Color.Transparent,
+                                    shape = RoundedCornerShape(4.dp)
+                                )
+                                .padding(horizontal = 10.dp),
+                            decorationBox = { innerTextField ->
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    contentAlignment = Alignment.CenterStart
+                                ) {
+                                    if (valueTextField.isEmpty() && placeHolderValue!=null) {
+                                        Text(
+                                            text = placeHolderValue,
+                                            color = Color.Gray,
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                    innerTextField()
+                                }
+                            },
+                            cursorBrush = SolidColor(colorResource(R.color.main_color)),
+                            keyboardOptions = KeyboardOptions.Default
+                        )
+                    }
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = colorResource(R.color.dialog_footer_color)
+                        )
+                        .padding(horizontal = 10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.End)
+                ) {
+
+                    Spacer(modifier = Modifier.weight(3f))
+
+                    if (cancelButtonText != null) {
+                        CukcukButton(
+                            title = cancelButtonText,
+                            bgColor = Color.White,
+                            textColor = Color.Red,
+                            onClick = onCancel,
+                            modifier = Modifier.weight(2f),
+                            fontSize = buttonTextSize
+                        )
+                    } else Spacer(modifier = Modifier.weight(2f))
+
+                    CukcukButton(
+                        title = confirmButtonText,
+                        bgColor = colorResource(R.color.main_color),
+                        textColor = Color.White,
+                        onClick = onConfirm,
+                        modifier = Modifier.weight(2f),
+                        fontSize = buttonTextSize
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -183,13 +190,13 @@ fun CukcukDialog(
 fun PreviewCukcukDialogContent() {
 
     MaterialTheme {
-        CukcukDialogContent(
+        CukcukDialog(
             title = "Xác nhận xóa",
             message = null,
             valueTextField = null,
             onConfirm = {},
             onCancel = {},
-            confirmButtonText = "CÓ ",
+            confirmButtonText = "CÓ",
             cancelButtonText = "KHÔNG",
             onValueChange = {it -> println(it)}
         )

@@ -23,12 +23,13 @@ fun CukcukTextBox(
     colorRes: Color? = null,
     textValue: String = "",
     size: Int = 48,
+    roundedSize : Int = size / 2,
     color: String? = null
 ) {
     Box(
         modifier = Modifier
             .size(size.dp)
-            .clip(RoundedCornerShape((size / 2).dp))
+            .clip(RoundedCornerShape(roundedSize.dp))
             .background(
                 color = if (color != null) ImageHelper.parseColor(color) else colorRes!!
             ),

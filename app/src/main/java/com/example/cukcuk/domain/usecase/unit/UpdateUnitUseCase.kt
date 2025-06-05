@@ -3,11 +3,13 @@ package com.example.cukcuk.domain.usecase.unit
 import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Unit
 import com.example.cukcuk.domain.repository.UnitRepository
+import com.example.cukcuk.utils.SynchronizeHelper
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class UpdateUnitUseCase @Inject constructor(
-    private val repository: UnitRepository
+    private val repository: UnitRepository,
+    private val syncHelper: SynchronizeHelper
 ) {
 
     operator fun invoke(unit: Unit) : ResponseData {
@@ -21,7 +23,10 @@ class UpdateUnitUseCase @Inject constructor(
         unit.ModifiedDate = LocalDateTime.now()
 
         response.isSuccess = repository.updateUnit(unit)
-        if (response.isSuccess) response.message = null
+        if (response.isSuccess) {
+            response.message = null
+            syncHelper.updateSync("Unit", unit.UnitID)
+        }
         return response
     }
 }

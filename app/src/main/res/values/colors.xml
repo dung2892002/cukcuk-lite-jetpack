@@ -18,4 +18,15 @@
     <color name="line_data_color">#4CAF50</color>"
     <color name="dollar_icon_color">#FF9800</color>
     <color name="unit_selected">#4CAF50</color>
+    <color name="bg_sync_count">#FF0000</color>
+    <color name="dialog_footer_color">#E7E7E7</color>
+
+    <color name="button_login_facebook">#154EF8</color>
+    <color name="button_login_facebook_icon">#00258E</color>
+    <color name="button_login_google">#F82323</color>
+    <color name="button_login_google_icon">#A90000</color>
+    <color name="button_login_account">#29D1C2</color>
+    <color name="button_login_account_icon">#00B4A3</color>
+
+    <color name="button_login">#001CAD</color>
 </resources>

@@ -35,22 +35,27 @@ enum class NavItemGroup(
 enum class NavItem(
     val label: String,
     val iconResId: Int,
+    val route: String = "null"
 ){
     SynchronizeData(
         label = "Đồng bộ dữ liệu",
-        iconResId = R.drawable.ic_nav_sync_data
+        iconResId = R.drawable.ic_nav_sync_data,
+        route = "synchronize"
     ),
     Setting(
         label = "Thiết lập",
-        iconResId = R.drawable.ic_nav_setting
+        iconResId = R.drawable.ic_nav_setting,
+        route = "setting",
     ),
     LinkAccount(
         label = "Liên kết tài khoản",
-        iconResId = R.drawable.ic_nav_link_account
+        iconResId = R.drawable.ic_nav_link_account,
+        route = "link_account"
     ),
     Notification(
         label = "Thông báo",
-        iconResId = R.drawable.ic_nav_notification
+        iconResId = R.drawable.ic_nav_notification,
+        route = "notification"
     ),
     SharedWithFriend(
         label = "Giới thiệu cho bạn",
@@ -62,18 +67,22 @@ enum class NavItem(
     ),
     SuggestApp(
         label = "Góp ý với nhà phát triển",
-        iconResId = R.drawable.ic_nav_suggestion
+        iconResId = R.drawable.ic_nav_suggestion,
+        route = "feedback"
     ),
     AppInfo(
         label = "Thông tin sản phẩm",
-        iconResId = R.drawable.ic_nav_app_info
+        iconResId = R.drawable.ic_nav_app_info,
+        route = "app_info"
     ),
     SetPassword(
         label = "Đặt mật khẩu",
-        iconResId = R.drawable.ic_nav_password
+        iconResId = R.drawable.ic_nav_password,
+        route = "set_password"
     ),
     Logout(
         label = "Đăng xuất",
-        iconResId = R.drawable.ic_nav_logout
+        iconResId = R.drawable.ic_nav_logout,
+        route = "login"
     )
 }
