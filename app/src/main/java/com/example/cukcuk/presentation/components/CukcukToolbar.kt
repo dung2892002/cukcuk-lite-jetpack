@@ -25,7 +25,7 @@ import com.example.cukcuk.presentation.theme.CukcukTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Toolbar(
+fun CukcukToolbar(
     title: String,
     menuTitle: String?,
     hasMenuIcon: Boolean = false,
@@ -90,7 +90,7 @@ fun Toolbar(
 @Composable
 fun ToolbarPreview() {
     CukcukTheme {
-        Toolbar(
+        CukcukToolbar(
             title = "Thống kê",
             menuTitle = null,
             hasMenuIcon = false,

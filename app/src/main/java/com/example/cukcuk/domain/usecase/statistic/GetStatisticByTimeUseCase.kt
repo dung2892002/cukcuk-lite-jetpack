@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetStatisticByTimeUseCase @Inject constructor(
     private val repository: StatisticRepository
 ) {
-    operator fun invoke(state: StateStatistic): List<StatisticByTime>? {
+    suspend operator fun invoke(state: StateStatistic): List<StatisticByTime>? {
         return when(state) {
             StateStatistic.ThisWeek -> repository.getDailyStatisticOfWeek(state.timeRange!!.first, state.timeRange!!.second)
             StateStatistic.ThisMonth -> repository.getDailyStatisticOfMonth(state.timeRange!!.first, state.timeRange!!.second)

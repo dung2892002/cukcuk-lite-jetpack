@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetUnitDetailUseCase @Inject constructor(
     private val repository: UnitRepository
 ) {
-    operator fun invoke(unitId: UUID): Unit {
+    suspend operator fun invoke(unitId: UUID): Unit {
         return repository.getUnitByID(unitId)
     }
 

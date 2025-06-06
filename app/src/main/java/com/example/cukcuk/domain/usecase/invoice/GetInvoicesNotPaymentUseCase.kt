@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetInvoicesNotPaymentUseCase @Inject constructor(
     private val repository: InvoiceRepository
 ) {
-    operator fun invoke() : List<Invoice> {
+    suspend operator fun invoke() : List<Invoice> {
         return repository.getListInvoiceNotPayment()
     }
 }

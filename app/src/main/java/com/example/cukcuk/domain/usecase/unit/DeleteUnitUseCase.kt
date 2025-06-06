@@ -10,7 +10,7 @@ class DeleteUnitUseCase @Inject constructor(
     private val repository: UnitRepository,
     private val syncHelper: SynchronizeHelper
 ){
-    operator fun invoke(unit: Unit) : ResponseData {
+    suspend operator fun invoke(unit: Unit) : ResponseData {
         var response = ResponseData(false, "Có lỗi xảy ra")
 
         response.isSuccess = !repository.checkUseByInventory(unit.UnitID!!)

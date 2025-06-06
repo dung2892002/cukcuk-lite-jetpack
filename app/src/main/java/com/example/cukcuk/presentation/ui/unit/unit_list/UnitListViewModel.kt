@@ -45,17 +45,17 @@ class UnitListViewModel @Inject constructor(
 
 
     init {
-        loadUnits()
-        val currentUnitId = savedStateHandle.get<String>("currentUnitId")?.let { UUID.fromString(it) }
-        findUnitSelected(currentUnitId)
+        viewModelScope.launch {
+            loadUnits()
+            val currentUnitId = savedStateHandle.get<String>("currentUnitId")?.let { UUID.fromString(it) }
+            findUnitSelected(currentUnitId)
+        }
     }
 
-    private fun loadUnits() {
-        viewModelScope.launch {
-            val data = getAllUnitUseCase()
-            _units.value = data
-            _unitUpdate.value = null
-        }
+    private suspend fun loadUnits() {
+        val data = getAllUnitUseCase()
+        _units.value = data
+        _unitUpdate.value = null
     }
 
     fun findUnitSelected(unitId: UUID?) {
@@ -68,12 +68,14 @@ class UnitListViewModel @Inject constructor(
 
 
     fun deleteUnit() {
-        val response = deleteUnitUseCase(_unitUpdate.value!!)
-        setErrorMessage(response.message)
-        if (response.isSuccess) {
-            if (_unitUpdate.value?.UnitID == _unitSelected.value?.UnitID)
-                _unitSelected.value = null
-            closeFormAndDialog(true)
+        viewModelScope.launch {
+            val response = deleteUnitUseCase(_unitUpdate.value!!)
+            setErrorMessage(response.message)
+            if (response.isSuccess) {
+                if (_unitUpdate.value?.UnitID == _unitSelected.value?.UnitID)
+                    _unitSelected.value = null
+                closeFormAndDialog(true)
+            }
         }
     }
 
@@ -84,11 +86,13 @@ class UnitListViewModel @Inject constructor(
     }
 
     fun closeFormAndDialog(reload: Boolean) {
-        _unitUpdate.value = null
-        _isFormOpen.value = false
-        _isOpenDialogDelete.value = false
+        viewModelScope.launch {
+            _unitUpdate.value = null
+            _isFormOpen.value = false
+            _isOpenDialogDelete.value = false
 
-        if(reload) loadUnits()
+            if(reload) loadUnits()
+        }
     }
 
     fun openDialogDelete(unit: Unit) {

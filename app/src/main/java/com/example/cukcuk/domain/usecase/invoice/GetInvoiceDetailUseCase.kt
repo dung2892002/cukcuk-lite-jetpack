@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetInvoiceDetailUseCase @Inject constructor(
     private val repository: InvoiceRepository
 ) {
-    operator fun invoke(invoiceId: UUID) : Invoice {
+    suspend operator fun invoke(invoiceId: UUID) : Invoice {
         return repository.getInvoiceById(invoiceId) ?: Invoice()
     }
 }

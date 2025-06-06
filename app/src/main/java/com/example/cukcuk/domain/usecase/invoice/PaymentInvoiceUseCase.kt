@@ -10,7 +10,7 @@ class PaymentInvoiceUseCase @Inject constructor(
     private val repository: InvoiceRepository,
     private val syncHelper: SynchronizeHelper
 ){
-    operator fun invoke(invoice: Invoice) : ResponseData {
+    suspend operator fun invoke(invoice: Invoice) : ResponseData {
         var response = ResponseData(false, "Có lỗi xảy ra")
 
         response.isSuccess = repository.paymentInvoice(invoice)

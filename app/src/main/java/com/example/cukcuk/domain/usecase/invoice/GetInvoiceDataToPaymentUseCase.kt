@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetInvoiceDataToPaymentUseCase @Inject constructor(
     private val repository: InvoiceRepository
 ) {
-    operator fun invoke(invoiceId: UUID) : Invoice {
+    suspend operator fun invoke(invoiceId: UUID) : Invoice {
         val invoice = repository.getInvoiceById(invoiceId) ?: Invoice()
         invoice.InvoiceNo = repository.getNewInvoiceNo()
         invoice.InvoiceDate = LocalDateTime.now()

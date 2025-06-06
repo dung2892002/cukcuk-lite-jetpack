@@ -30,8 +30,10 @@ class UnitFormViewModel @Inject constructor(
     val isShowForm: State<Boolean> = _isShowForm
 
     fun fetchUnitDetail(unitId: UUID) {
-        val fetchedUnit = getUnitDetailUseCase(unitId)
-        _unit.value = fetchedUnit
+        viewModelScope.launch {
+            val fetchedUnit = getUnitDetailUseCase(unitId)
+            _unit.value = fetchedUnit
+        }
     }
 
     fun submitForm() {

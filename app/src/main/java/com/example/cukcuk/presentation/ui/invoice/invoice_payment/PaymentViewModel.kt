@@ -5,11 +5,13 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.usecase.invoice.GetInvoiceDataToPaymentUseCase
 import com.example.cukcuk.domain.usecase.invoice.PaymentInvoiceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
@@ -40,8 +42,10 @@ class PaymentViewModel @Inject constructor(
     }
 
     fun loadData(invoiceId: UUID) {
-        _invoice.value = getInvoiceDataToPaymentUseCase(invoiceId)
-        _invoiceDetailsCount.intValue = _invoice.value.InvoiceDetails.size
+        viewModelScope.launch {
+            _invoice.value = getInvoiceDataToPaymentUseCase(invoiceId)
+            _invoiceDetailsCount.intValue = _invoice.value.InvoiceDetails.size
+        }
     }
 
     fun updateAmount(receiveMoney: Double) {
@@ -52,7 +56,7 @@ class PaymentViewModel @Inject constructor(
         closeCalculator()
     }
 
-    fun paymentInvoice(): ResponseData {
+    suspend fun paymentInvoice(): ResponseData {
         val response = paymentInvoiceUseCase(_invoice.value)
         return response
     }

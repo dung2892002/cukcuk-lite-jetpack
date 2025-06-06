@@ -12,7 +12,7 @@ class UpdateUnitUseCase @Inject constructor(
     private val syncHelper: SynchronizeHelper
 ) {
 
-    operator fun invoke(unit: Unit) : ResponseData {
+    suspend operator fun invoke(unit: Unit) : ResponseData {
         var response = ResponseData(false, "Có lỗi xảy ra")
         response.isSuccess = !repository.checkExistUnitName(unit.UnitName.trim(), unit.UnitID)
         if (!response.isSuccess) {
@@ -23,6 +23,7 @@ class UpdateUnitUseCase @Inject constructor(
         unit.ModifiedDate = LocalDateTime.now()
 
         response.isSuccess = repository.updateUnit(unit)
+
         if (response.isSuccess) {
             response.message = null
             syncHelper.updateSync("Unit", unit.UnitID)

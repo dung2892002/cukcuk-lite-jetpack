@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetCountSyncUseCase @Inject constructor(
     private val repository: SynchronizeRepository
 ) {
-    operator fun invoke(): Int {
+    suspend operator fun invoke(): Int {
         return repository.countSync()
     }
 }

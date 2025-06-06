@@ -10,15 +10,15 @@ class DeleteInvoiceUseCase @Inject constructor(
     private val repository: InvoiceRepository,
     private val syncHelper: SynchronizeHelper
 ) {
-    operator fun invoke(invoice: Invoice) : ResponseData {
+    suspend operator fun invoke(invoice: Invoice) : ResponseData {
         val response = ResponseData(false, "Có lỗi xảy ra")
 
         val invoicesDetail = repository.getListInvoicesDetail(invoice.InvoiceID!!)
         response.isSuccess =  repository.deleteInvoice(invoice.InvoiceID.toString())
         if (response.isSuccess) {
             response.message = null
-            syncHelper.deleteSync("Invoice", invoice.InvoiceID)
             syncHelper.deleteInvoiceDetail(invoicesDetail)
+            syncHelper.deleteSync("Invoice", invoice.InvoiceID)
         }
 
         return response

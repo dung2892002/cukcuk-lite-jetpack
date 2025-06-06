@@ -8,7 +8,7 @@ class GetStatisticOverviewUseCase @Inject constructor(
     private val repository: StatisticRepository
 ) {
 
-    operator fun invoke() : List<StatisticOverview> {
+    suspend operator fun invoke() : List<StatisticOverview> {
         return repository.getStatisticOverview()
     }
 }

@@ -9,27 +9,27 @@ import javax.inject.Inject
 class InventoryRepositoryImpl @Inject constructor(
     private val dao: InventoryDao
 ) : InventoryRepository {
-    override fun getAllInventory(): List<Inventory> {
+    override suspend fun getAllInventory(): List<Inventory> {
         return dao.getAllInventory()
     }
 
-    override fun getInventoryById(inventoryID: UUID): Inventory {
+     override suspend fun getInventoryById(inventoryID: UUID): Inventory {
         return dao.getInventoryById(inventoryID)!!
     }
 
-    override fun createInventory(inventory: Inventory): Boolean {
+    override suspend fun createInventory(inventory: Inventory): Boolean {
         return dao.createInventory(inventory)
     }
 
-    override fun updateInventory(inventory: Inventory): Boolean {
+    override suspend fun updateInventory(inventory: Inventory): Boolean {
         return dao.updateInventory(inventory)
     }
 
-    override fun deleteInventory(inventoryId: UUID): Boolean {
+    override suspend fun deleteInventory(inventoryId: UUID): Boolean {
         return dao.deleteInventory(inventoryId)
     }
 
-    override fun checkInventoryIsInInvoice(inventory: Inventory): Boolean {
+    override suspend fun checkInventoryIsInInvoice(inventory: Inventory): Boolean {
         return dao.checkInventoryIsInInvoice(inventory)
     }
 }

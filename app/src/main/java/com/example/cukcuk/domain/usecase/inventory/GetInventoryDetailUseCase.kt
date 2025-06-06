@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetInventoryDetailUseCase @Inject constructor(
     private val repository: InventoryRepository
 ){
-    operator fun invoke(inventoryId: UUID): Inventory {
+    suspend operator fun invoke(inventoryId: UUID): Inventory {
         return repository.getInventoryById(inventoryId)
     }
 

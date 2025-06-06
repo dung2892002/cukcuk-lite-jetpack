@@ -11,39 +11,39 @@ import javax.inject.Inject
 class InvoiceRepositoryImpl @Inject constructor(
     private val dao: InvoiceDao
 ) : InvoiceRepository {
-    override fun getNewInvoiceNo(): String {
+    override suspend fun getNewInvoiceNo(): String {
         return dao.getNewInvoiceNo()
     }
 
-    override fun getListInvoiceNotPayment(): MutableList<Invoice> {
+    override suspend fun getListInvoiceNotPayment(): MutableList<Invoice> {
         return dao.getListInvoiceNotPayment()
     }
 
-    override fun getListInvoicesDetail(invoiceId: UUID): MutableList<InvoiceDetail> {
+    override suspend fun getListInvoicesDetail(invoiceId: UUID): MutableList<InvoiceDetail> {
         return dao.getListInvoicesDetail(invoiceId)
     }
 
-    override fun deleteInvoice(invoiceId: String): Boolean {
+    override suspend fun deleteInvoice(invoiceId: String): Boolean {
         return dao.deleteInvoice(invoiceId)
     }
 
-    override fun getInvoiceById(invoiceId: UUID): Invoice? {
+    override suspend fun getInvoiceById(invoiceId: UUID): Invoice? {
         return dao.getInvoiceById(invoiceId)
     }
 
-    override fun getInvoiceDetailById(invoiceDetailId: UUID): InvoiceDetail? {
+    override suspend fun getInvoiceDetailById(invoiceDetailId: UUID): InvoiceDetail? {
         return dao.getInvoiceDetailById(invoiceDetailId)
     }
 
-    override fun getAllInventoryInactive(): MutableList<Inventory> {
+    override suspend fun getAllInventoryInactive(): MutableList<Inventory> {
         return dao.getAllInventoryInactive()
     }
 
-    override fun createInvoice(invoice: Invoice): Boolean {
+    override suspend fun createInvoice(invoice: Invoice): Boolean {
         return dao.createInvoice(invoice)
     }
 
-    override fun updateInvoice(
+    override suspend fun updateInvoice(
         invoice: Invoice,
         newsDetail: MutableList<InvoiceDetail>,
         updatesDetail: MutableList<InvoiceDetail>,
@@ -52,7 +52,7 @@ class InvoiceRepositoryImpl @Inject constructor(
         return dao.updateInvoice(invoice, newsDetail, updatesDetail, deletesDetail)
     }
 
-    override fun paymentInvoice(invoice: Invoice): Boolean {
+    override suspend fun paymentInvoice(invoice: Invoice): Boolean {
         return dao.paymentInvoice(invoice)
     }
 }

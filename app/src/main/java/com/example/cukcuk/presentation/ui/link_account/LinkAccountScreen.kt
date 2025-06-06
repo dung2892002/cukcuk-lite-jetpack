@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.navigation.NavHostController
 import com.example.cukcuk.R
-import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.components.CukcukToolbar
 
 @Composable
 fun LinkAccountScreen(
@@ -18,7 +18,7 @@ fun LinkAccountScreen(
 ) {
     Scaffold(
         topBar = {
-            Toolbar(
+            CukcukToolbar(
                 title = "Liên kết tài khoản",
                 menuTitle = null,
                 onBackClick = { navController.popBackStack() },

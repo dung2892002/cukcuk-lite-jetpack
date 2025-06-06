@@ -14,6 +14,8 @@ import com.example.cukcuk.utils.getInt
 import com.example.cukcuk.utils.getString
 import com.example.cukcuk.utils.getUUID
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
@@ -24,7 +26,7 @@ class InvoiceDao  @Inject constructor(
     private val db: SQLiteDatabase by lazy {
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)
     }
-    fun getNewInvoiceNo() : String {
+    suspend fun getNewInvoiceNo() : String = withContext(Dispatchers.IO) {
         var count = 0
         val query = """
             SELECT COUNT(*) FROM Invoice WHERE PaymentStatus = 1
@@ -44,10 +46,10 @@ class InvoiceDao  @Inject constructor(
             cursor?.close()
         }
 
-        return String.format(Locale.US, "%05d", count + 1)
+        String.format(Locale.US, "%05d", count + 1)
     }
 
-    fun getListInvoiceNotPayment() : MutableList<Invoice> {
+    suspend fun getListInvoiceNotPayment() : MutableList<Invoice> = withContext(Dispatchers.IO) {
         val invoices = mutableListOf<Invoice>()
         val query = """
             SELECT InvoiceID, InvoiceDate, Amount, NumberOfPeople, TableName, ListItemName, InvoiceDate, ReceiveAmount
@@ -80,10 +82,10 @@ class InvoiceDao  @Inject constructor(
         finally {
             cursor?.close()
         }
-        return invoices
+        invoices
     }
 
-    fun getListInvoicesDetail(invoiceId: UUID) : MutableList<InvoiceDetail> {
+    suspend fun getListInvoicesDetail(invoiceId: UUID) : MutableList<InvoiceDetail> = withContext(Dispatchers.IO) {
         val invoicesDetail = mutableListOf<InvoiceDetail>()
         val query = """
             SELECT 
@@ -121,11 +123,11 @@ class InvoiceDao  @Inject constructor(
         finally {
             cursor?.close()
         }
-        return invoicesDetail
+        invoicesDetail
     }
 
-    fun deleteInvoice(invoiceId: String) : Boolean {
-        return try {
+    suspend fun deleteInvoice(invoiceId: String) : Boolean = withContext(Dispatchers.IO){
+         try {
             db.beginTransaction()
             db.delete(
                 "InvoiceDetail",
@@ -149,7 +151,7 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-    fun getInvoiceById(invoiceId: UUID): Invoice? {
+    suspend fun getInvoiceById(invoiceId: UUID): Invoice? = withContext(Dispatchers.IO) {
         var invoice: Invoice? = null
         val invoiceQuery = "SELECT * FROM Invoice WHERE InvoiceID = ?"
         val cursor = db.rawQuery(invoiceQuery, arrayOf(invoiceId.toString()))
@@ -204,10 +206,10 @@ class InvoiceDao  @Inject constructor(
             }
             detailCursor.close()
         }
-        return invoice
+        invoice
     }
 
-    fun getInvoiceDetailById(invoiceDetailId: UUID): InvoiceDetail? {
+    suspend fun getInvoiceDetailById(invoiceDetailId: UUID): InvoiceDetail? = withContext(Dispatchers.IO) {
         var invoiceDetail: InvoiceDetail? = null
         val invoiceQuery = "SELECT * FROM InvoiceDetail WHERE InvoiceDetailID = ?"
         var cursor: Cursor? = null
@@ -243,13 +245,10 @@ class InvoiceDao  @Inject constructor(
             cursor?.close()
         }
 
-
-
-
-        return invoiceDetail
+        invoiceDetail
     }
 
-    fun getAllInventoryInactive() : MutableList<Inventory> {
+    suspend fun getAllInventoryInactive() : MutableList<Inventory>  = withContext(Dispatchers.IO) {
         val query =""" 
             SELECT 
                 i.InventoryID, i.InventoryName, i.Price,
@@ -288,11 +287,11 @@ class InvoiceDao  @Inject constructor(
         finally {
             cursor?.close()
         }
-        return inventoryList
+        inventoryList
     }
 
-    fun createInvoice(invoice: Invoice): Boolean {
-        return try {
+    suspend fun createInvoice(invoice: Invoice): Boolean  = withContext(Dispatchers.IO){
+        try {
             db.beginTransaction()
             insertInvoice(invoice)
             insertInvoiceDetailRange(invoice.InvoiceDetails)
@@ -307,11 +306,11 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-    fun updateInvoice(invoice: Invoice,
+    suspend fun updateInvoice(invoice: Invoice,
                       newsDetail: MutableList<InvoiceDetail>,
                       updatesDetail: MutableList<InvoiceDetail>,
-                      deletesDetail: MutableList<InvoiceDetail>): Boolean {
-        return try {
+                      deletesDetail: MutableList<InvoiceDetail>): Boolean = withContext(Dispatchers.IO){
+        try {
             db.beginTransaction()
             updateInvoiceOnly(invoice)
             insertInvoiceDetailRange(newsDetail)
@@ -329,8 +328,8 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-    fun paymentInvoice(invoice: Invoice): Boolean {
-        return try {
+    suspend fun paymentInvoice(invoice: Invoice): Boolean = withContext(Dispatchers.IO) {
+        try {
             db.beginTransaction()
             val values = ContentValues().apply {
                 put("InvoiceDate", invoice.InvoiceDate.toString())
@@ -354,8 +353,7 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-
-    private fun insertInvoice(invoice: Invoice) {
+    private suspend fun insertInvoice(invoice: Invoice) = withContext(Dispatchers.IO) {
         val values = ContentValues().apply {
             put("InvoiceID", invoice.InvoiceID.toString())
             put("InvoiceType", invoice.InvoiceType)
@@ -378,7 +376,7 @@ class InvoiceDao  @Inject constructor(
         db.insert("Invoice", null, values)
     }
 
-    private fun insertInvoiceDetailRange(details: List<InvoiceDetail>) {
+    private suspend fun insertInvoiceDetailRange(details: List<InvoiceDetail>) = withContext(Dispatchers.IO) {
         for (detail in details) {
             val values = ContentValues().apply {
                 put("InvoiceDetailID", detail.InvoiceDetailID.toString())
@@ -403,7 +401,7 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-    private fun updateInvoiceOnly(invoice: Invoice) {
+    private suspend fun updateInvoiceOnly(invoice: Invoice) = withContext(Dispatchers.IO) {
         val values = ContentValues().apply {
             put("InvoiceType", invoice.InvoiceType)
             put("InvoiceNo", invoice.InvoiceNo)
@@ -429,7 +427,7 @@ class InvoiceDao  @Inject constructor(
         )
     }
 
-    private fun updateInvoiceDetailRange(details: List<InvoiceDetail>) {
+    private suspend fun updateInvoiceDetailRange(details: List<InvoiceDetail>) = withContext(Dispatchers.IO) {
         val sql = """
         UPDATE InvoiceDetail SET
             InvoiceDetailType = ?,
@@ -479,7 +477,7 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-    private fun deleteInvoiceDetailRange(detailIds: List<UUID>) {
+    private suspend fun deleteInvoiceDetailRange(detailIds: List<UUID>) = withContext(Dispatchers.IO) {
         val sql = "DELETE FROM InvoiceDetail WHERE InvoiceDetailID = ?"
         val statement = db.compileStatement(sql)
 
@@ -498,5 +496,4 @@ class InvoiceDao  @Inject constructor(
             db.endTransaction()
         }
     }
-
 }

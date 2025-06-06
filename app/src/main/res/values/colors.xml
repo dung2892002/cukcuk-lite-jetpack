@@ -29,4 +29,5 @@
     <color name="button_login_account_icon">#00B4A3</color>
 
     <color name="button_login">#001CAD</color>
+    <color name="inventory_price">#B1B1B1</color>
 </resources>

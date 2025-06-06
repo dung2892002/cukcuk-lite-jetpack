@@ -7,7 +7,7 @@ import javax.inject.Inject
 class UpdateSyncDataUseCase @Inject constructor(
     private val repository: SynchronizeRepository
 ) {
-    operator fun invoke(time: LocalDateTime) {
+    suspend operator fun invoke(time: LocalDateTime) {
         repository.updateLastSyncTime(time)
         repository.deleteAll()
     }

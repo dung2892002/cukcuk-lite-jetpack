@@ -7,10 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.model.Inventory
 import com.example.cukcuk.domain.usecase.inventory.GetInventoryListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,14 +18,14 @@ class InventoryListViewModel @Inject constructor(
     val inventories: State<List<Inventory>> = _inventories
 
     init {
-        loadInventories()
+        viewModelScope.launch {
+            loadInventories()
+        }
     }
 
-    fun loadInventories() {
-        viewModelScope.launch {
-            val data = getInventoryListUseCase.invoke()
-            _inventories.value = data
-        }
+    suspend fun loadInventories() {
+        val data = getInventoryListUseCase.invoke()
+        _inventories.value = data
     }
 
 }

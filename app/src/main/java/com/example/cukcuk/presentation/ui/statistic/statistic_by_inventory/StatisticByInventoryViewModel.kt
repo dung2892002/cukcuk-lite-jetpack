@@ -4,9 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.dtos.StatisticByInventory
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticByInventoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -21,7 +23,9 @@ class StatisticByInventoryViewModel @Inject constructor(
     val totalAmount: State<Double> = _totalAmount
 
     fun handleStatistic(start: LocalDateTime, end: LocalDateTime) {
-        _statisticByInventory.value = getStatisticByInventoryUseCase(start, end)
-        _totalAmount.doubleValue = _statisticByInventory.value.sumOf { it.Amount }
+        viewModelScope.launch {
+            _statisticByInventory.value = getStatisticByInventoryUseCase(start, end)
+            _totalAmount.doubleValue = _statisticByInventory.value.sumOf { it.Amount }
+        }
     }
 }

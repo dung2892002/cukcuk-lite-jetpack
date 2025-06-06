@@ -8,16 +8,16 @@ import javax.inject.Inject
 class SynchronizeHelper @Inject constructor(
     private val syncRepository: SynchronizeRepository
 ) {
-    fun insertSync(tableName: String, objectId: UUID?) {
+    suspend fun insertSync(tableName: String, objectId: UUID?) {
         syncRepository.create(tableName, objectId!!, 0)
     }
 
-    fun updateSync(tableName: String, objectId: UUID?) {
+    suspend fun updateSync(tableName: String, objectId: UUID?) {
         val existingSyncId = syncRepository.getExistingSyncIdForCreateNewOrUpdate(tableName, objectId!!)
         if (existingSyncId == null) syncRepository.create(tableName, objectId, 1)
     }
 
-    fun deleteSync(tableName: String, objectId: UUID?) {
+    suspend fun deleteSync(tableName: String, objectId: UUID?) {
 
         val existingSyncId = syncRepository.getExistingSyncIdForCreateNew(tableName, objectId!!)
 
@@ -28,7 +28,7 @@ class SynchronizeHelper @Inject constructor(
         }
     }
 
-    fun deleteSyncRange(tableName: String, objectIds: List<UUID>) {
+    suspend fun deleteSyncRange(tableName: String, objectIds: List<UUID>) {
         val toDelete = mutableListOf<UUID>()
         val toCreate = mutableListOf<UUID>()
 
@@ -51,17 +51,17 @@ class SynchronizeHelper @Inject constructor(
         }
     }
 
-    fun createInvoiceDetail(details: MutableList<InvoiceDetail>){
+    suspend fun createInvoiceDetail(details: MutableList<InvoiceDetail>){
         val ids = details.mapNotNull { it.InvoiceDetailID }
         syncRepository.createRange("InvoiceDetail", ids, 0)
     }
 
-    fun deleteInvoiceDetail(details: List<InvoiceDetail>) {
+    suspend fun deleteInvoiceDetail(details: List<InvoiceDetail>) {
         val ids = details.mapNotNull { it.InvoiceDetailID }
         deleteSyncRange("InvoiceDetail", ids)
     }
 
-    fun updateInvoiceDetail(details: List<InvoiceDetail>) {
+    suspend fun updateInvoiceDetail(details: List<InvoiceDetail>) {
         val ids = details.mapNotNull { it.InvoiceDetailID }
         val existingIds = syncRepository.getExistingSyncIdsForCreateNewOrUpdate("InvoiceDetail", ids)
 

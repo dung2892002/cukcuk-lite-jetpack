@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetStatisticByInventoryUseCase @Inject constructor(
     private val repository: StatisticRepository
 ) {
-    operator fun invoke(start: LocalDateTime, end: LocalDateTime): List<StatisticByInventory> {
+    suspend operator fun invoke(start: LocalDateTime, end: LocalDateTime): List<StatisticByInventory> {
         return repository.getStatisticByInventory(start, end)
     }
 }

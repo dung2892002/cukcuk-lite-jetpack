@@ -15,7 +15,7 @@ class CreateInvoiceUseCase @Inject constructor(
     private val repository: InvoiceRepository,
     private val syncHelper: SynchronizeHelper
 ) {
-    operator fun invoke(invoice: Invoice,
+    suspend operator fun invoke(invoice: Invoice,
                         inventoriesSelect: List<InventorySelect>) : ResponseData {
         var response = ResponseData(false, "Có lỗi xảy ra")
 

@@ -10,6 +10,8 @@ import com.example.cukcuk.utils.getDateTime
 import com.example.cukcuk.utils.getString
 import com.example.cukcuk.utils.getUUID
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
 
@@ -20,7 +22,7 @@ class UnitDao @Inject constructor(
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)
     }
 
-    fun checkUseByInventory(unitId: UUID) : Boolean {
+    suspend fun checkUseByInventory(unitId: UUID) : Boolean = withContext(Dispatchers.IO) {
         val query = """
             SELECT 1 FROM Inventory i WHERE i.UnitID = ? LIMIT 1
         """.trimIndent()
@@ -38,10 +40,10 @@ class UnitDao @Inject constructor(
             cursor?.close()
         }
 
-        return exists
+        exists
     }
 
-    fun checkExistUnitName(name: String, unitId: UUID?): Boolean {
+    suspend fun checkExistUnitName(name: String, unitId: UUID?): Boolean = withContext(Dispatchers.IO) {
         val query: String
         val args: Array<String>
 
@@ -73,10 +75,10 @@ class UnitDao @Inject constructor(
             cursor?.close()
         }
 
-        return exists
+        exists
     }
 
-    fun getAllUnit() : List<Unit> {
+    suspend fun getAllUnit() : List<Unit> = withContext(Dispatchers.IO) {
         val units = mutableListOf<Unit>()
 
         val query = """
@@ -107,10 +109,10 @@ class UnitDao @Inject constructor(
         finally {
             cursor?.close()
         }
-        return units.toList()
+        units.toList()
     }
 
-    fun getUnitById(unitId: UUID) : Unit? {
+    suspend fun getUnitById(unitId: UUID) : Unit? = withContext(Dispatchers.IO) {
         var unit : Unit? = null
 
         val query = """
@@ -141,11 +143,11 @@ class UnitDao @Inject constructor(
         finally {
             cursor?.close()
         }
-        return unit
+        unit
     }
 
-    fun createUnit(unit: Unit): Boolean {
-        return try {
+    suspend fun createUnit(unit: Unit): Boolean = withContext(Dispatchers.IO) {
+        try {
             val values = ContentValues().apply {
                 put("UnitID", unit.UnitID?.toString() ?: UUID.randomUUID().toString())
                 put("UnitName", unit.UnitName)
@@ -167,10 +169,10 @@ class UnitDao @Inject constructor(
         }
     }
 
-    fun updateUnit(unit: Unit): Boolean {
-        if (unit.UnitID == null) return false
+    suspend fun updateUnit(unit: Unit): Boolean = withContext(Dispatchers.IO) {
+        if (unit.UnitID == null) false
 
-        return try {
+        try {
             val values = ContentValues().apply {
                 put("UnitName", unit.UnitName)
                 put("Description", unit.Description)
@@ -194,8 +196,8 @@ class UnitDao @Inject constructor(
         }
     }
 
-    fun deleteUnit(unitId: UUID) : Boolean {
-        return try {
+    suspend fun deleteUnit(unitId: UUID) : Boolean = withContext(Dispatchers.IO) {
+        try {
             val result = db.delete(
                 "Unit",
                 "UnitID = ?",

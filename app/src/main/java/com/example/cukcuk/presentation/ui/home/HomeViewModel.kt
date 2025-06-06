@@ -4,9 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.usecase.synchronize.GetCountSyncUseCase
 import com.example.cukcuk.presentation.enums.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +19,7 @@ class HomeViewModel @Inject constructor(
     private val _currentScreen = mutableStateOf(Screen.Sales)
     val currentScreen: State<Screen> = _currentScreen
 
-    private val _title = mutableStateOf("Bán hàng")
+    private val _title = mutableStateOf(Screen.Sales.displayName)
     val title: State<String> = _title
 
     private val _showNavigationBar = mutableStateOf(false)
@@ -28,8 +30,10 @@ class HomeViewModel @Inject constructor(
 
 
     fun openNavigationView() {
-        _showNavigationBar.value = true
-        _countSync.intValue = getCountSyncUseCase()
+        viewModelScope.launch {
+            _countSync.intValue = getCountSyncUseCase()
+            _showNavigationBar.value = true
+        }
     }
 
     fun closeNavigationView() {

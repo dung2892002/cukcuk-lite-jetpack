@@ -18,14 +18,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukButton
 import com.example.cukcuk.presentation.components.CukcukDialog
-import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.components.CukcukToolbar
 import com.example.cukcuk.presentation.ui.unit.unit_form.UnitForm
-import java.util.UUID
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,7 +64,7 @@ fun UnitListScreen(
 
     Scaffold(
         topBar = {
-            Toolbar(
+            CukcukToolbar(
                 title = "Đơn vị tính",
                 menuTitle = null,
                 hasMenuIcon = true,

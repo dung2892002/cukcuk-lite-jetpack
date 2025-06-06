@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.dtos.RequestStatisticByInventory
 import com.example.cukcuk.domain.dtos.StatisticByInventory
 import com.example.cukcuk.domain.dtos.StatisticByTime
@@ -14,6 +15,7 @@ import com.example.cukcuk.domain.usecase.statistic.GetStatisticOverviewUseCase
 import com.example.cukcuk.presentation.enums.LineChartLabels
 import com.example.cukcuk.presentation.enums.StateStatistic
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -102,18 +104,22 @@ class StatisticViewModel @Inject constructor(
     }
 
     fun getStatisticOverview()  {
-        _statisticOverview.value = getStatisticOverviewUseCase()
+        viewModelScope.launch {
+            _statisticOverview.value = getStatisticOverviewUseCase()
+        }
     }
 
     fun getStatisticByTime(state: StateStatistic) {
-        _statisticByTime.value = getStatisticByTimeUseCase(state)!!
-        when(state) {
-            StateStatistic.ThisWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
-            StateStatistic.LastWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
-            StateStatistic.ThisMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
-            StateStatistic.LastMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
-            StateStatistic.ThisYear -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
-            else -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
+        viewModelScope.launch {
+            _statisticByTime.value = getStatisticByTimeUseCase(state)!!
+            when(state) {
+                StateStatistic.ThisWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
+                StateStatistic.LastWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
+                StateStatistic.ThisMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
+                StateStatistic.LastMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
+                StateStatistic.ThisYear -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
+                else -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
+            }
         }
     }
 
@@ -122,8 +128,10 @@ class StatisticViewModel @Inject constructor(
     }
 
     fun getStatisticByInventory(start: LocalDateTime, end: LocalDateTime) {
-        _statisticByInventory.value = getStatisticByInventoryUseCase(start, end)
-        _totalAmount.doubleValue = _statisticByInventory.value.sumOf { it.Amount }
+        viewModelScope.launch {
+            _statisticByInventory.value = getStatisticByInventoryUseCase(start, end)
+            _totalAmount.doubleValue = _statisticByInventory.value.sumOf { it.Amount }
+        }
     }
 
     fun openDialogSelectState() {

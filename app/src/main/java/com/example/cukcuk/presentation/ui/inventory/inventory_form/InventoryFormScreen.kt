@@ -42,7 +42,7 @@ import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukButton
 import com.example.cukcuk.presentation.components.CukcukDialog
 import com.example.cukcuk.presentation.components.CukcukImageBox
-import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.components.CukcukToolbar
 import com.example.cukcuk.presentation.ui.calculator.CalculatorDialog
 import com.example.cukcuk.utils.FormatDisplay
 
@@ -81,7 +81,7 @@ fun InventoryFormScreen(
     Scaffold(
         containerColor = Color.White,
         topBar = {
-            Toolbar(
+            CukcukToolbar(
                 title = if (inventory.InventoryID == null) "Thêm món" else "Sửa món",
                 menuTitle =  "Cất",
                 false,
@@ -305,7 +305,6 @@ fun FormRow(
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Label + Required marker
         FormRowLabel(
             label = label,
             isRequired = isRequired

@@ -8,6 +8,8 @@ import com.example.cukcuk.domain.dtos.StatisticByTime
 import com.example.cukcuk.domain.dtos.StatisticOverview
 import com.example.cukcuk.presentation.enums.StateStatistic
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -22,7 +24,7 @@ class StatisticDao @Inject constructor(
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)
     }
 
-    fun getStatisticOverview(): List<StatisticOverview> {
+    suspend fun getStatisticOverview(): List<StatisticOverview> = withContext(Dispatchers.IO) {
         val result = mutableListOf<StatisticOverview>()
         val query = """
             SELECT 
@@ -97,11 +99,11 @@ class StatisticDao @Inject constructor(
             cursor?.close()
         }
 
-        return result
+        result
     }
 
 
-    fun getDailyStatisticOfWeek(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime): List<StatisticByTime> {
+    suspend fun getDailyStatisticOfWeek(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime): List<StatisticByTime> = withContext(Dispatchers.IO) {
         var totalAmount = 0.0
         val query = """
             SELECT
@@ -163,10 +165,10 @@ class StatisticDao @Inject constructor(
 
         if (totalAmount == 0.0) statistics.clear()
 
-        return statistics
+        statistics
     }
 
-    fun getDailyStatisticOfMonth(start: LocalDateTime, end: LocalDateTime): List<StatisticByTime> {
+    suspend fun getDailyStatisticOfMonth(start: LocalDateTime, end: LocalDateTime): List<StatisticByTime> = withContext(Dispatchers.IO) {
         val startDate = start.toLocalDate()
         val endDate = end.toLocalDate()
 
@@ -219,11 +221,11 @@ class StatisticDao @Inject constructor(
         }
 
         if (totalAmount == 0.0) statistics.clear()
-        return statistics
+        statistics
     }
 
 
-    fun getMonthlyStatistic(start: LocalDateTime, end: LocalDateTime): List<StatisticByTime> {
+    suspend fun getMonthlyStatistic(start: LocalDateTime, end: LocalDateTime): List<StatisticByTime> = withContext(Dispatchers.IO) {
         val startDate = start.toLocalDate()
         val endDate = end.toLocalDate()
         var totalAmount = 0.0
@@ -283,10 +285,10 @@ class StatisticDao @Inject constructor(
         }
 
         if (totalAmount == 0.0) statistics.clear()
-        return statistics
+        statistics
     }
 
-    fun getStatisticByInventory(fromDate: LocalDateTime, toDate: LocalDateTime): List<StatisticByInventory> {
+    suspend fun getStatisticByInventory(fromDate: LocalDateTime, toDate: LocalDateTime): List<StatisticByInventory> = withContext(Dispatchers.IO) {
         val query = """
             SELECT
                 d.InventoryName,
@@ -342,13 +344,13 @@ class StatisticDao @Inject constructor(
 
         if (totalAmount == 0.0) {
             list.clear()
-            return list
+            list
         }
 
         list.forEach {
             it.Percentage = if (totalAmount > 0) (it.Amount / totalAmount * 100.0) else 0.0
         }
 
-        return list
+        list
     }
 }

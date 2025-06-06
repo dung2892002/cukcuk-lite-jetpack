@@ -10,6 +10,8 @@ import com.example.cukcuk.utils.getDouble
 import com.example.cukcuk.utils.getString
 import com.example.cukcuk.utils.getUUID
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
 
@@ -20,7 +22,7 @@ class InventoryDao @Inject constructor(
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)
     }
 
-    fun getAllInventory() : List<Inventory> {
+    suspend fun getAllInventory() : List<Inventory>  = withContext(Dispatchers.IO) {
         val query =""" 
             SELECT 
                 i.InventoryID, i.InventoryName, i.Price,
@@ -62,10 +64,10 @@ class InventoryDao @Inject constructor(
         } finally {
             cursor?.close()
         }
-        return inventoryList
+        inventoryList
     }
 
-    fun getInventoryById(inventoryID: UUID) : Inventory? {
+    suspend fun getInventoryById(inventoryID: UUID) : Inventory? = withContext(Dispatchers.IO) {
         val query = """
             SELECT 
                 i.InventoryID, i.InventoryName, i.Price,
@@ -110,11 +112,11 @@ class InventoryDao @Inject constructor(
         finally {
             cursor?.close()
         }
-        return inventory
+        inventory
     }
 
-    fun createInventory(inventory: Inventory): Boolean {
-        return try {
+    suspend fun createInventory(inventory: Inventory): Boolean = withContext(Dispatchers.IO) {
+        try {
             val values = ContentValues().apply {
                 put("InventoryID", inventory.InventoryID?.toString() ?: UUID.randomUUID().toString())
                 put("InventoryCode", inventory.InventoryCode)
@@ -142,10 +144,10 @@ class InventoryDao @Inject constructor(
         }
     }
 
-    fun updateInventory(inventory: Inventory): Boolean {
-        if (inventory.InventoryID == null) return false
+    suspend fun updateInventory(inventory: Inventory): Boolean = withContext(Dispatchers.IO) {
+        if (inventory.InventoryID == null) false
 
-        return try {
+        try {
             val values = ContentValues().apply {
                 put("InventoryCode", inventory.InventoryCode)
                 put("InventoryName", inventory.InventoryName)
@@ -176,9 +178,9 @@ class InventoryDao @Inject constructor(
         }
     }
 
-    fun deleteInventory(inventoryID: UUID): Boolean {
+    suspend fun deleteInventory(inventoryID: UUID): Boolean  = withContext(Dispatchers.IO) {
 
-        return try {
+         try {
             val result = db.delete(
                 "Inventory",
                 "InventoryID = ?",
@@ -192,8 +194,8 @@ class InventoryDao @Inject constructor(
         }
     }
 
-    fun checkInventoryIsInInvoice(inventory: Inventory): Boolean {
-        if (inventory.InventoryID == null) return false
+    suspend fun checkInventoryIsInInvoice(inventory: Inventory): Boolean = withContext(Dispatchers.IO) {
+        if (inventory.InventoryID == null) false
 
         val query = """
             SELECT 1 FROM InvoiceDetail i WHERE i.InventoryId = ? LIMIT 1
@@ -212,7 +214,6 @@ class InventoryDao @Inject constructor(
             cursor?.close()
         }
 
-        return exists
+        exists
     }
-
 }

@@ -10,7 +10,7 @@ class UpdateInventoryUseCase @Inject constructor(
     private val repository: InventoryRepository,
     private val syncHelper: SynchronizeHelper
 ){
-    operator fun invoke(inventory: Inventory) : ResponseData {
+    suspend operator fun invoke(inventory: Inventory) : ResponseData {
         val response = ResponseData(false, "Có lỗi xảy ra")
         response.isSuccess = repository.updateInventory(inventory)
         if (response.isSuccess) {

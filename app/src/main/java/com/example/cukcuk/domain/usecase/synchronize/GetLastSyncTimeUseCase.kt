@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetLastSyncTimeUseCase @Inject constructor(
     private val repository: SynchronizeRepository
 ) {
-    operator fun invoke(): LocalDateTime? {
+    suspend operator fun invoke(): LocalDateTime? {
         return repository.getLastSyncTime()
     }
 }

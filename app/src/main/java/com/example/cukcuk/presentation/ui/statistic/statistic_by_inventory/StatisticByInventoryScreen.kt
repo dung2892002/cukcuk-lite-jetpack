@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.components.CukcukToolbar
 import com.example.cukcuk.presentation.shared.SharedViewModel
 import com.example.cukcuk.presentation.ui.statistic.statistic_main.StatisticByInventoryBlock
 
@@ -33,7 +33,7 @@ fun StatisticByInventoryScreen(
 
     Scaffold(
         topBar = {
-            Toolbar(
+            CukcukToolbar(
                 title = "Doanh thu theo mặt hàng",
                 menuTitle = null,
                 hasMenuIcon = false,

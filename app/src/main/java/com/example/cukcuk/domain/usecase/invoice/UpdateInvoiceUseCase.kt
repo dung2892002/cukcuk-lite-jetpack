@@ -8,6 +8,9 @@ import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.domain.repository.InvoiceRepository
 import com.example.cukcuk.utils.FormatDisplay
 import com.example.cukcuk.utils.SynchronizeHelper
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
@@ -16,7 +19,7 @@ class UpdateInvoiceUseCase @Inject constructor(
     private val repository: InvoiceRepository,
     private val syncHelper: SynchronizeHelper
 ) {
-    operator fun invoke(invoice: Invoice,
+    suspend operator fun invoke(invoice: Invoice,
                         inventoriesSelect: List<InventorySelect>) : ResponseData {
         var response = ResponseData(false, "Có lỗi xảy ra")
 
@@ -38,9 +41,15 @@ class UpdateInvoiceUseCase @Inject constructor(
         if (response.isSuccess) {
             response.message = invoice.InvoiceID.toString()
             syncHelper.updateSync("Invoice", invoice.InvoiceID)
-            syncHelper.deleteInvoiceDetail(result.toDelete)
-            syncHelper.createInvoiceDetail(result.toCreate)
-            syncHelper.updateInvoiceDetail(result.toUpdate)
+
+            coroutineScope {
+                awaitAll(
+                    async { syncHelper.deleteInvoiceDetail(result.toDelete) },
+                    async { syncHelper.createInvoiceDetail(result.toCreate) },
+                    async { syncHelper.updateInvoiceDetail(result.toUpdate) }
+                )
+            }
+
         }
 
         return response

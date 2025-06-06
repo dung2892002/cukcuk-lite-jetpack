@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.AppNavigationBarOverlay
-import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.components.CukcukToolbar
 import com.example.cukcuk.presentation.enums.NavItem
 import com.example.cukcuk.presentation.enums.Screen
 import com.example.cukcuk.presentation.shared.SharedViewModel
@@ -59,7 +59,7 @@ fun HomeScreen(
         Scaffold(
             Modifier.background(Color.White),
             topBar = {
-                Toolbar(
+                CukcukToolbar(
                     title = title,
                     menuTitle = null,
                     hasMenuIcon = currentScreen!= Screen.Statistics,

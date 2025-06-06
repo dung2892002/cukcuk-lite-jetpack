@@ -11,35 +11,35 @@ class SynchronizeRepositoryImpl @Inject constructor(
     private val dao: SynchronizeDao
 ) : SynchronizeRepository {
 
-    override fun deleteAll() {
+    override suspend fun deleteAll() {
         dao.deleteAll()
     }
 
-    override fun countSync(): Int {
+    override suspend fun countSync(): Int {
         return dao.countSync()
     }
 
-    override fun getLastSyncTime(): LocalDateTime? {
+    override suspend fun getLastSyncTime(): LocalDateTime? {
         return dao.getLastSyncTime()
     }
 
-    override fun updateLastSyncTime(lastSyncTime: LocalDateTime) {
+    override suspend fun updateLastSyncTime(lastSyncTime: LocalDateTime) {
         dao.updateLastSyncTime(lastSyncTime)
     }
 
-    override fun getAllSync(): MutableList<SynchronizeData> {
+    override suspend fun getAllSync(): MutableList<SynchronizeData> {
         return dao.getAllSync()
     }
 
-    override fun create(tableName: String, objectId: UUID, action: Int) {
+    override suspend fun create(tableName: String, objectId: UUID, action: Int) {
         dao.create(tableName, objectId, action)
     }
 
-    override fun delete(syncId: UUID) {
+    override suspend fun delete(syncId: UUID) {
         dao.delete(syncId)
     }
 
-    override fun createRange(
+    override suspend fun createRange(
         tableName: String,
         objectIds: List<UUID>,
         action: Int
@@ -47,32 +47,32 @@ class SynchronizeRepositoryImpl @Inject constructor(
         dao.createRange(tableName, objectIds, action)
     }
 
-    override fun deleteRange(syncIds: List<UUID>) {
+    override suspend fun deleteRange(syncIds: List<UUID>) {
         dao.deleteRange(syncIds)
     }
 
-    override fun deleteDataBeforeCreateDeleteSync(
+    override suspend fun deleteDataBeforeCreateDeleteSync(
         tableName: String,
         objectId: UUID
     ) {
         dao.deleteDataBeforeCreateDeleteSync(tableName, objectId)
     }
 
-    override fun getExistingSyncIdForCreateNew(
+    override suspend fun getExistingSyncIdForCreateNew(
         tableName: String,
         objectId: UUID
     ): UUID? {
         return dao.getExistingSyncIdForCreateNew(tableName, objectId)
     }
 
-    override fun getExistingSyncIdForCreateNewOrUpdate(
+    override suspend fun getExistingSyncIdForCreateNewOrUpdate(
         tableName: String,
         objectId: UUID
     ): UUID? {
         return dao.getExistingSyncIdForCreateNewOrUpdate(tableName, objectId)
     }
 
-    override fun getExistingSyncIdsForCreateNewOrUpdate(
+    override suspend fun getExistingSyncIdsForCreateNewOrUpdate(
         tableName: String,
         objectIds: List<UUID>
     ): Set<UUID> {

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetInventorySelectUseCase @Inject constructor(
     private val repository: InvoiceRepository
 ) {
-    operator fun invoke(invoiceId: UUID?): List<InventorySelect> {
+    suspend operator fun invoke(invoiceId: UUID?): List<InventorySelect> {
         val inventories = repository.getAllInventoryInactive()
         val invoiceDetails = if (invoiceId != null) repository.getListInvoicesDetail(invoiceId) else emptyList()
 

@@ -90,7 +90,7 @@ fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
                 Text(
                     text = "Giá bán: ${FormatDisplay.formatNumber(inventory.Price.toString())}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = colorResource(R.color.background_color_bold)
+                    color = colorResource(R.color.inventory_price)
                 )
                 if (!inventory.Inactive) {
                     Text(

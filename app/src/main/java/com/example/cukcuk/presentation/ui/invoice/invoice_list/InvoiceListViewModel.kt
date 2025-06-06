@@ -61,5 +61,4 @@ class InvoiceListViewModel @Inject constructor(
             }
         }
     }
-
 }

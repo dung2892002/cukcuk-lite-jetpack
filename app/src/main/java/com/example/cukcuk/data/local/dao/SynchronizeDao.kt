@@ -11,6 +11,8 @@ import com.example.cukcuk.utils.getInt
 import com.example.cukcuk.utils.getString
 import com.example.cukcuk.utils.getUUID
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
@@ -22,7 +24,7 @@ class SynchronizeDao @Inject constructor(
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)
     }
 
-    fun deleteAll() {
+    suspend fun deleteAll() = withContext(Dispatchers.IO) {
         val query = "DELETE FROM SynchronizeData"
         try {
             db.execSQL(query)
@@ -32,7 +34,7 @@ class SynchronizeDao @Inject constructor(
     }
 
 
-    fun countSync(): Int {
+    suspend fun countSync(): Int = withContext(Dispatchers.IO) {
         val query = """
             SELECT COUNT(*) FROM SynchronizeData WHERE TableName != "InvoiceDetail"
         """.trimIndent()
@@ -50,10 +52,10 @@ class SynchronizeDao @Inject constructor(
             cursor?.close()
         }
 
-        return countSync
+        countSync
     }
 
-    fun getLastSyncTime() : LocalDateTime? {
+    suspend fun getLastSyncTime() : LocalDateTime? = withContext(Dispatchers.IO) {
         val query = """
             SELECT MAX(LastSyncTime) as LastTime FROM LastSyncTime
         """.trimIndent()
@@ -72,10 +74,10 @@ class SynchronizeDao @Inject constructor(
         finally {
             cursor?.close()
         }
-        return lastSyncTime
+        lastSyncTime
     }
 
-    fun updateLastSyncTime(lastSyncTime: LocalDateTime) {
+    suspend fun updateLastSyncTime(lastSyncTime: LocalDateTime) = withContext(Dispatchers.IO) {
         try {
             val values = ContentValues().apply {
                 put("LastSyncTime", lastSyncTime.toString())
@@ -100,7 +102,7 @@ class SynchronizeDao @Inject constructor(
     }
 
 
-    fun getAllSync() : MutableList<SynchronizeData> {
+    suspend fun getAllSync() : MutableList<SynchronizeData>  = withContext(Dispatchers.IO){
         val query = """
             SELECT SynchronizeID, TableName, ObjectID, "Action", CreatedDate FROM SynchronizeData
         """.trimIndent()
@@ -135,10 +137,10 @@ class SynchronizeDao @Inject constructor(
             cursor?.close()
         }
 
-        return results
+        results
     }
 
-    fun create(tableName: String, objectId: UUID, action: Int) {
+    suspend fun create(tableName: String, objectId: UUID, action: Int) = withContext(Dispatchers.IO) {
         try {
             val values = ContentValues().apply {
                 put("SynchronizeID", UUID.randomUUID().toString())
@@ -155,7 +157,7 @@ class SynchronizeDao @Inject constructor(
         }
     }
 
-    fun delete(syncId: UUID) {
+    suspend fun delete(syncId: UUID) = withContext(Dispatchers.IO) {
         try {
             val result = db.delete(
                 "SynchronizeData",
@@ -170,7 +172,7 @@ class SynchronizeDao @Inject constructor(
         }
     }
 
-    fun createRange(tableName: String, objectIds: List<UUID>, action: Int) {
+    suspend fun createRange(tableName: String, objectIds: List<UUID>, action: Int) = withContext(Dispatchers.IO) {
         try {
             db.beginTransaction()
             for (objectId in objectIds) {
@@ -192,7 +194,7 @@ class SynchronizeDao @Inject constructor(
         }
     }
 
-    fun deleteRange(syncIds: List<UUID>) {
+    suspend fun deleteRange(syncIds: List<UUID>) = withContext(Dispatchers.IO) {
         try {
             db.beginTransaction()
             for (syncId in syncIds) {
@@ -211,7 +213,7 @@ class SynchronizeDao @Inject constructor(
         }
     }
 
-    fun deleteDataBeforeCreateDeleteSync(tableName: String, objectId: UUID) {
+    suspend fun deleteDataBeforeCreateDeleteSync(tableName: String, objectId: UUID) = withContext(Dispatchers.IO) {
         try {
             val result = db.delete(
                 "SynchronizeData",
@@ -226,7 +228,7 @@ class SynchronizeDao @Inject constructor(
         }
     }
 
-    fun getExistingSyncIdForCreateNew(tableName: String, objectId: UUID): UUID? {
+    suspend fun getExistingSyncIdForCreateNew(tableName: String, objectId: UUID): UUID?  = withContext(Dispatchers.IO){
         val query = """
             SELECT s.SynchronizeID FROM SynchronizeData s
             WHERE s.TableName = ? AND s.ObjectID = ? AND s."Action" = 0
@@ -248,10 +250,10 @@ class SynchronizeDao @Inject constructor(
             cursor?.close()
         }
 
-        return syncId
+        syncId
     }
 
-    fun getExistingSyncIdForCreateNewOrUpdate(tableName: String, objectId: UUID): UUID? {
+    suspend fun getExistingSyncIdForCreateNewOrUpdate(tableName: String, objectId: UUID): UUID?  = withContext(Dispatchers.IO){
         val query = """
             SELECT s.SynchronizeID FROM SynchronizeData s
             WHERE s.TableName = ? AND s.ObjectID = ? AND (s."Action" = 0 OR s."Action" = 1)
@@ -273,10 +275,10 @@ class SynchronizeDao @Inject constructor(
             cursor?.close()
         }
 
-        return syncId
+        syncId
     }
 
-    fun getExistingSyncIdsForCreateNewOrUpdate(tableName: String, objectIds: List<UUID>): Set<UUID> {
+    suspend fun getExistingSyncIdsForCreateNewOrUpdate(tableName: String, objectIds: List<UUID>): Set<UUID>  = withContext(Dispatchers.IO){
         val placeholders = objectIds.joinToString(",") { "?" }
         val args = objectIds.map { it.toString() }.toTypedArray()
         val query = """
@@ -291,6 +293,6 @@ class SynchronizeDao @Inject constructor(
             existingIds.add(UUID.fromString(idStr))
         }
         cursor.close()
-        return existingIds
+        existingIds
     }
 }

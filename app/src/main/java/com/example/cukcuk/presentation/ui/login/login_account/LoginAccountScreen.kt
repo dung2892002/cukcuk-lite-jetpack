@@ -29,7 +29,7 @@ import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukButton
 import com.example.cukcuk.presentation.components.CukcukDialog
-import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.components.CukcukToolbar
 import com.example.cukcuk.utils.SharedPrefManager
 
 
@@ -61,7 +61,7 @@ fun LoginAccountScreen(
 
     Scaffold(
         topBar = {
-            Toolbar(
+            CukcukToolbar(
                 title = "",
                 menuTitle = null,
                 onBackClick = {

@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetInventoryListUseCase @Inject constructor(
     private val inventoryRepository: InventoryRepository
 ) {
-    operator fun invoke(): List<Inventory> {
+    suspend operator fun invoke(): List<Inventory> {
         return inventoryRepository.getAllInventory()
     }
 

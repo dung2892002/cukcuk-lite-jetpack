@@ -34,8 +34,10 @@ class SynchronizeViewModel @Inject constructor(
     }
 
     fun loadSyncData() {
-        _count.intValue = getCountSyncUseCase()
-        _lastSyncTime.value = getLastSyncTimeUseCase()
+        viewModelScope.launch {
+            _count.intValue = getCountSyncUseCase()
+            _lastSyncTime.value = getLastSyncTimeUseCase()
+        }
     }
 
     fun handleSyncData() {

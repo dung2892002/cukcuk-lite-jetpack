@@ -18,8 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,16 +31,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukButton
 import com.example.cukcuk.presentation.components.CukcukImageButton
-import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.components.CukcukToolbar
 import com.example.cukcuk.presentation.ui.calculator.CalculatorDialog
 import com.example.cukcuk.presentation.ui.calculator.IntegerCalculatorDialog
 import com.example.cukcuk.utils.FormatDisplay
-import java.util.UUID
+import kotlinx.coroutines.launch
 
 @Composable
 fun InvoiceFormScreen(
@@ -49,6 +47,7 @@ fun InvoiceFormScreen(
     viewModel: InvoiceFormViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     val invoice = viewModel.invoice.value
     val inventoriesSelect = viewModel.inventoriesSelect
@@ -65,23 +64,27 @@ fun InvoiceFormScreen(
     }
 
     fun payment() {
-        val invoiceId = viewModel.submitForm()
-        if (invoiceId != null) {
-            navController.navigate("payment?invoiceId=${invoiceId}")
+        coroutineScope.launch {
+            val invoiceId = viewModel.submitForm()
+            if (invoiceId != null) {
+                navController.navigate("payment?invoiceId=${invoiceId}")
+            }
         }
     }
 
 
     fun submit() {
-        val id = viewModel.submitForm()
-        if(id != null) {
-            navController.popBackStack()
+        coroutineScope.launch {
+            val id = viewModel.submitForm()
+            if(id != null) {
+                navController.popBackStack()
+            }
         }
     }
 
     Scaffold(
         topBar = {
-            Toolbar(
+            CukcukToolbar(
                 title = "Chọn món",
                 menuTitle = "Thu tiền",
                 hasMenuIcon = false,

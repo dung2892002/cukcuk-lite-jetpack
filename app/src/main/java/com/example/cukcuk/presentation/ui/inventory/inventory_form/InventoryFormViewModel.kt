@@ -22,7 +22,6 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
-
 @HiltViewModel
 class InventoryFormViewModel @Inject constructor(
     private val createInventoryUseCase: CreateInventoryUseCase,
@@ -53,20 +52,17 @@ class InventoryFormViewModel @Inject constructor(
     val isOpenDialogDelete: State<Boolean> = _isOpenDialogDelete
 
 
-    private var isLoaded = false
     init {
-        val id = savedStateHandle.get<String>("inventoryId")?.let { UUID.fromString(it) }
-        if (id != null)
-        loadInventory(id)
+        viewModelScope.launch {
+            val id = savedStateHandle.get<String>("inventoryId")?.let { UUID.fromString(it) }
+            if (id != null)
+                loadInventory(id)
+        }
     }
 
-    fun loadInventory(inventoryID: UUID) {
-        if (isLoaded) return
-        viewModelScope.launch {
-            val data = getInventory(inventoryID)
-            _inventory.value = data
-            isLoaded = true
-        }
+    suspend fun loadInventory(inventoryID: UUID) {
+        val data = getInventory(inventoryID)
+        _inventory.value = data
     }
 
     fun submit() {

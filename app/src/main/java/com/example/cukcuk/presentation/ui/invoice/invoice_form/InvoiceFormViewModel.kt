@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.cukcuk.domain.dtos.InventorySelect
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.usecase.invoice.CreateInvoiceUseCase
@@ -13,6 +14,7 @@ import com.example.cukcuk.domain.usecase.invoice.GetInventorySelectUseCase
 import com.example.cukcuk.domain.usecase.invoice.GetInvoiceDetailUseCase
 import com.example.cukcuk.domain.usecase.invoice.UpdateInvoiceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
@@ -52,11 +54,13 @@ class InvoiceFormViewModel @Inject constructor(
     }
 
     fun fetchData(invoiceId: UUID?) {
-        if (invoiceId != null) _invoice.value = getInvoiceDetailUseCase(invoiceId)
-        _inventoriesSelect.addAll(getInventorySelectUseCase(invoiceId))
+        viewModelScope.launch {
+            if (invoiceId != null) _invoice.value = getInvoiceDetailUseCase(invoiceId)
+            _inventoriesSelect.addAll(getInventorySelectUseCase(invoiceId))
+        }
     }
 
-    fun submitForm() : UUID? {
+    suspend fun submitForm() : UUID? {
         val response = if (invoice.value.InvoiceID == null) {
             createInvoiceUseCase(_invoice.value, _inventoriesSelect)
         } else {

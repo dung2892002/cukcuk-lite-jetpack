@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -39,10 +40,11 @@ import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.presentation.components.CukcukButton
-import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.components.CukcukToolbar
 import com.example.cukcuk.presentation.ui.calculator.DoubleCalculatorDialog
 import com.example.cukcuk.utils.FormatDisplay.formatNumber
 import com.example.cukcuk.utils.FormatDisplay.formatTo12HourWithCustomAMPM
+import kotlinx.coroutines.launch
 
 @Composable
 fun PaymentScreen(
@@ -54,22 +56,25 @@ fun PaymentScreen(
     val invoice = viewModel.invoice.value
     val detailsCount = viewModel.invoiceDetailCounts.value
     val showCalculator = viewModel.showCalculator.value
+    val coroutineScope = rememberCoroutineScope()
 
     fun handlePayment() {
-        val response = viewModel.paymentInvoice()
-        if (response.isSuccess) {
-            navController.navigate("invoice_form") {
-                popUpTo("home") { inclusive = false }
-                launchSingleTop = true
+        coroutineScope.launch {
+            val response = viewModel.paymentInvoice()
+            if (response.isSuccess) {
+                navController.navigate("invoice_form") {
+                    popUpTo("home") { inclusive = false }
+                    launchSingleTop = true
+                }
+            } else {
+                Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
         }
     }
 
     Scaffold(
         topBar = {
-            Toolbar(
+            CukcukToolbar(
                 title = "Thu tiền",
                 menuTitle = "Xong",
                 hasMenuIcon = false,

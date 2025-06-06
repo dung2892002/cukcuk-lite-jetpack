@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetAllUnitUseCase @Inject constructor(
     private val repository: UnitRepository
 ) {
-    operator fun invoke(): List<Unit> {
+    suspend operator fun invoke(): List<Unit> {
         return repository.getAllUnit()
     }
 

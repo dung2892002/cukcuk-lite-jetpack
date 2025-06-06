@@ -34,7 +34,7 @@ import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukButton
 import com.example.cukcuk.presentation.components.CukcukLoadingDialog
-import com.example.cukcuk.presentation.components.Toolbar
+import com.example.cukcuk.presentation.components.CukcukToolbar
 import com.example.cukcuk.utils.FormatDisplay
 import java.time.LocalDateTime
 
@@ -49,7 +49,7 @@ fun SynchronizeScreen(
 
     Scaffold(
         topBar = {
-            Toolbar(
+            CukcukToolbar(
                 title = "Đồng bộ dữ liệu",
                 menuTitle = null,
                 onBackClick = { navController.popBackStack() },
