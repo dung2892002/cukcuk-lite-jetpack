@@ -27,5 +27,6 @@ fun Cursor.getDateTimeOrNull(columnName: String): LocalDateTime? {
     val index = getColumnIndexOrThrow(columnName)
     if (isNull(index)) return null
     val value = getString(index)
-    return value?.let { LocalDateTime.parse(it) }
+    if (value == null || value == "null") return null
+    return LocalDateTime.parse(value)
 }

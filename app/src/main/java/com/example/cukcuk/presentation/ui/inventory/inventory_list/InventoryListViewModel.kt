@@ -18,14 +18,19 @@ class InventoryListViewModel @Inject constructor(
     val inventories: State<List<Inventory>> = _inventories
 
     init {
+        loadInventories()
+    }
+
+    fun loadInventories() {
         viewModelScope.launch {
-            loadInventories()
+            try {
+                val data = getInventoryListUseCase.invoke()
+                _inventories.value = data
+            }
+            catch (ex: Exception) {
+                println(ex.message)
+                ex.printStackTrace()
+            }
         }
     }
-
-    suspend fun loadInventories() {
-        val data = getInventoryListUseCase.invoke()
-        _inventories.value = data
-    }
-
 }

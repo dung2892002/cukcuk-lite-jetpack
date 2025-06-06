@@ -17,7 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.cukcuk.presentation.components.CukcukToolbar
 import com.example.cukcuk.presentation.shared.SharedViewModel
-import com.example.cukcuk.presentation.ui.statistic.statistic_main.StatisticByInventoryBlock
+import com.example.cukcuk.presentation.ui.statistic.statistic.StatisticByInventoryBlock
 
 
 @Composable

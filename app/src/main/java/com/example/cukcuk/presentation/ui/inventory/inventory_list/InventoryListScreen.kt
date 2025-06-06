@@ -100,7 +100,7 @@ fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp))
                             .background(
-                                color = colorResource(R.color.background_color_bold)
+                                color = colorResource(R.color.inventory_item_not_active)
                             )
                             .padding(horizontal = 8.dp),
                     )

@@ -72,7 +72,5 @@ dependencies {
     //Chart
     implementation(libs.mpandroidchart)
 
-    //DatePicker Material3
-    implementation(libs.material3)
 
 }

@@ -9,6 +9,7 @@ import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.utils.getBoolean
 import com.example.cukcuk.utils.getDateTime
+import com.example.cukcuk.utils.getDateTimeOrNull
 import com.example.cukcuk.utils.getDouble
 import com.example.cukcuk.utils.getInt
 import com.example.cukcuk.utils.getString
@@ -64,7 +65,7 @@ class InvoiceDao  @Inject constructor(
             while (cursor.moveToNext()) {
                 val invoice = Invoice(
                     InvoiceID = cursor.getUUID("InvoiceID"),
-                    InvoiceDate = cursor.getDateTime("InvoiceDate"),
+                    InvoiceDate = cursor.getDateTimeOrNull("InvoiceDate"),
                     Amount = cursor.getDouble("Amount"),
                     ReceiveAmount = cursor.getDouble("ReceiveAmount"),
                     NumberOfPeople = cursor.getInt("NumberOfPeople"),
@@ -161,7 +162,7 @@ class InvoiceDao  @Inject constructor(
                 InvoiceID = cursor.getUUID("InvoiceID"),
                 InvoiceType = cursor.getInt("InvoiceType"),
                 InvoiceNo = cursor.getString("InvoiceNo"),
-                InvoiceDate = cursor.getDateTime("InvoiceDate"),
+                InvoiceDate = cursor.getDateTimeOrNull("InvoiceDate"),
                 Amount = cursor.getDouble("Amount"),
                 ReceiveAmount = cursor.getDouble("ReceiveAmount"),
                 ReturnAmount = cursor.getDouble("ReturnAmount"),
@@ -171,9 +172,9 @@ class InvoiceDao  @Inject constructor(
                 NumberOfPeople = cursor.getInt("NumberOfPeople"),
                 TableName = cursor.getString("TableName"),
                 ListItemName = cursor.getString("ListItemName"),
-                CreatedDate = cursor.getDateTime("CreatedDate"),
+                CreatedDate = cursor.getDateTimeOrNull("CreatedDate"),
                 CreatedBy = cursor.getString("CreatedBy"),
-                ModifiedDate = cursor.getDateTime("ModifiedDate"),
+                ModifiedDate = cursor.getDateTimeOrNull("ModifiedDate"),
                 ModifiedBy = cursor.getString("ModifiedBy"),
                 InvoiceDetails = mutableListOf()
             )
@@ -197,9 +198,9 @@ class InvoiceDao  @Inject constructor(
                     Amount = detailCursor.getDouble("Amount"),
                     Description = detailCursor.getString("Description"),
                     SortOrder = detailCursor.getInt("SortOrder"),
-                    CreatedDate = detailCursor.getDateTime("CreatedDate"),
+                    CreatedDate = detailCursor.getDateTimeOrNull("CreatedDate"),
                     CreatedBy = detailCursor.getString("CreatedBy"),
-                    ModifiedDate = detailCursor.getDateTime("ModifiedDate"),
+                    ModifiedDate = detailCursor.getDateTimeOrNull("ModifiedDate"),
                     ModifiedBy = detailCursor.getString("ModifiedBy")
                 )
                 invoice.InvoiceDetails.add(detail)

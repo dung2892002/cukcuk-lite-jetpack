@@ -22,7 +22,7 @@ import com.example.cukcuk.presentation.enums.Screen
 import com.example.cukcuk.presentation.shared.SharedViewModel
 import com.example.cukcuk.presentation.ui.inventory.inventory_list.InventoryListScreen
 import com.example.cukcuk.presentation.ui.invoice.invoice_list.InvoiceListScreen
-import com.example.cukcuk.presentation.ui.statistic.statistic_main.StatisticScreen
+import com.example.cukcuk.presentation.ui.statistic.statistic.StatisticScreen
 import com.example.cukcuk.utils.SharedPrefManager
 
 @OptIn(ExperimentalMaterial3Api::class)

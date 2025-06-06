@@ -1,4 +1,4 @@
-package com.example.cukcuk.presentation.ui.statistic.statistic_main
+package com.example.cukcuk.presentation.ui.statistic.statistic
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableDoubleStateOf
