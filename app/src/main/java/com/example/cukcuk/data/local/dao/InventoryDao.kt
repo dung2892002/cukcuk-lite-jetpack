@@ -11,6 +11,7 @@ import com.example.cukcuk.utils.getString
 import com.example.cukcuk.utils.getUUID
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
@@ -118,7 +119,7 @@ class InventoryDao @Inject constructor(
     suspend fun createInventory(inventory: Inventory): Boolean = withContext(Dispatchers.IO) {
         try {
             val values = ContentValues().apply {
-                put("InventoryID", inventory.InventoryID?.toString() ?: UUID.randomUUID().toString())
+                put("InventoryID", inventory.InventoryID.toString())
                 put("InventoryCode", inventory.InventoryCode)
                 put("InventoryName", inventory.InventoryName)
                 put("InventoryType", inventory.InventoryType)

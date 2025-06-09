@@ -9,6 +9,7 @@ import com.example.cukcuk.domain.usecase.synchronize.GetCountSyncUseCase
 import com.example.cukcuk.domain.usecase.synchronize.GetLastSyncTimeUseCase
 import com.example.cukcuk.domain.usecase.synchronize.UpdateSyncDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -35,15 +36,17 @@ class SynchronizeViewModel @Inject constructor(
 
     fun loadSyncData() {
         viewModelScope.launch {
-            _count.intValue = getCountSyncUseCase()
-            _lastSyncTime.value = getLastSyncTimeUseCase()
+            val defCount = async { getCountSyncUseCase() }
+            val defLastSyncTime = async { getLastSyncTimeUseCase() }
+            _count.intValue = defCount.await()
+            _lastSyncTime.value = defLastSyncTime.await()
         }
     }
 
     fun handleSyncData() {
         viewModelScope.launch {
             _loading.value = true
-            delay(2500)
+            delay(1000)
             updateSyncDataUseCase(LocalDateTime.now())
             loadSyncData()
             _loading.value = false

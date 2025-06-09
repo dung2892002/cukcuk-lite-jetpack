@@ -51,13 +51,16 @@ fun UnitListScreen(
         }
     }
 
-    fun submitUnitData() {
+    fun selectUnitData() {
         if (unitSelected != null) {
             navController.previousBackStackEntry
                 ?.savedStateHandle
                 ?.set("selectedUnit", unitSelected)
 
             navController.popBackStack()
+        }
+        else {
+            Toast.makeText(context, "Vui lòng chọn đơn vị tính", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -82,7 +85,7 @@ fun UnitListScreen(
                     bgColor = colorResource(R.color.main_color),
                     textColor = Color.White,
                     onClick = {
-                        submitUnitData()
+                        selectUnitData()
                     },
                     modifier = Modifier.weight(1f)
                 )

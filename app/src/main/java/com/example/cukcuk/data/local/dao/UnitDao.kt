@@ -149,7 +149,7 @@ class UnitDao @Inject constructor(
     suspend fun createUnit(unit: Unit): Boolean = withContext(Dispatchers.IO) {
         try {
             val values = ContentValues().apply {
-                put("UnitID", unit.UnitID?.toString() ?: UUID.randomUUID().toString())
+                put("UnitID", unit.UnitID.toString())
                 put("UnitName", unit.UnitName)
                 put("Description", unit.Description)
                 put("Inactive", if (unit.Inactive) 1 else 0)

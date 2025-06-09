@@ -31,12 +31,10 @@ class InventoryFormViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _inventory = mutableStateOf(
-        Inventory()
-    )
+    private val _inventory = mutableStateOf(Inventory())
     val inventory: State<Inventory> = _inventory
 
-    private val _errorMessage = mutableStateOf<String?>("")
+    private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: State<String?> = _errorMessage
 
     private val _showSelectColor = mutableStateOf(false)
@@ -50,6 +48,9 @@ class InventoryFormViewModel @Inject constructor(
 
     private val _isOpenDialogDelete = mutableStateOf(false)
     val isOpenDialogDelete: State<Boolean> = _isOpenDialogDelete
+
+    private val _isSubmitSuccess = mutableStateOf(false)
+    val isSubmitSuccess: State<Boolean> = _isSubmitSuccess
 
 
     init {
@@ -68,11 +69,13 @@ class InventoryFormViewModel @Inject constructor(
     fun submit() {
         viewModelScope.launch {
             val response = if (_inventory.value.InventoryID == null) {
-                createInventoryUseCase(_inventory.value)
+                createInventoryUseCase(_inventory.value.copy())
             } else {
-                updateInventoryUseCase(_inventory.value)
+                updateInventoryUseCase(_inventory.value.copy())
             }
-            _errorMessage.value = response.message
+
+            updateErrorMessage(response.message)
+            updateSuccessState(response.isSuccess)
         }
     }
 
@@ -80,8 +83,18 @@ class InventoryFormViewModel @Inject constructor(
         viewModelScope.launch {
             val response = deleteInventoryUseCase(_inventory.value)
             if (response.isSuccess) closeDialogDelete()
-            _errorMessage.value = response.message
+
+            updateErrorMessage(response.message)
+            updateSuccessState(response.isSuccess)
         }
+    }
+
+    fun updateSuccessState(state: Boolean) {
+        _isSubmitSuccess.value = state
+    }
+
+    fun updateErrorMessage(msg: String?) {
+        _errorMessage.value = msg
     }
 
     fun openSelectColor() {

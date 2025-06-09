@@ -1,5 +1,6 @@
 package com.example.cukcuk.presentation.ui.inventory.inventory_form
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -52,16 +54,25 @@ fun InventoryFormScreen(
     viewModel: InventoryFormViewModel = hiltViewModel()
 ) {
 
-    var inventory = viewModel.inventory.value
+    val context = LocalContext.current
 
+    var inventory = viewModel.inventory.value
     val errorMessage = viewModel.errorMessage.value
     val showSelectColor = viewModel.showSelectColor.value
     val showSelectImage = viewModel.showSelectImage.value
     val showDialogDelete = viewModel.isOpenDialogDelete.value
     val showCalculator = viewModel.showCalculator.value
+    val isSubmitSuccess = viewModel.isSubmitSuccess.value
 
     LaunchedEffect(errorMessage) {
-        if (errorMessage == null) {
+        if (errorMessage != null) {
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            viewModel.updateErrorMessage(null)
+        }
+    }
+
+    LaunchedEffect(isSubmitSuccess) {
+        if (isSubmitSuccess) {
             navController.popBackStack()
         }
     }
