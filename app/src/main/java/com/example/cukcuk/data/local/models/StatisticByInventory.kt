@@ -1,6 +1,6 @@
-package com.example.cukcuk.data.local.entities
+package com.example.cukcuk.data.local.models
 
-data class ResultStatisticByInventory (
+data class StatisticByInventory (
     val InventoryName: String,
     val Quantity: Double,
     val Amount: Double,

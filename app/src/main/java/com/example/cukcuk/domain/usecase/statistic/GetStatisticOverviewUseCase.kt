@@ -1,6 +1,6 @@
 package com.example.cukcuk.domain.usecase.statistic
 
-import com.example.cukcuk.domain.dtos.StatisticOverview
+import com.example.cukcuk.domain.model.StatisticOverview
 import com.example.cukcuk.domain.repository.StatisticRepository
 import javax.inject.Inject
 

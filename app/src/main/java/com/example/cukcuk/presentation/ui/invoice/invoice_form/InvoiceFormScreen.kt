@@ -50,7 +50,7 @@ fun InvoiceFormScreen(
     val coroutineScope = rememberCoroutineScope()
 
     val invoice = viewModel.invoice.value
-    val inventoriesSelect = viewModel.inventoriesSelect
+    val inventoriesSelect = viewModel.inventoriesSelect.value
     val showCalculatorQuantity = viewModel.showCalculatorQuantity.value
     val showCalculatorTableName = viewModel.showCalculatorTableName.value
     val showCalculatorNumberPeople = viewModel.showCalculatorNumberPeople.value
@@ -227,23 +227,17 @@ fun InvoiceFormScreen(
                 InventorySelectItem(
                     item = item,
                     onItemClick = {
-                        println("click ${item.inventory.InventoryName}")
-                        item.quantity.value += 1
-                        viewModel.updateAmount(item.inventory.Price)
+                        viewModel.updateQuantityInventoryWithIndex(index, item.quantity + 1)
                     },
                     onButtonAddClick = {
-                        item.quantity.value += 1
-                        viewModel.updateAmount(item.inventory.Price)
+                        viewModel.updateQuantityInventoryWithIndex(index, item.quantity + 1)
                     },
                     onButtonSubtractClick = {
-                        if (item.quantity.value > 0){
-                            item.quantity.value -= 1
-                            viewModel.updateAmount(-item.inventory.Price)
-                        }
+                        viewModel.updateQuantityInventoryWithIndex(index,
+                            if (item.quantity - 1 > 0) item.quantity - 1 else 0.0)
                     },
                     onButtonRemoveClick = {
-                        viewModel.updateAmount(-item.inventory.Price * item.quantity.value)
-                        item.quantity.value = 0.0
+                        viewModel.updateQuantityInventoryWithIndex(index, 0.0)
                     },
                     onCalculatorClick = {
                         viewModel.openCalculatorQuantity(index)
@@ -288,7 +282,7 @@ fun InvoiceFormScreen(
 
     if (showCalculatorQuantity) {
         CalculatorDialog(
-            input = inventoriesSelect[currentInventoryIndex].quantity.value.toString(),
+            input = inventoriesSelect[currentInventoryIndex].quantity.toString(),
             title = "Nhập số lượng",
             message = "Số lượng",
             maxValue = 9999999.0,
@@ -297,7 +291,7 @@ fun InvoiceFormScreen(
                 viewModel.closeCalculator()
             },
             onSubmit = {
-                viewModel.updateNewQuantity(it.toDouble())
+                viewModel.updateQuantityInventory(it.toDouble())
             }
         )
     }

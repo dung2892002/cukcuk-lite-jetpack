@@ -1,7 +1,7 @@
 package com.example.cukcuk.domain.usecase.invoice
 
-import com.example.cukcuk.domain.dtos.InventorySelect
-import com.example.cukcuk.domain.dtos.ResponseData
+import com.example.cukcuk.domain.model.InventorySelect
+import com.example.cukcuk.domain.model.ResponseData
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.domain.repository.InvoiceRepository
@@ -32,7 +32,7 @@ class CreateInvoiceUseCase @Inject constructor(
         var invoiceDetails = mutableListOf<InvoiceDetail>()
         var sortOrder = 0
         for(item in inventoriesSelect) {
-            if (item.quantity.value == 0.0) continue
+            if (item.quantity == 0.0) continue
             sortOrder++
             val inventory = item.inventory
             invoiceDetails.add(InvoiceDetail(
@@ -43,8 +43,8 @@ class CreateInvoiceUseCase @Inject constructor(
                 UnitID = inventory.UnitID,
                 UnitName = inventory.UnitName,
                 UnitPrice = inventory.Price,
-                Quantity = item.quantity.value,
-                Amount = item.quantity.value * inventory.Price,
+                Quantity = item.quantity,
+                Amount = item.quantity * inventory.Price,
                 SortOrder = sortOrder,
                 CreatedDate = invoice.CreatedDate
             ))

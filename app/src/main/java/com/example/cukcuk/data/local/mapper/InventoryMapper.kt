@@ -1,6 +1,6 @@
-package com.example.cukcuk.data.mapper
+package com.example.cukcuk.data.local.mapper
 
-import com.example.cukcuk.data.local.entities.InventoryEntity
+import com.example.cukcuk.data.local.models.InventoryEntity
 import com.example.cukcuk.domain.model.Inventory
 
 fun Inventory.toEntity() : InventoryEntity {

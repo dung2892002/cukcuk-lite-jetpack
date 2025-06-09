@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cukcuk.R
-import com.example.cukcuk.domain.dtos.StatisticOverview
+import com.example.cukcuk.domain.model.StatisticOverview
 import com.example.cukcuk.presentation.components.CukcukImageBox
 import com.example.cukcuk.utils.FormatDisplay
 

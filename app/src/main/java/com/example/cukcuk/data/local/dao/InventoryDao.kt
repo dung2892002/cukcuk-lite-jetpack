@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.example.cukcuk.data.local.entities.InventoryEntity
+import com.example.cukcuk.data.local.models.InventoryEntity
 import com.example.cukcuk.utils.getBoolean
 import com.example.cukcuk.utils.getDouble
 import com.example.cukcuk.utils.getString

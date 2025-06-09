@@ -3,7 +3,7 @@ package com.example.cukcuk.presentation.shared
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.cukcuk.domain.dtos.RequestStatisticByInventory
+import com.example.cukcuk.presentation.ui.statistic.statistic_by_inventory.RequestStatisticByInventory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -1,8 +1,8 @@
 package com.example.cukcuk.domain.repository
 
-import com.example.cukcuk.domain.dtos.StatisticByInventory
-import com.example.cukcuk.domain.dtos.StatisticByTime
-import com.example.cukcuk.domain.dtos.StatisticOverview
+import com.example.cukcuk.domain.model.StatisticByInventory
+import com.example.cukcuk.domain.model.StatisticByTime
+import com.example.cukcuk.domain.model.StatisticOverview
 import java.time.LocalDateTime
 
 interface StatisticRepository {

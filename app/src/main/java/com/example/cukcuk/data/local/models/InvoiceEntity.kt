@@ -1,4 +1,4 @@
-package com.example.cukcuk.data.local.entities
+package com.example.cukcuk.data.local.models
 import java.time.LocalDateTime
 import java.util.UUID
 

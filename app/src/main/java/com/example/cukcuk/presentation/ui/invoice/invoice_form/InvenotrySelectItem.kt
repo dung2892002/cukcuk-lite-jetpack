@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cukcuk.R
-import com.example.cukcuk.domain.dtos.InventorySelect
+import com.example.cukcuk.domain.model.InventorySelect
 import com.example.cukcuk.domain.model.Inventory
 import com.example.cukcuk.presentation.components.CukcukButton
 import com.example.cukcuk.presentation.components.CukcukImageBox
@@ -49,7 +47,7 @@ fun InventorySelectItem(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = if (item.quantity.value > 0) colorResource(R.color.inventory_selected) else Color.White
+                color = if (item.quantity > 0) colorResource(R.color.inventory_selected) else Color.White
             )
     ) {
         Row(
@@ -76,7 +74,7 @@ fun InventorySelectItem(
             Box(
                 modifier = Modifier.padding(10.dp)
             ) {
-                if (item.quantity.value == 0.0) {
+                if (item.quantity == 0.0) {
                     CukcukImageBox(
                         color = item.inventory.Color,
                         imageName = item.inventory.IconFileName,
@@ -114,7 +112,7 @@ fun InventorySelectItem(
             }
         }
 
-        if (item.quantity.value > 0) {
+        if (item.quantity > 0) {
             Row(
                 modifier = Modifier
                     .padding(end = 10.dp)
@@ -139,7 +137,7 @@ fun InventorySelectItem(
                 )
 
                 CukcukButton(
-                    title = FormatDisplay.formatNumber(item.quantity.value.toString()),
+                    title = FormatDisplay.formatNumber(item.quantity.toString()),
                     bgColor = Color.White,
                     textColor = Color.Black,
                     onClick = {
@@ -174,7 +172,7 @@ fun InventorySelectItemPreview() {
     CukcukTheme {
         InventorySelectItem(
             item = InventorySelect(
-                quantity = remember { mutableDoubleStateOf(0.0) } ,
+                quantity = 0.0 ,
                 inventory = Inventory(
                     InventoryName = "Bún đậu đầy đủ không dồi",
                     Color = "#FF0000",

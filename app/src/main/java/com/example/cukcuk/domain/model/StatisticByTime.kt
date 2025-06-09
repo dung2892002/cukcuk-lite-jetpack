@@ -1,7 +1,6 @@
-package com.example.cukcuk.domain.dtos
+package com.example.cukcuk.domain.model
 
 import java.time.LocalDateTime
-
 
 data class StatisticByTime (
     var Title: String = "",

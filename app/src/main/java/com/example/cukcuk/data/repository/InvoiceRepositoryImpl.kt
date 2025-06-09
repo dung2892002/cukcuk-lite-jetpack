@@ -1,9 +1,9 @@
 package com.example.cukcuk.data.repository
 
 import com.example.cukcuk.data.local.dao.InvoiceDao
-import com.example.cukcuk.data.mapper.toDomain
-import com.example.cukcuk.data.mapper.toDomainInventory
-import com.example.cukcuk.data.mapper.toEntity
+import com.example.cukcuk.data.local.mapper.toDomain
+import com.example.cukcuk.data.local.mapper.toDomainInventory
+import com.example.cukcuk.data.local.mapper.toEntity
 import com.example.cukcuk.domain.model.Inventory
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.model.InvoiceDetail

@@ -2,12 +2,11 @@ package com.example.cukcuk.presentation.ui.invoice.invoice_form
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cukcuk.domain.dtos.InventorySelect
+import com.example.cukcuk.domain.model.InventorySelect
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.usecase.invoice.CreateInvoiceUseCase
 import com.example.cukcuk.domain.usecase.invoice.GetInventorySelectUseCase
@@ -29,8 +28,8 @@ class InvoiceFormViewModel @Inject constructor(
     private val _invoice = mutableStateOf<Invoice>(Invoice())
     val invoice: State<Invoice> = _invoice
 
-    private val _inventoriesSelect = mutableStateListOf<InventorySelect>()
-    val inventoriesSelect: List<InventorySelect> = _inventoriesSelect
+    private val _inventoriesSelect = mutableStateOf<List<InventorySelect>>(emptyList())
+    val inventoriesSelect: State<List<InventorySelect>> = _inventoriesSelect
 
     private val _currentInventoryIndex = mutableIntStateOf(0)
     val currentInventoryIndex: State<Int> = _currentInventoryIndex
@@ -56,15 +55,15 @@ class InvoiceFormViewModel @Inject constructor(
     fun fetchData(invoiceId: UUID?) {
         viewModelScope.launch {
             if (invoiceId != null) _invoice.value = getInvoiceDetailUseCase(invoiceId)
-            _inventoriesSelect.addAll(getInventorySelectUseCase(invoiceId))
+            _inventoriesSelect.value = getInventorySelectUseCase(invoiceId)
         }
     }
 
     suspend fun submitForm() : UUID? {
         val response = if (invoice.value.InvoiceID == null) {
-            createInvoiceUseCase(_invoice.value, _inventoriesSelect)
+            createInvoiceUseCase(_invoice.value, _inventoriesSelect.value)
         } else {
-            updateInvoiceUseCase(_invoice.value, _inventoriesSelect)
+            updateInvoiceUseCase(_invoice.value, _inventoriesSelect.value)
         }
 
         if (response.isSuccess) {
@@ -90,12 +89,29 @@ class InvoiceFormViewModel @Inject constructor(
         _showCalculatorNumberPeople.value = true
     }
 
-    fun updateNewQuantity(newQuantity: Double) {
+    fun updateQuantityInventory(newQuantity: Double) {
         val index = _currentInventoryIndex.intValue
-        _invoice.value.Amount += (newQuantity - _inventoriesSelect[index].quantity.value) * _inventoriesSelect[index].inventory.Price
-        _inventoriesSelect[index].quantity.value = newQuantity
+        updateQuantityInventoryWithIndex(index,newQuantity)
+
         closeCalculator()
     }
+
+    fun updateQuantityInventoryWithIndex(index: Int, newQuantity: Double) {
+        val item = _inventoriesSelect.value[index]
+        val oldQuantity = item.quantity
+
+        val updatedItem = item.copy(quantity = newQuantity)
+        val updatedList = _inventoriesSelect.value.toMutableList().apply {
+            set(index, updatedItem)
+        }
+        _inventoriesSelect.value = updatedList
+
+        val quantityDiff = newQuantity - oldQuantity
+        _invoice.value = _invoice.value.copy(
+            Amount = _invoice.value.Amount + quantityDiff * item.inventory.Price
+        )
+    }
+
 
     fun updateNewTable(newTable: String) {
         _invoice.value = _invoice.value.copy(TableName = newTable)
@@ -107,10 +123,7 @@ class InvoiceFormViewModel @Inject constructor(
         closeCalculator()
     }
 
-    fun updateAmount(amount: Double) {
-        val newAmount = invoice.value.Amount + amount
-        _invoice.value = _invoice.value.copy(Amount = newAmount)
-    }
+
 
     fun closeCalculator() {
         _showCalculatorQuantity.value = false

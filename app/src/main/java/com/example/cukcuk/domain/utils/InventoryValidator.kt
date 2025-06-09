@@ -1,6 +1,6 @@
 package com.example.cukcuk.domain.utils
 
-import com.example.cukcuk.domain.dtos.ResponseData
+import com.example.cukcuk.domain.model.ResponseData
 import com.example.cukcuk.domain.model.Inventory
 
 object InventoryValidator {

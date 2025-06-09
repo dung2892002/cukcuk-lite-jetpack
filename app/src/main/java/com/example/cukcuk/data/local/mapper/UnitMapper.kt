@@ -1,6 +1,6 @@
-package com.example.cukcuk.data.mapper
+package com.example.cukcuk.data.local.mapper
 
-import com.example.cukcuk.data.local.entities.UnitEntity
+import com.example.cukcuk.data.local.models.UnitEntity
 import com.example.cukcuk.domain.model.Unit
 
 fun UnitEntity.toDomainUnit() : Unit {

@@ -1,6 +1,6 @@
 package com.example.cukcuk.domain.usecase.statistic
 
-import com.example.cukcuk.domain.dtos.StatisticByTime
+import com.example.cukcuk.domain.model.StatisticByTime
 import com.example.cukcuk.domain.repository.StatisticRepository
 import com.example.cukcuk.presentation.enums.StateStatistic
 import javax.inject.Inject

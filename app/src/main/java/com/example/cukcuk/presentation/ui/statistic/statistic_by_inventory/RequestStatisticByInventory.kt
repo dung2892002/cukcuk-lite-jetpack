@@ -1,4 +1,4 @@
-package com.example.cukcuk.domain.dtos
+package com.example.cukcuk.presentation.ui.statistic.statistic_by_inventory
 
 import java.time.LocalDateTime
 

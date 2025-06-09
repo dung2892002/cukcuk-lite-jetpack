@@ -1,8 +1,8 @@
 package com.example.cukcuk.data.repository
 
 import com.example.cukcuk.data.local.dao.UnitDao
-import com.example.cukcuk.data.mapper.toDomainUnit
-import com.example.cukcuk.data.mapper.toEntity
+import com.example.cukcuk.data.local.mapper.toDomainUnit
+import com.example.cukcuk.data.local.mapper.toEntity
 import com.example.cukcuk.domain.model.Unit
 import com.example.cukcuk.domain.repository.UnitRepository
 import java.util.UUID

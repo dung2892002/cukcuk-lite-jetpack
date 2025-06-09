@@ -1,8 +1,8 @@
 package com.example.cukcuk.data.repository
 
 import com.example.cukcuk.data.local.dao.InventoryDao
-import com.example.cukcuk.data.mapper.toDomainInventory
-import com.example.cukcuk.data.mapper.toEntity
+import com.example.cukcuk.data.local.mapper.toDomainInventory
+import com.example.cukcuk.data.local.mapper.toEntity
 import com.example.cukcuk.domain.model.Inventory
 import com.example.cukcuk.domain.repository.InventoryRepository
 import java.util.UUID

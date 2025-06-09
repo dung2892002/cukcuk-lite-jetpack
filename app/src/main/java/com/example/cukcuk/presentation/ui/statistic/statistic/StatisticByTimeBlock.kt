@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cukcuk.R
-import com.example.cukcuk.domain.dtos.StatisticByTime
+import com.example.cukcuk.domain.model.StatisticByTime
 import com.example.cukcuk.presentation.components.LineChartStatisticByTime
 import com.example.cukcuk.presentation.enums.LineChartLabels
 import com.example.cukcuk.utils.FormatDisplay

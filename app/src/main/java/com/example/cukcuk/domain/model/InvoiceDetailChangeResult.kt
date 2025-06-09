@@ -1,6 +1,4 @@
-package com.example.cukcuk.domain.dtos
-
-import com.example.cukcuk.domain.model.InvoiceDetail
+package com.example.cukcuk.domain.model
 
 data class InvoiceDetailChangeResult(
     val toCreate: MutableList<InvoiceDetail> = mutableListOf(),

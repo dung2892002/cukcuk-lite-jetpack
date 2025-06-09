@@ -1,4 +1,4 @@
-package com.example.cukcuk.domain.dtos
+package com.example.cukcuk.domain.model
 
 import com.example.cukcuk.presentation.enums.StateStatistic
 

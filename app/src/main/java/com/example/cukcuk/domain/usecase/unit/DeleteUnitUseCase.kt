@@ -1,6 +1,6 @@
 package com.example.cukcuk.domain.usecase.unit
 
-import com.example.cukcuk.domain.dtos.ResponseData
+import com.example.cukcuk.domain.model.ResponseData
 import com.example.cukcuk.domain.model.Unit
 import com.example.cukcuk.domain.repository.UnitRepository
 import com.example.cukcuk.presentation.enums.SynchronizeTable

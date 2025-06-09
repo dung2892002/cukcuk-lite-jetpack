@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cukcuk.domain.dtos.StatisticByInventory
+import com.example.cukcuk.domain.model.StatisticByInventory
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticByInventoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

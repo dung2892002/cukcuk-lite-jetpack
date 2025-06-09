@@ -1,7 +1,7 @@
 package com.example.cukcuk.presentation.components
 
 import androidx.compose.runtime.Composable
-import com.example.cukcuk.domain.dtos.StatisticByTime
+import com.example.cukcuk.domain.model.StatisticByTime
 import android.graphics.Color
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height

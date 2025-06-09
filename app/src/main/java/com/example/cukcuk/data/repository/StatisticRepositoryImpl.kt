@@ -1,43 +1,38 @@
 package com.example.cukcuk.data.repository
 
 import com.example.cukcuk.data.local.dao.StatisticDao
-import com.example.cukcuk.domain.dtos.StatisticByInventory
-import com.example.cukcuk.domain.dtos.StatisticByTime
-import com.example.cukcuk.domain.dtos.StatisticOverview
+import com.example.cukcuk.domain.model.StatisticByInventory
+import com.example.cukcuk.domain.model.StatisticByTime
+import com.example.cukcuk.domain.model.StatisticOverview
 import com.example.cukcuk.domain.repository.StatisticRepository
 import com.example.cukcuk.presentation.enums.StateStatistic
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.temporal.ChronoUnit
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
 class StatisticRepositoryImpl @Inject constructor(
     private val dao: StatisticDao
 ) : StatisticRepository {
+
     override suspend fun getStatisticOverview(): List<StatisticOverview> {
         val result = dao.getStatisticOverview()
 
-        var colors = listOf<String>("#5AB4FD", "#5AB4FD", "#4CAF50", "#F44336", "#2196F3")
-        var icons = listOf<String>("ic-calendar-1.png", "ic-calendar-1.png", "ic-calendar-7.png", "ic-calendar-30.png", "ic-calendar-12.png")
-        val statistics = mutableListOf<StatisticOverview>()
+        val colors = listOf<String>("#5AB4FD", "#5AB4FD", "#4CAF50", "#F44336", "#2196F3")
+        val icons = listOf<String>("ic-calendar-1.png", "ic-calendar-1.png", "ic-calendar-7.png", "ic-calendar-30.png", "ic-calendar-12.png")
+        val states = listOf(
+            StateStatistic.Yesterday, StateStatistic.Today, StateStatistic.ThisWeek,
+            StateStatistic.ThisMonth, StateStatistic.ThisYear)
 
-        for (i in 0 until result.size) {
-            statistics.add(
-                StatisticOverview(
-                    Amount = result[i].second,
-                    IconFile = icons[i],
-                    Color = colors[i],
-                    StatisticState = when (result[i].first) {
-                        "Yesterday" -> StateStatistic.Yesterday
-                        "Today" -> StateStatistic.Today
-                        "ThisWeek" -> StateStatistic.ThisWeek
-                        "ThisMonth" -> StateStatistic.ThisMonth
-                        "ThisYear" -> StateStatistic.ThisYear
-                        else -> StateStatistic.Yesterday
-                    }
-                )
+        val statistics = result.mapIndexed { index, item ->
+            StatisticOverview(
+                Amount = item.Amount,
+                Color = colors[index],
+                IconFile = icons[index],
+                StatisticState = states[index]
             )
         }
 
@@ -48,87 +43,60 @@ class StatisticRepositoryImpl @Inject constructor(
         start: LocalDateTime,
         end: LocalDateTime
     ): List<StatisticByTime> {
-        val resultMap = dao.getDailyStatisticOfWeek(start, end)
-
-        val statistics = mutableListOf<StatisticByTime>()
-        val daysBetween = ChronoUnit.DAYS.between(start, end)
-        for (i in 0..daysBetween) {
-            val day = start.toLocalDate().plusDays(i.toLong())
-
-            val title = when (day.dayOfWeek) {
-                DayOfWeek.MONDAY -> "Thứ 2"
-                DayOfWeek.TUESDAY -> "Thứ 3"
-                DayOfWeek.WEDNESDAY -> "Thứ 4"
-                DayOfWeek.THURSDAY -> "Thứ 5"
-                DayOfWeek.FRIDAY -> "Thứ 6"
-                DayOfWeek.SATURDAY -> "Thứ 7"
-                DayOfWeek.SUNDAY -> "Chủ nhật"
-            }
-
-            statistics.add(
-                StatisticByTime(
-                    Title = title,
-                    Amount = resultMap[day] ?: 0.0,
-                    TimeStart = day.atStartOfDay(),
-                    TimeEnd = day.atTime(LocalTime.MAX)
-                )
+        val results = dao.getDailyStatisticOfWeek(start, end)
+        val statistics = results.map { item ->
+            StatisticByTime(
+                Amount = item.TotalAmount,
+                TimeStart = item.Day.atStartOfDay(),
+                TimeEnd = item.Day.atTime(LocalTime.MAX),
+                Title = when (item.Day.dayOfWeek) {
+                    DayOfWeek.MONDAY -> "Thứ 2"
+                    DayOfWeek.TUESDAY -> "Thứ 3"
+                    DayOfWeek.WEDNESDAY -> "Thứ 4"
+                    DayOfWeek.THURSDAY -> "Thứ 5"
+                    DayOfWeek.FRIDAY -> "Thứ 6"
+                    DayOfWeek.SATURDAY -> "Thứ 7"
+                    DayOfWeek.SUNDAY -> "Chủ nhật"
+                }
             )
         }
-        val totalAmount = statistics.sumOf { it.Amount }
-        return if (totalAmount == 0.0) emptyList() else statistics
+
+        return statistics.takeIf { it.sumOf { s -> s.Amount } > 0.0 } ?: emptyList()
     }
 
     override suspend fun getDailyStatisticOfMonth(
         start: LocalDateTime,
         end: LocalDateTime
     ): List<StatisticByTime> {
-        val startDate = start.toLocalDate()
-        val endDate = end.toLocalDate()
-        val resultMap = dao.getDailyStatisticOfMonth(start, end)
+        val results = dao.getDailyStatisticOfMonth(start, end)
 
-        val statistics = mutableListOf<StatisticByTime>()
-        var currentDay = startDate
-
-        while (!currentDay.isAfter(endDate)) {
-            statistics.add(
-                StatisticByTime(
-                    Title = "Ngày ${currentDay.dayOfMonth}",
-                    Amount = resultMap[currentDay] ?: 0.0,
-                    TimeStart = currentDay.atStartOfDay(),
-                    TimeEnd = currentDay.atTime(LocalTime.MAX)
-                )
+        val statistics = results.map { item ->
+            StatisticByTime(
+                Amount = item.TotalAmount,
+                TimeStart = item.Day.atStartOfDay(),
+                TimeEnd = item.Day.atTime(LocalTime.MAX),
+                Title = "Ngày ${item.Day.dayOfMonth}"
             )
-            currentDay = currentDay.plusDays(1)
         }
 
-        val totalAmount = statistics.sumOf { it.Amount }
-        return if (totalAmount == 0.0) emptyList() else statistics
+        return statistics.takeIf { it.sumOf { s -> s.Amount } > 0.0 } ?: emptyList()
     }
 
     override suspend fun getMonthlyStatistic(
         start: LocalDateTime,
         end: LocalDateTime
     ): List<StatisticByTime> {
-        val startDate = start.toLocalDate()
-        val endDate = end.toLocalDate()
+        val results = dao.getMonthlyStatistic(start, end)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
 
-        val resultMap = dao.getMonthlyStatistic(start, end)
-        val statistics = mutableListOf<StatisticByTime>()
-        var current = startDate.withDayOfMonth(1)
-        while (!current.isAfter(endDate)) {
-            val firstDay = current.withDayOfMonth(1)
-            val lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth())
-            val key = Pair(firstDay.year, firstDay.monthValue)
-
-            statistics.add(
-                StatisticByTime(
-                    Title = "Tháng ${firstDay.monthValue}",
-                    Amount = resultMap[key] ?: 0.0,
-                    TimeStart = firstDay.atStartOfDay(),
-                    TimeEnd = lastDay.atTime(LocalTime.MAX)
-                )
+        val statistics = results.map { item ->
+            val month = YearMonth.parse(item.Month, formatter)
+            StatisticByTime(
+                Amount = item.TotalAmount,
+                TimeStart = month.atDay(1).atStartOfDay(),
+                TimeEnd = month.atEndOfMonth().atTime(LocalTime.MAX),
+                Title = "Tháng ${month.monthValue}"
             )
-            current = current.plusMonths(1)
         }
 
         val totalAmount = statistics.sumOf { it.Amount }
@@ -140,31 +108,25 @@ class StatisticRepositoryImpl @Inject constructor(
         end: LocalDateTime
     ): List<StatisticByInventory> {
         var result = dao.getStatisticByInventory(start, end)
+        if (result.isEmpty()) return emptyList()
 
-        var colors = listOf<String>("#2196F3", "#4CAF50", "#F44336", "#FFC107", "#4B3FB5", "#001F54", "#BCBCBC")
-        var sortOrder = 1
-
-        val statistics = mutableListOf<StatisticByInventory>()
-
-        for (i in 0 until result.size) {
-            statistics.add(
-                StatisticByInventory(
-                    InventoryName = result[i].InventoryName,
-                    Quantity = result[i].Quantity,
-                    Amount = result[i].Amount,
-                    UnitName = result[i].UnitName,
-                    Percentage = 0.0,
-                    Color = if(sortOrder - 1 < colors.size) colors[sortOrder - 1] else colors.last(),
-                    SortOrder = sortOrder++
-                )
-            )
-        }
-        val totalAmount = statistics.sumOf { it.Amount }
+        val totalAmount = result.sumOf { it.Amount }
         if (totalAmount == 0.0) return emptyList()
 
-        statistics.forEach {
-            it.Percentage = it.Amount / totalAmount * 100.0
+        var colors = listOf("#2196F3", "#4CAF50", "#F44336", "#FFC107", "#4B3FB5", "#001F54", "#BCBCBC")
+
+        val statistics = result.mapIndexed { index, item ->
+            StatisticByInventory(
+                InventoryName = item.InventoryName,
+                Quantity = item.Quantity,
+                Amount = item.Amount,
+                UnitName = item.UnitName,
+                Percentage = item.Amount/ totalAmount * 100.0,
+                Color = colors.getOrElse(index) { colors.last() },
+                SortOrder = index + 1
+            )
         }
+
         return statistics
     }
 }

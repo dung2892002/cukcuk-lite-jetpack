@@ -3,7 +3,12 @@ package com.example.cukcuk.data.local.dao
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.example.cukcuk.data.local.entities.ResultStatisticByInventory
+import com.example.cukcuk.data.local.models.StatisticByInventory
+import com.example.cukcuk.data.local.models.StatisticByDay
+import com.example.cukcuk.data.local.models.StatisticByMonth
+import com.example.cukcuk.data.local.models.StatisticOverView
+import com.example.cukcuk.utils.getDouble
+import com.example.cukcuk.utils.getString
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,47 +23,47 @@ class StatisticDao @Inject constructor(
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)
     }
 
-    suspend fun getStatisticOverview(): List<Pair<String, Double>> = withContext(Dispatchers.IO) {
-        val result = mutableListOf<Pair<String, Double>>()
+    suspend fun getStatisticOverview(): List<StatisticOverView> = withContext(Dispatchers.IO) {
+        val result = mutableListOf<StatisticOverView>()
         val query = """
-            SELECT 'Yesterday' AS Label, 
-                   SUM(CASE WHEN date(InvoiceDate) = date('now', '-1 day') THEN Amount ELSE 0 END) AS Value
+            SELECT 'Yesterday' AS Title, 
+                   SUM(CASE WHEN date(InvoiceDate) = date('now', '-1 day') THEN Amount ELSE 0 END) AS Amount
             FROM Invoice
             WHERE PaymentStatus = 1
             
             UNION ALL
             
-            SELECT 'Today' AS Label, 
-                   SUM(CASE WHEN date(InvoiceDate) = date('now') THEN Amount ELSE 0 END) AS Value
+            SELECT 'Today' AS Title, 
+                   SUM(CASE WHEN date(InvoiceDate) = date('now') THEN Amount ELSE 0 END) AS Amount
             FROM Invoice
             WHERE PaymentStatus = 1
             
             UNION ALL
             
-            SELECT 'ThisWeek' AS Label, 
+            SELECT 'ThisWeek' AS Title, 
                    SUM(CASE 
                         WHEN strftime('%W', InvoiceDate) = strftime('%W', 'now') 
                          AND strftime('%Y', InvoiceDate) = strftime('%Y', 'now')
-                        THEN Amount ELSE 0 END) AS Value
+                        THEN Amount ELSE 0 END) AS Amount
             FROM Invoice
             WHERE PaymentStatus = 1
             
             UNION ALL
             
-            SELECT 'ThisMonth' AS Label, 
+            SELECT 'ThisMonth' AS Title, 
                    SUM(CASE 
                         WHEN strftime('%m', InvoiceDate) = strftime('%m', 'now') 
                          AND strftime('%Y', InvoiceDate) = strftime('%Y', 'now') 
-                        THEN Amount ELSE 0 END) AS Value
+                        THEN Amount ELSE 0 END) AS Amount
             FROM Invoice
             WHERE PaymentStatus = 1
             
             UNION ALL
             
-            SELECT 'ThisYear' AS Label, 
+            SELECT 'ThisYear' AS Title, 
                    SUM(CASE 
                         WHEN strftime('%Y', InvoiceDate) = strftime('%Y', 'now') 
-                        THEN Amount ELSE 0 END) AS Value
+                        THEN Amount ELSE 0 END) AS Amount
             FROM Invoice
             WHERE PaymentStatus = 1
                     
@@ -68,9 +73,12 @@ class StatisticDao @Inject constructor(
         try {
             cursor = db.rawQuery(query, null)
             while (cursor.moveToNext()) {
-                val label = cursor.getString(0)
-                val value = cursor.getDouble(1)
-                result.add(Pair(label, value))
+                result.add(
+                    StatisticOverView(
+                        Title = cursor.getString("Title"),
+                        Amount = cursor.getDouble("Amount")
+                    )
+                )
             }
 
         }
@@ -84,154 +92,32 @@ class StatisticDao @Inject constructor(
         result
     }
 
-    suspend fun getDailyStatisticOfWeek(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime): Map<LocalDate, Double> = withContext(Dispatchers.IO) {
+    suspend fun getDailyStatisticOfWeek(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime): List<StatisticByDay> = withContext(Dispatchers.IO) {
+        val results = mutableListOf<StatisticByDay>()
+
         val query = """
             SELECT
-                 date(InvoiceDate) as day,
+                 date(InvoiceDate) as Day,
                  SUM(Amount) as Amount
             FROM Invoice
-            WHERE PaymentStatus = 1 AND date(InvoiceDate) BETWEEN ? AND ? 
-            GROUP BY day
-            ORDER BY day
+            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ? 
+            GROUP BY Day
+            ORDER BY Day
         """.trimIndent()
 
         var cursor: Cursor? = null
 
-        val resultMap = mutableMapOf<LocalDate, Double>()
         try {
             cursor = db.rawQuery(
                 query,
                 arrayOf(startOfWeek.toLocalDate().toString(), endOfWeek.toLocalDate().toString())
             )
             while (cursor.moveToNext()) {
-                val day = LocalDate.parse(cursor.getString(0))
-                val amount = cursor.getDouble(1)
-                resultMap[day] = amount
-            }
-        }
-        catch (ex: Exception) {
-            ex.printStackTrace()
-            println(ex)
-        }
-        finally {
-            cursor?.close()
-        }
-
-        resultMap.toMap()
-    }
-
-    suspend fun getDailyStatisticOfMonth(start: LocalDateTime, end: LocalDateTime): MutableMap<LocalDate, Double> = withContext(Dispatchers.IO) {
-        val query = """
-            SELECT
-                 date(InvoiceDate) as day,
-                 SUM(Amount) as Amount
-            FROM Invoice
-            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ?
-            GROUP BY day
-            ORDER BY day
-        """.trimIndent()
-
-        var cursor: Cursor? = null
-
-        val resultMap = mutableMapOf<LocalDate, Double>()
-        try {
-            cursor = db.rawQuery(
-                query,
-                arrayOf(start.toString(), end.toString())
-            )
-            while (cursor.moveToNext()) {
-                val day = LocalDate.parse(cursor.getString(0))
-                val amount = cursor.getDouble(1)
-                resultMap[day] = amount
-            }
-        }
-        catch (ex: Exception) {
-            ex.printStackTrace()
-            println(ex)
-        }
-        finally {
-            cursor?.close()
-        }
-
-        resultMap
-    }
-
-    suspend fun getMonthlyStatistic(start: LocalDateTime, end: LocalDateTime): MutableMap<Pair<Int, Int>, Double> = withContext(Dispatchers.IO) {
-        val startDate = start.toLocalDate()
-        val endDate = end.toLocalDate()
-
-        val query = """
-            SELECT
-                 strftime('%Y-%m', InvoiceDate) as month,
-                 SUM(Amount) as Amount
-            FROM Invoice
-            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ?
-            GROUP BY month
-            ORDER BY month
-        """.trimIndent()
-
-        var cursor: Cursor? = null
-        val resultMap = mutableMapOf<Pair<Int, Int>, Double>() // (year, month) -> amount
-        try {
-            cursor = db.rawQuery(
-                query,
-                arrayOf(startDate.toString(), endDate.toString())
-            )
-            while (cursor.moveToNext()) {
-                val monthStr = cursor.getString(0) // e.g., "2024-05"
-                val parts = monthStr.split("-")
-                val year = parts[0].toInt()
-                val month = parts[1].toInt()
-                val amount = cursor.getDouble(1)
-                resultMap[Pair(year, month)] = amount
-            }
-        }
-        catch (ex: Exception) {
-            ex.printStackTrace()
-            println(ex)
-        }
-        finally {
-            cursor?.close()
-        }
-
-        resultMap
-    }
-
-    suspend fun getStatisticByInventory(fromDate: LocalDateTime, toDate: LocalDateTime): List<ResultStatisticByInventory> = withContext(Dispatchers.IO) {
-        val query = """
-            SELECT
-                d.InventoryName,
-                SUM(d.Quantity) as TotalQuantity,
-                SUM(d.Amount) as TotalAmount,
-                d.UnitName
-            FROM Invoice i
-            INNER JOIN InvoiceDetail d ON i.InvoiceID = d.InvoiceID
-            WHERE PaymentStatus = 1 AND date(i.InvoiceDate) BETWEEN ? AND ?
-            GROUP BY d.InventoryID, d.InventoryName, d.UnitName
-            ORDER BY TotalAmount DESC
-        """.trimIndent()
-
-
-        val list = mutableListOf<ResultStatisticByInventory>()
-
-        var cursor: Cursor? = null
-        try {
-            cursor = db.rawQuery(
-                query,
-                arrayOf(fromDate.toLocalDate().toString(), toDate.toLocalDate().toString())
-            )
-            while (cursor.moveToNext()) {
-                val name = cursor.getString(0)
-                val quantity = cursor.getDouble(1)
-                val amount = cursor.getDouble(2)
-                val unit = cursor.getString(3)
-
-                list.add(
-                    ResultStatisticByInventory(
-                        InventoryName = name,
-                        Quantity = quantity,
-                        Amount = amount,
-                        UnitName = unit,
+                val day = LocalDate.parse(cursor.getString("Day"))
+                results.add(
+                    StatisticByDay(
+                        Day = day,
+                        TotalAmount = cursor.getDouble("Amount")
                     )
                 )
             }
@@ -244,6 +130,133 @@ class StatisticDao @Inject constructor(
             cursor?.close()
         }
 
-        list
+        results.toList()
+    }
+
+    suspend fun getDailyStatisticOfMonth(start: LocalDateTime, end: LocalDateTime): List<StatisticByDay> = withContext(Dispatchers.IO) {
+        val results = mutableListOf<StatisticByDay>()
+        val query = """
+            SELECT
+                 date(InvoiceDate) as Day,
+                 SUM(Amount) as Amount
+            FROM Invoice
+            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ?
+            GROUP BY Day
+            ORDER BY Day
+        """.trimIndent()
+
+        var cursor: Cursor? = null
+
+        try {
+            cursor = db.rawQuery(
+                query,
+                arrayOf(start.toString(), end.toString())
+            )
+            while (cursor.moveToNext()) {
+                val day = LocalDate.parse(cursor.getString("Day"))
+                results.add(
+                    StatisticByDay(
+                        Day = day,
+                        TotalAmount = cursor.getDouble("Amount")
+                    )
+                )
+            }
+        }
+        catch (ex: Exception) {
+            ex.printStackTrace()
+            println(ex)
+        }
+        finally {
+            cursor?.close()
+        }
+
+        results
+    }
+
+    suspend fun getMonthlyStatistic(start: LocalDateTime, end: LocalDateTime): List<StatisticByMonth> = withContext(Dispatchers.IO) {
+        val results = mutableListOf<StatisticByMonth>()
+
+        val query = """
+            SELECT
+                 strftime('%Y-%m', InvoiceDate) as Month,
+                 SUM(Amount) as Amount
+            FROM Invoice
+            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ?
+            GROUP BY Month
+            ORDER BY Month
+        """.trimIndent()
+
+        var cursor: Cursor? = null
+        try {
+            cursor = db.rawQuery(
+                query,
+                arrayOf(start.toString(), end.toString())
+            )
+            while (cursor.moveToNext()) {
+                val month = cursor.getString("Month")
+                val amount = cursor.getDouble("Amount")
+
+                results.add(
+                    StatisticByMonth(
+                        TotalAmount = amount,
+                        Month = month
+                    )
+                )
+            }
+        }
+        catch (ex: Exception) {
+            ex.printStackTrace()
+            println(ex)
+        }
+        finally {
+            cursor?.close()
+        }
+
+        results
+    }
+
+    suspend fun getStatisticByInventory(fromDate: LocalDateTime, toDate: LocalDateTime): List<StatisticByInventory> = withContext(Dispatchers.IO) {
+        val query = """
+            SELECT
+                d.InventoryName as InventoryName,
+                SUM(d.Quantity) as Quantity,
+                SUM(d.Amount) as Amount,
+                d.UnitName as UnitName
+            FROM Invoice i
+            INNER JOIN InvoiceDetail d ON i.InvoiceID = d.InvoiceID
+            WHERE PaymentStatus = 1 AND i.InvoiceDate BETWEEN ? AND ?
+            GROUP BY d.InventoryID, d.InventoryName, d.UnitName
+            ORDER BY Amount DESC
+        """.trimIndent()
+
+
+        val result = mutableListOf<StatisticByInventory>()
+
+        var cursor: Cursor? = null
+        try {
+            cursor = db.rawQuery(
+                query,
+                arrayOf(fromDate.toString(), toDate.toString())
+            )
+            while (cursor.moveToNext()) {
+                result.add(
+                    StatisticByInventory(
+                        InventoryName = cursor.getString("InventoryName"),
+                        Quantity = cursor.getDouble("Quantity"),
+                        Amount = cursor.getDouble("Amount"),
+                        UnitName = cursor.getString("UnitName"),
+                    )
+                )
+            }
+        }
+        catch (ex: Exception) {
+            ex.printStackTrace()
+            println(ex)
+        }
+        finally {
+            cursor?.close()
+        }
+
+        result
     }
 }

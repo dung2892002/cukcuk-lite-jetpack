@@ -1,4 +1,4 @@
-package com.example.cukcuk.domain.dtos
+package com.example.cukcuk.domain.model
 
 data class ResponseData (
     var isSuccess: Boolean,

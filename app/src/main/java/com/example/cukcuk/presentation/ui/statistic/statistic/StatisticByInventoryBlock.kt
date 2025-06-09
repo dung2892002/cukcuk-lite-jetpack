@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cukcuk.domain.dtos.StatisticByInventory
+import com.example.cukcuk.domain.model.StatisticByInventory
 import com.example.cukcuk.presentation.components.CukcukTextBox
 import com.example.cukcuk.presentation.components.PieChartStatisticInventory
 import com.example.cukcuk.utils.FormatDisplay

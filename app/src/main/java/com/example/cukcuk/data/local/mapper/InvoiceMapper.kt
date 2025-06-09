@@ -1,7 +1,7 @@
-package com.example.cukcuk.data.mapper
+package com.example.cukcuk.data.local.mapper
 
-import com.example.cukcuk.data.local.entities.InvoiceDetailEntity
-import com.example.cukcuk.data.local.entities.InvoiceEntity
+import com.example.cukcuk.data.local.models.InvoiceDetailEntity
+import com.example.cukcuk.data.local.models.InvoiceEntity
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.model.InvoiceDetail
 
@@ -42,6 +42,7 @@ fun Invoice.toEntity() : InvoiceEntity {
     return InvoiceEntity(
         InvoiceID = this.InvoiceID,
         Amount = this.Amount,
+        InvoiceDate = this.InvoiceDate,
         ReceiveAmount = this.ReceiveAmount,
         ReturnAmount = this.ReturnAmount,
         PaymentStatus = this.PaymentStatus,

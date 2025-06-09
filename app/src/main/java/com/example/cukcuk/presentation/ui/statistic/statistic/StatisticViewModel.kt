@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cukcuk.domain.dtos.RequestStatisticByInventory
-import com.example.cukcuk.domain.dtos.StatisticByInventory
-import com.example.cukcuk.domain.dtos.StatisticByTime
-import com.example.cukcuk.domain.dtos.StatisticOverview
+import com.example.cukcuk.presentation.ui.statistic.statistic_by_inventory.RequestStatisticByInventory
+import com.example.cukcuk.domain.model.StatisticByInventory
+import com.example.cukcuk.domain.model.StatisticByTime
+import com.example.cukcuk.domain.model.StatisticOverview
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticByInventoryUseCase
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticByTimeUseCase
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticOverviewUseCase
