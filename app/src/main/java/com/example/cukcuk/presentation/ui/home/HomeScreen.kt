@@ -95,7 +95,10 @@ fun HomeScreen(
         if (showNavigationBar) {
             AppNavigationBarOverlay(
                 currentScreen = currentScreen,
-                onSelectScreen = { viewModel.navigateScreen(it) },
+                onSelectScreen = {
+                    viewModel.navigateScreen(it)
+                    sharedViewModel.setShowOverviewStatistic(true)
+                },
                 onSelectNewScreen = { navigateToScreen(it) },
                 onClose = { viewModel.closeNavigationView() },
                 modifier = Modifier.zIndex(1f),

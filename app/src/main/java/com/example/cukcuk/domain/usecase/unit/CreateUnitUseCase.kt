@@ -3,6 +3,7 @@ package com.example.cukcuk.domain.usecase.unit
 import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Unit
 import com.example.cukcuk.domain.repository.UnitRepository
+import com.example.cukcuk.presentation.enums.SynchronizeTable
 import com.example.cukcuk.utils.SynchronizeHelper
 import java.time.LocalDateTime
 import java.util.UUID
@@ -26,7 +27,7 @@ class CreateUnitUseCase @Inject constructor(
         response.isSuccess = repository.createUnit(unit)
         if (response.isSuccess) {
             response.message = null
-            syncHelper.insertSync("Unit", unit.UnitID)
+            syncHelper.insertSync(SynchronizeTable.Unit, unit.UnitID)
         }
         return response
     }

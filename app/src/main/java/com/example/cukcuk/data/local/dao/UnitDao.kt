@@ -4,9 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.example.cukcuk.domain.model.Unit
-import com.example.cukcuk.utils.getBoolean
-import com.example.cukcuk.utils.getDateTime
+import com.example.cukcuk.data.local.entities.UnitEntity
 import com.example.cukcuk.utils.getString
 import com.example.cukcuk.utils.getUUID
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -78,26 +76,20 @@ class UnitDao @Inject constructor(
         exists
     }
 
-    suspend fun getAllUnit() : List<Unit> = withContext(Dispatchers.IO) {
-        val units = mutableListOf<Unit>()
+    suspend fun getAllUnit() : List<UnitEntity> = withContext(Dispatchers.IO) {
+        val units = mutableListOf<UnitEntity>()
 
         val query = """
-            SELECT u.UnitID, u.UnitName, u.Inactive FROM Unit u
+            SELECT u.UnitID, u.UnitName FROM Unit u
         """.trimIndent()
         var cursor: Cursor? = null
 
         try {
             cursor = db.rawQuery(query, null)
             while (cursor.moveToNext()) {
-                val unit = Unit(
+                val unit = UnitEntity(
                     UnitID = cursor.getUUID("UnitID"),
-                    UnitName = cursor.getString("UnitName"),
-                    Description = "",
-                    Inactive = cursor.getBoolean("Inactive"),
-                    CreatedBy = "",
-                    ModifiedBy = "",
-                    CreatedDate = null,
-                    ModifiedDate = null
+                    UnitName = cursor.getString("UnitName")
                 )
                 units.add(unit)
             }
@@ -112,11 +104,11 @@ class UnitDao @Inject constructor(
         units.toList()
     }
 
-    suspend fun getUnitById(unitId: UUID) : Unit? = withContext(Dispatchers.IO) {
-        var unit : Unit? = null
+    suspend fun getUnitById(unitId: UUID) : UnitEntity? = withContext(Dispatchers.IO) {
+        var unit : UnitEntity? = null
 
         val query = """
-            SELECT * FROM Unit u
+            SELECT u.UnitID, u.UnitName FROM Unit u
             WHERE UnitID = ?
         """.trimIndent()
         var cursor: Cursor? = null
@@ -124,15 +116,9 @@ class UnitDao @Inject constructor(
         try {
             cursor = db.rawQuery(query, arrayOf(unitId.toString()))
             if (cursor.moveToFirst()) {
-                unit = Unit(
+                unit = UnitEntity(
                     UnitID = cursor.getUUID("UnitID"),
-                    UnitName = cursor.getString("UnitName"),
-                    Description = cursor.getString("Description"),
-                    Inactive = cursor.getBoolean("Inactive"),
-                    CreatedBy = cursor.getString("CreatedBy"),
-                    ModifiedBy = cursor.getString("ModifiedBy"),
-                    CreatedDate = cursor.getDateTime("CreatedDate"),
-                    ModifiedDate = cursor.getDateTime("ModifiedDate"),
+                    UnitName = cursor.getString("UnitName")
                 )
             }
         }
@@ -146,17 +132,12 @@ class UnitDao @Inject constructor(
         unit
     }
 
-    suspend fun createUnit(unit: Unit): Boolean = withContext(Dispatchers.IO) {
+    suspend fun createUnit(unit: UnitEntity): Boolean = withContext(Dispatchers.IO) {
         try {
             val values = ContentValues().apply {
                 put("UnitID", unit.UnitID.toString())
                 put("UnitName", unit.UnitName)
-                put("Description", unit.Description)
-                put("Inactive", if (unit.Inactive) 1 else 0)
-                put("CreatedBy", unit.CreatedBy)
-                put("ModifiedBy", unit.ModifiedBy)
                 put("CreatedDate", unit.CreatedDate.toString())
-                put("ModifiedDate", unit.ModifiedDate.toString())
             }
 
             val result = db.insert("Unit", null, values)
@@ -169,15 +150,10 @@ class UnitDao @Inject constructor(
         }
     }
 
-    suspend fun updateUnit(unit: Unit): Boolean = withContext(Dispatchers.IO) {
-        if (unit.UnitID == null) false
-
+    suspend fun updateUnit(unit: UnitEntity): Boolean = withContext(Dispatchers.IO) {
         try {
             val values = ContentValues().apply {
                 put("UnitName", unit.UnitName)
-                put("Description", unit.Description)
-                put("Inactive", if (unit.Inactive) 1 else 0)
-                put("ModifiedBy", unit.ModifiedBy)
                 put("ModifiedDate", unit.ModifiedDate.toString())
             }
 

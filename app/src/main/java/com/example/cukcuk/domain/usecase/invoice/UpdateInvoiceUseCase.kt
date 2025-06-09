@@ -6,6 +6,7 @@ import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.domain.repository.InvoiceRepository
+import com.example.cukcuk.presentation.enums.SynchronizeTable
 import com.example.cukcuk.utils.FormatDisplay
 import com.example.cukcuk.utils.SynchronizeHelper
 import kotlinx.coroutines.async
@@ -40,7 +41,7 @@ class UpdateInvoiceUseCase @Inject constructor(
         response.isSuccess = repository.updateInvoice(invoice, result.toCreate, result.toUpdate, result.toDelete)
         if (response.isSuccess) {
             response.message = invoice.InvoiceID.toString()
-            syncHelper.updateSync("Invoice", invoice.InvoiceID)
+            syncHelper.updateSync(SynchronizeTable.Invoice, invoice.InvoiceID)
 
             coroutineScope {
                 awaitAll(
@@ -81,20 +82,17 @@ class UpdateInvoiceUseCase @Inject constructor(
         val toDelete = mutableListOf<InvoiceDetail>()
         val unchanged = mutableListOf<InvoiceDetail>()
 
-        // Tạo map từ InventoryID để dễ tra cứu
         val currentDetailMap = details.associateBy { it.InventoryID }
         val selectedInventoryIds = inventorySelects.map { it.inventory.InventoryID }.toSet()
 
         var sortOrder = 0
 
-        // 1. Duyệt các mặt hàng đang được chọn (từ UI)
         for (it in inventorySelects) {
             val matchingDetail = currentDetailMap[it.inventory.InventoryID]
             sortOrder++
             if (matchingDetail == null) {
                 val newDetail = InvoiceDetail(
                     InvoiceDetailID = UUID.randomUUID(),
-                    InvoiceDetailType = 0,
                     InvoiceID = invoice.InvoiceID,
                     InventoryID = it.inventory.InventoryID,
                     InventoryName = it.inventory.InventoryName,
@@ -103,12 +101,8 @@ class UpdateInvoiceUseCase @Inject constructor(
                     Quantity = it.quantity.value,
                     UnitPrice = it.inventory.Price,
                     Amount = it.quantity.value * it.inventory.Price,
-                    Description = "",
                     SortOrder = sortOrder,
-                    CreatedDate = LocalDateTime.now(),
-                    ModifiedDate = LocalDateTime.now(),
-                    CreatedBy = "",
-                    ModifiedBy = ""
+                    CreatedDate = LocalDateTime.now()
                 )
                 toCreate.add(newDetail)
             } else {
@@ -116,7 +110,9 @@ class UpdateInvoiceUseCase @Inject constructor(
                     val updatedDetail = matchingDetail.copy(
                         Quantity = it.quantity.value,
                         UnitPrice = it.inventory.Price,
-                        SortOrder = sortOrder
+                        Amount = it.quantity.value * it.inventory.Price,
+                        SortOrder = sortOrder,
+                        ModifiedDate = LocalDateTime.now()
                     )
                     toUpdate.add(updatedDetail)
                 }
@@ -132,7 +128,6 @@ class UpdateInvoiceUseCase @Inject constructor(
             }
         }
 
-        // 2. Tìm các chi tiết bị xóa (không còn trong danh sách chọn)
         for (detail in details) {
             if (detail.InventoryID !in selectedInventoryIds) {
                 toDelete.add(detail)

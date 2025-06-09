@@ -73,4 +73,11 @@ dependencies {
     implementation(libs.mpandroidchart)
 
 
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    //Coil
+    implementation(libs.coil.compose)
+
 }

@@ -5,6 +5,7 @@ import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.domain.repository.InvoiceRepository
+import com.example.cukcuk.presentation.enums.SynchronizeTable
 import com.example.cukcuk.utils.FormatDisplay
 import com.example.cukcuk.utils.SynchronizeHelper
 import java.time.LocalDateTime
@@ -55,7 +56,7 @@ class CreateInvoiceUseCase @Inject constructor(
         response.isSuccess = repository.createInvoice(invoice)
         if (response.isSuccess) {
             response.message = invoice.InvoiceID.toString()
-            syncHelper.insertSync("Invoice", invoice.InvoiceID)
+            syncHelper.insertSync(SynchronizeTable.Invoice, invoice.InvoiceID)
             syncHelper.createInvoiceDetail(invoiceDetails)
         }
 

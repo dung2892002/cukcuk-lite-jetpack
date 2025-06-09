@@ -1,11 +1,7 @@
 package com.example.cukcuk.presentation.enums
 
 import com.example.cukcuk.utils.DateTimeHelper
-import java.time.DayOfWeek
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.temporal.TemporalAdjusters
 
 enum class StateStatistic(
     var title: String,

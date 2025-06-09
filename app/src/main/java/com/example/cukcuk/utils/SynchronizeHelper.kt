@@ -2,43 +2,44 @@ package com.example.cukcuk.utils
 
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.domain.repository.SynchronizeRepository
+import com.example.cukcuk.presentation.enums.SynchronizeTable
 import java.util.UUID
 import javax.inject.Inject
 
 class SynchronizeHelper @Inject constructor(
     private val syncRepository: SynchronizeRepository
 ) {
-    suspend fun insertSync(tableName: String, objectId: UUID?) {
-        syncRepository.create(tableName, objectId!!, 0)
+    suspend fun insertSync(table: SynchronizeTable, objectId: UUID?) {
+        syncRepository.create(table.tableName, objectId!!, 0)
     }
 
-    suspend fun updateSync(tableName: String, objectId: UUID?) {
-        val existingSyncId = syncRepository.getExistingSyncIdForCreateNewOrUpdate(tableName, objectId!!)
-        if (existingSyncId == null) syncRepository.create(tableName, objectId, 1)
+    suspend fun updateSync(table: SynchronizeTable, objectId: UUID?) {
+        val existingSyncId = syncRepository.getExistingSyncIdForCreateNewOrUpdate(table.tableName, objectId!!)
+        if (existingSyncId == null) syncRepository.create(table.tableName, objectId, 1)
     }
 
-    suspend fun deleteSync(tableName: String, objectId: UUID?) {
+    suspend fun deleteSync(table: SynchronizeTable, objectId: UUID?) {
 
-        val existingSyncId = syncRepository.getExistingSyncIdForCreateNew(tableName, objectId!!)
+        val existingSyncId = syncRepository.getExistingSyncIdForCreateNew(table.tableName, objectId!!)
 
         if (existingSyncId != null) syncRepository.delete(existingSyncId)
         else {
-            syncRepository.deleteDataBeforeCreateDeleteSync(tableName, objectId)
-            syncRepository.create(tableName, objectId, 2)
+            syncRepository.deleteDataBeforeCreateDeleteSync(table.tableName, objectId)
+            syncRepository.create(table.tableName, objectId, 2)
         }
     }
 
-    suspend fun deleteSyncRange(tableName: String, objectIds: List<UUID>) {
+    suspend fun deleteSyncRange(table: SynchronizeTable, objectIds: List<UUID>) {
         val toDelete = mutableListOf<UUID>()
         val toCreate = mutableListOf<UUID>()
 
         for (objectId in objectIds) {
-            val existingSyncId = syncRepository.getExistingSyncIdForCreateNew(tableName, objectId)
+            val existingSyncId = syncRepository.getExistingSyncIdForCreateNew(table.tableName, objectId)
 
             if (existingSyncId != null) {
                 toDelete.add(existingSyncId)
             } else {
-                syncRepository.deleteDataBeforeCreateDeleteSync(tableName, objectId)
+                syncRepository.deleteDataBeforeCreateDeleteSync(table.tableName, objectId)
                 toCreate.add(objectId)
             }
         }
@@ -47,28 +48,28 @@ class SynchronizeHelper @Inject constructor(
             syncRepository.deleteRange(toDelete)
         }
         if (toCreate.isNotEmpty()) {
-            syncRepository.createRange(tableName, toCreate, 2)
+            syncRepository.createRange(table.tableName, toCreate, 2)
         }
     }
 
     suspend fun createInvoiceDetail(details: MutableList<InvoiceDetail>){
         val ids = details.mapNotNull { it.InvoiceDetailID }
-        syncRepository.createRange("InvoiceDetail", ids, 0)
+        syncRepository.createRange(SynchronizeTable.InvoiceDetail.tableName, ids, 0)
     }
 
     suspend fun deleteInvoiceDetail(details: List<InvoiceDetail>) {
         val ids = details.mapNotNull { it.InvoiceDetailID }
-        deleteSyncRange("InvoiceDetail", ids)
+        deleteSyncRange(SynchronizeTable.InvoiceDetail, ids)
     }
 
     suspend fun updateInvoiceDetail(details: List<InvoiceDetail>) {
         val ids = details.mapNotNull { it.InvoiceDetailID }
-        val existingIds = syncRepository.getExistingSyncIdsForCreateNewOrUpdate("InvoiceDetail", ids)
+        val existingIds = syncRepository.getExistingSyncIdsForCreateNewOrUpdate(SynchronizeTable.InvoiceDetail.tableName, ids)
 
         val toInsert = ids.filterNot { existingIds.contains(it) }
 
         if (toInsert.isNotEmpty()) {
-            syncRepository.createRange("InvoiceDetail", toInsert, 1)
+            syncRepository.createRange(SynchronizeTable.InvoiceDetail.tableName, toInsert, 1)
         }
     }
 }

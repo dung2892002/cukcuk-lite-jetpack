@@ -3,6 +3,7 @@ package com.example.cukcuk.domain.usecase.invoice
 import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.repository.InvoiceRepository
+import com.example.cukcuk.presentation.enums.SynchronizeTable
 import com.example.cukcuk.utils.SynchronizeHelper
 import javax.inject.Inject
 
@@ -18,7 +19,7 @@ class DeleteInvoiceUseCase @Inject constructor(
         if (response.isSuccess) {
             response.message = null
             syncHelper.deleteInvoiceDetail(invoicesDetail)
-            syncHelper.deleteSync("Invoice", invoice.InvoiceID)
+            syncHelper.deleteSync(SynchronizeTable.Invoice, invoice.InvoiceID)
         }
 
         return response

@@ -46,8 +46,13 @@ fun StatisticScreen(
     val totalAmount = viewModel.totalAmount.value
     val lineChartLabels = viewModel.lineChartLabels.value
 
-    LaunchedEffect(Unit) {
-        viewModel.getStatisticOverview()
+    val isShowOverview = sharedViewModel.isShowOverviewStatistic.value
+
+    LaunchedEffect(isShowOverview) {
+        if (isShowOverview) {
+            viewModel.changeState(StateStatistic.Overview)
+            sharedViewModel.setShowOverviewStatistic(false)
+        }
     }
 
     Column(

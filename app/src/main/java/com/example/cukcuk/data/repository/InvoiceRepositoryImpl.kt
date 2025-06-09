@@ -1,6 +1,9 @@
 package com.example.cukcuk.data.repository
 
 import com.example.cukcuk.data.local.dao.InvoiceDao
+import com.example.cukcuk.data.mapper.toDomain
+import com.example.cukcuk.data.mapper.toDomainInventory
+import com.example.cukcuk.data.mapper.toEntity
 import com.example.cukcuk.domain.model.Inventory
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.model.InvoiceDetail
@@ -16,11 +19,13 @@ class InvoiceRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getListInvoiceNotPayment(): MutableList<Invoice> {
-        return dao.getListInvoiceNotPayment()
+        val invoices = dao.getListInvoiceNotPayment()
+        return invoices.map { it -> it.toDomain(emptyList()) }.toMutableList()
     }
 
     override suspend fun getListInvoicesDetail(invoiceId: UUID): MutableList<InvoiceDetail> {
-        return dao.getListInvoicesDetail(invoiceId)
+        val details = dao.getListInvoicesDetail(invoiceId)
+        return details.map { it.toDomain() }.toMutableList()
     }
 
     override suspend fun deleteInvoice(invoiceId: String): Boolean {
@@ -28,19 +33,22 @@ class InvoiceRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getInvoiceById(invoiceId: UUID): Invoice? {
-        return dao.getInvoiceById(invoiceId)
+        val invoice = dao.getInvoiceById(invoiceId)
+        return invoice?.toDomain(emptyList())
     }
 
     override suspend fun getInvoiceDetailById(invoiceDetailId: UUID): InvoiceDetail? {
-        return dao.getInvoiceDetailById(invoiceDetailId)
+        val detail = dao.getInvoiceDetailById(invoiceDetailId)
+        return detail?.toDomain()
     }
 
     override suspend fun getAllInventoryInactive(): MutableList<Inventory> {
-        return dao.getAllInventoryInactive()
+        val inventories = dao.getAllInventoryInactive()
+        return inventories.map { it.toDomainInventory() }.toMutableList()
     }
 
     override suspend fun createInvoice(invoice: Invoice): Boolean {
-        return dao.createInvoice(invoice)
+        return dao.createInvoice(invoice.toEntity(), invoice.InvoiceDetails.map { it.toEntity() })
     }
 
     override suspend fun updateInvoice(
@@ -49,10 +57,14 @@ class InvoiceRepositoryImpl @Inject constructor(
         updatesDetail: MutableList<InvoiceDetail>,
         deletesDetail: MutableList<InvoiceDetail>
     ): Boolean {
-        return dao.updateInvoice(invoice, newsDetail, updatesDetail, deletesDetail)
+        return dao.updateInvoice(
+            invoice.toEntity(),
+            newsDetail.map { it -> it.toEntity() }.toMutableList(),
+            updatesDetail.map { it -> it.toEntity() }.toMutableList(),
+            deletesDetail.map { it -> it.toEntity() }.toMutableList())
     }
 
     override suspend fun paymentInvoice(invoice: Invoice): Boolean {
-        return dao.paymentInvoice(invoice)
+        return dao.paymentInvoice(invoice.toEntity())
     }
 }

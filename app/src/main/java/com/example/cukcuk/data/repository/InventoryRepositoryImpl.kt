@@ -1,6 +1,8 @@
 package com.example.cukcuk.data.repository
 
 import com.example.cukcuk.data.local.dao.InventoryDao
+import com.example.cukcuk.data.mapper.toDomainInventory
+import com.example.cukcuk.data.mapper.toEntity
 import com.example.cukcuk.domain.model.Inventory
 import com.example.cukcuk.domain.repository.InventoryRepository
 import java.util.UUID
@@ -10,19 +12,21 @@ class InventoryRepositoryImpl @Inject constructor(
     private val dao: InventoryDao
 ) : InventoryRepository {
     override suspend fun getAllInventory(): List<Inventory> {
-        return dao.getAllInventory()
+        val inventories = dao.getAllInventory()
+        return inventories.map { it -> it.toDomainInventory() }
     }
 
      override suspend fun getInventoryById(inventoryID: UUID): Inventory {
-        return dao.getInventoryById(inventoryID)!!
+         val inventory = dao.getInventoryById(inventoryID)!!
+         return inventory.toDomainInventory()
     }
 
     override suspend fun createInventory(inventory: Inventory): Boolean {
-        return dao.createInventory(inventory)
+        return dao.createInventory(inventory.toEntity())
     }
 
     override suspend fun updateInventory(inventory: Inventory): Boolean {
-        return dao.updateInventory(inventory)
+        return dao.updateInventory(inventory.toEntity())
     }
 
     override suspend fun deleteInventory(inventoryId: UUID): Boolean {
@@ -30,6 +34,6 @@ class InventoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkInventoryIsInInvoice(inventory: Inventory): Boolean {
-        return dao.checkInventoryIsInInvoice(inventory)
+        return dao.checkInventoryIsInInvoice(inventory.toEntity())
     }
 }

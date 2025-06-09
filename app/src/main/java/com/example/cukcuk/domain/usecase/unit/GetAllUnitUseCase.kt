@@ -10,5 +10,4 @@ class GetAllUnitUseCase @Inject constructor(
     suspend operator fun invoke(): List<Unit> {
         return repository.getAllUnit()
     }
-
 }

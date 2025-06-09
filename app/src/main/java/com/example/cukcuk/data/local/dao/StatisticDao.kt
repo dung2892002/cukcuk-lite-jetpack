@@ -3,18 +3,12 @@ package com.example.cukcuk.data.local.dao
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.example.cukcuk.domain.dtos.StatisticByInventory
-import com.example.cukcuk.domain.dtos.StatisticByTime
-import com.example.cukcuk.domain.dtos.StatisticOverview
-import com.example.cukcuk.presentation.enums.StateStatistic
+import com.example.cukcuk.data.local.entities.ResultStatisticByInventory
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class StatisticDao @Inject constructor(
@@ -24,72 +18,61 @@ class StatisticDao @Inject constructor(
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)
     }
 
-    suspend fun getStatisticOverview(): List<StatisticOverview> = withContext(Dispatchers.IO) {
-        val result = mutableListOf<StatisticOverview>()
+    suspend fun getStatisticOverview(): List<Pair<String, Double>> = withContext(Dispatchers.IO) {
+        val result = mutableListOf<Pair<String, Double>>()
         val query = """
-            SELECT 
-                SUM(CASE WHEN date(InvoiceDate) = date('now', '-1 day') THEN Amount ELSE 0 END) AS Yesterday,
-                SUM(CASE WHEN date(InvoiceDate) = date('now') THEN Amount ELSE 0 END) AS Today,
-                SUM(CASE 
-                    WHEN strftime('%W', InvoiceDate) = strftime('%W', 'now') 
-                     AND strftime('%Y', InvoiceDate) = strftime('%Y', 'now')
-                    THEN Amount ELSE 0 END) AS ThisWeek,
-                SUM(CASE 
-                    WHEN strftime('%m', InvoiceDate) = strftime('%m', 'now') 
-                     AND strftime('%Y', InvoiceDate) = strftime('%Y', 'now') 
-                    THEN Amount ELSE 0 END) AS ThisMonth,
-                SUM(CASE 
-                    WHEN strftime('%Y', InvoiceDate) = strftime('%Y', 'now') 
-                    THEN Amount ELSE 0 END) AS ThisYear
+            SELECT 'Yesterday' AS Label, 
+                   SUM(CASE WHEN date(InvoiceDate) = date('now', '-1 day') THEN Amount ELSE 0 END) AS Value
             FROM Invoice
             WHERE PaymentStatus = 1
+            
+            UNION ALL
+            
+            SELECT 'Today' AS Label, 
+                   SUM(CASE WHEN date(InvoiceDate) = date('now') THEN Amount ELSE 0 END) AS Value
+            FROM Invoice
+            WHERE PaymentStatus = 1
+            
+            UNION ALL
+            
+            SELECT 'ThisWeek' AS Label, 
+                   SUM(CASE 
+                        WHEN strftime('%W', InvoiceDate) = strftime('%W', 'now') 
+                         AND strftime('%Y', InvoiceDate) = strftime('%Y', 'now')
+                        THEN Amount ELSE 0 END) AS Value
+            FROM Invoice
+            WHERE PaymentStatus = 1
+            
+            UNION ALL
+            
+            SELECT 'ThisMonth' AS Label, 
+                   SUM(CASE 
+                        WHEN strftime('%m', InvoiceDate) = strftime('%m', 'now') 
+                         AND strftime('%Y', InvoiceDate) = strftime('%Y', 'now') 
+                        THEN Amount ELSE 0 END) AS Value
+            FROM Invoice
+            WHERE PaymentStatus = 1
+            
+            UNION ALL
+            
+            SELECT 'ThisYear' AS Label, 
+                   SUM(CASE 
+                        WHEN strftime('%Y', InvoiceDate) = strftime('%Y', 'now') 
+                        THEN Amount ELSE 0 END) AS Value
+            FROM Invoice
+            WHERE PaymentStatus = 1
+                    
         """.trimIndent()
-
-        var colors = listOf<String>("#5AB4FD", "#5AB4FD", "#4CAF50", "#F44336", "#2196F3")
-        var icons = listOf<String>("ic-calendar-1.png", "ic-calendar-1.png", "ic-calendar-7.png", "ic-calendar-30.png", "ic-calendar-12.png")
 
         var cursor: Cursor? = null
         try {
             cursor = db.rawQuery(query, null)
-            if (cursor.moveToFirst()) {
-                val yesterday = cursor.getDouble(0)
-                val today = cursor.getDouble(1)
-                val thisWeek = cursor.getDouble(2)
-                val thisMonth = cursor.getDouble(3)
-                val thisYear = cursor.getDouble(4)
-
-
-                result.add(StatisticOverview(
-                    yesterday,
-                    colors[0],
-                    icons[0],
-                    StateStatistic.Yesterday
-                ))
-                result.add(StatisticOverview(
-                    today,
-                    colors[1],
-                    icons[1],
-                    StateStatistic.Today
-                ))
-                result.add(StatisticOverview(
-                    thisWeek,
-                    colors[2],
-                    icons[2],
-                    StateStatistic.ThisWeek
-                ))
-                result.add(StatisticOverview(
-                    thisMonth,
-                    colors[3],
-                    icons[3],
-                    StateStatistic.ThisMonth
-                ))
-                result.add(StatisticOverview(
-                    thisYear,
-                    colors[4],
-                    icons[4],
-                    StateStatistic.ThisYear
-                ))
+            while (cursor.moveToNext()) {
+                val label = cursor.getString(0)
+                val value = cursor.getDouble(1)
+                result.add(Pair(label, value))
             }
+
         }
         catch (ex: Exception) {
             ex.printStackTrace()
@@ -98,13 +81,10 @@ class StatisticDao @Inject constructor(
         finally {
             cursor?.close()
         }
-
         result
     }
 
-
-    suspend fun getDailyStatisticOfWeek(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime): List<StatisticByTime> = withContext(Dispatchers.IO) {
-        var totalAmount = 0.0
+    suspend fun getDailyStatisticOfWeek(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime): Map<LocalDate, Double> = withContext(Dispatchers.IO) {
         val query = """
             SELECT
                  date(InvoiceDate) as day,
@@ -127,7 +107,6 @@ class StatisticDao @Inject constructor(
                 val day = LocalDate.parse(cursor.getString(0))
                 val amount = cursor.getDouble(1)
                 resultMap[day] = amount
-                totalAmount += amount
             }
         }
         catch (ex: Exception) {
@@ -138,47 +117,16 @@ class StatisticDao @Inject constructor(
             cursor?.close()
         }
 
-        val statistics = mutableListOf<StatisticByTime>()
-        val daysBetween = ChronoUnit.DAYS.between(startOfWeek, endOfWeek)
-        for (i in 0..daysBetween) {
-            val day = startOfWeek.toLocalDate().plusDays(i.toLong())
-
-            val title = when (day.dayOfWeek) {
-                DayOfWeek.MONDAY -> "Thứ 2"
-                DayOfWeek.TUESDAY -> "Thứ 3"
-                DayOfWeek.WEDNESDAY -> "Thứ 4"
-                DayOfWeek.THURSDAY -> "Thứ 5"
-                DayOfWeek.FRIDAY -> "Thứ 6"
-                DayOfWeek.SATURDAY -> "Thứ 7"
-                DayOfWeek.SUNDAY -> "Chủ nhật"
-            }
-
-            statistics.add(
-                StatisticByTime(
-                    Title = title,
-                    Amount = resultMap[day] ?: 0.0,
-                    TimeStart = day.atStartOfDay(),
-                    TimeEnd = day.atTime(LocalTime.MAX)
-                )
-            )
-        }
-
-        if (totalAmount == 0.0) statistics.clear()
-
-        statistics
+        resultMap.toMap()
     }
 
-    suspend fun getDailyStatisticOfMonth(start: LocalDateTime, end: LocalDateTime): List<StatisticByTime> = withContext(Dispatchers.IO) {
-        val startDate = start.toLocalDate()
-        val endDate = end.toLocalDate()
-
-        var totalAmount = 0.0
+    suspend fun getDailyStatisticOfMonth(start: LocalDateTime, end: LocalDateTime): MutableMap<LocalDate, Double> = withContext(Dispatchers.IO) {
         val query = """
             SELECT
                  date(InvoiceDate) as day,
                  SUM(Amount) as Amount
             FROM Invoice
-            WHERE PaymentStatus = 1 AND date(InvoiceDate) BETWEEN ? AND ?
+            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ?
             GROUP BY day
             ORDER BY day
         """.trimIndent()
@@ -189,13 +137,12 @@ class StatisticDao @Inject constructor(
         try {
             cursor = db.rawQuery(
                 query,
-                arrayOf(startDate.toString(), endDate.toString())
+                arrayOf(start.toString(), end.toString())
             )
             while (cursor.moveToNext()) {
                 val day = LocalDate.parse(cursor.getString(0))
                 val amount = cursor.getDouble(1)
                 resultMap[day] = amount
-                totalAmount += amount
             }
         }
         catch (ex: Exception) {
@@ -206,36 +153,19 @@ class StatisticDao @Inject constructor(
             cursor?.close()
         }
 
-        val statistics = mutableListOf<StatisticByTime>()
-        var currentDay = startDate
-        while (!currentDay.isAfter(endDate)) {
-            statistics.add(
-                StatisticByTime(
-                    Title = "Ngày ${currentDay.dayOfMonth}",
-                    Amount = resultMap[currentDay] ?: 0.0,
-                    TimeStart = currentDay.atStartOfDay(),
-                    TimeEnd = currentDay.atTime(LocalTime.MAX)
-                )
-            )
-            currentDay = currentDay.plusDays(1)
-        }
-
-        if (totalAmount == 0.0) statistics.clear()
-        statistics
+        resultMap
     }
 
-
-    suspend fun getMonthlyStatistic(start: LocalDateTime, end: LocalDateTime): List<StatisticByTime> = withContext(Dispatchers.IO) {
+    suspend fun getMonthlyStatistic(start: LocalDateTime, end: LocalDateTime): MutableMap<Pair<Int, Int>, Double> = withContext(Dispatchers.IO) {
         val startDate = start.toLocalDate()
         val endDate = end.toLocalDate()
-        var totalAmount = 0.0
 
         val query = """
             SELECT
                  strftime('%Y-%m', InvoiceDate) as month,
                  SUM(Amount) as Amount
             FROM Invoice
-            WHERE PaymentStatus = 1 AND date(InvoiceDate) BETWEEN ? AND ?
+            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ?
             GROUP BY month
             ORDER BY month
         """.trimIndent()
@@ -254,7 +184,6 @@ class StatisticDao @Inject constructor(
                 val month = parts[1].toInt()
                 val amount = cursor.getDouble(1)
                 resultMap[Pair(year, month)] = amount
-                totalAmount += amount
             }
         }
         catch (ex: Exception) {
@@ -265,30 +194,10 @@ class StatisticDao @Inject constructor(
             cursor?.close()
         }
 
-        val statistics = mutableListOf<StatisticByTime>()
-        var current = startDate.withDayOfMonth(1)
-        while (!current.isAfter(endDate)) {
-            val firstDay = current.withDayOfMonth(1)
-            val lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth())
-            val key = Pair(firstDay.year, firstDay.monthValue)
-
-            statistics.add(
-                StatisticByTime(
-                    Title = "Tháng ${firstDay.monthValue}",
-                    Amount = resultMap[key] ?: 0.0,
-                    TimeStart = firstDay.atStartOfDay(),
-                    TimeEnd = lastDay.atTime(LocalTime.MAX)
-                )
-            )
-
-            current = current.plusMonths(1)
-        }
-
-        if (totalAmount == 0.0) statistics.clear()
-        statistics
+        resultMap
     }
 
-    suspend fun getStatisticByInventory(fromDate: LocalDateTime, toDate: LocalDateTime): List<StatisticByInventory> = withContext(Dispatchers.IO) {
+    suspend fun getStatisticByInventory(fromDate: LocalDateTime, toDate: LocalDateTime): List<ResultStatisticByInventory> = withContext(Dispatchers.IO) {
         val query = """
             SELECT
                 d.InventoryName,
@@ -303,10 +212,7 @@ class StatisticDao @Inject constructor(
         """.trimIndent()
 
 
-        var colors = listOf<String>("#2196F3", "#4CAF50", "#F44336", "#FFC107", "#4B3FB5", "#001F54", "#BCBCBC")
-        val list = mutableListOf<StatisticByInventory>()
-        var totalAmount = 0.0
-        var sortOrder = 1
+        val list = mutableListOf<ResultStatisticByInventory>()
 
         var cursor: Cursor? = null
         try {
@@ -319,17 +225,13 @@ class StatisticDao @Inject constructor(
                 val quantity = cursor.getDouble(1)
                 val amount = cursor.getDouble(2)
                 val unit = cursor.getString(3)
-                totalAmount += amount
 
                 list.add(
-                    StatisticByInventory(
+                    ResultStatisticByInventory(
                         InventoryName = name,
                         Quantity = quantity,
                         Amount = amount,
                         UnitName = unit,
-                        Percentage = 0.0,
-                        Color = if (sortOrder - 1 < colors.size) colors[sortOrder - 1] else colors[colors.size - 1],
-                        SortOrder = sortOrder++
                     )
                 )
             }
@@ -340,15 +242,6 @@ class StatisticDao @Inject constructor(
         }
         finally {
             cursor?.close()
-        }
-
-        if (totalAmount == 0.0) {
-            list.clear()
-            list
-        }
-
-        list.forEach {
-            it.Percentage = if (totalAmount > 0) (it.Amount / totalAmount * 100.0) else 0.0
         }
 
         list

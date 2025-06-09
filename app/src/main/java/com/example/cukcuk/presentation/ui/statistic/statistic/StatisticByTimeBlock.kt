@@ -70,10 +70,7 @@ fun StatisticByTimeBlock(
             }
 
             Text(
-                text = when(label) {
-                    LineChartLabels.MONTH_IN_YEAR -> "(Tháng)"
-                    else -> "(Ngày)"
-                },
+                text = label.xAxisLabel,
                 fontSize = 12.sp,
                 color = Color.Gray,
                 modifier = Modifier.fillMaxWidth().padding(6.dp),

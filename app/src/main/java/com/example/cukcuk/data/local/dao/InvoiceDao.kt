@@ -4,9 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.example.cukcuk.domain.model.Inventory
-import com.example.cukcuk.domain.model.Invoice
-import com.example.cukcuk.domain.model.InvoiceDetail
+import com.example.cukcuk.data.local.entities.InventoryEntity
+import com.example.cukcuk.data.local.entities.InvoiceDetailEntity
+import com.example.cukcuk.data.local.entities.InvoiceEntity
 import com.example.cukcuk.utils.getBoolean
 import com.example.cukcuk.utils.getDateTime
 import com.example.cukcuk.utils.getDateTimeOrNull
@@ -50,8 +50,8 @@ class InvoiceDao  @Inject constructor(
         String.format(Locale.US, "%05d", count + 1)
     }
 
-    suspend fun getListInvoiceNotPayment() : MutableList<Invoice> = withContext(Dispatchers.IO) {
-        val invoices = mutableListOf<Invoice>()
+    suspend fun getListInvoiceNotPayment() : MutableList<InvoiceEntity> = withContext(Dispatchers.IO) {
+        val invoices = mutableListOf<InvoiceEntity>()
         val query = """
             SELECT InvoiceID, InvoiceDate, Amount, NumberOfPeople, TableName, ListItemName, InvoiceDate, ReceiveAmount
             FROM Invoice 
@@ -63,7 +63,7 @@ class InvoiceDao  @Inject constructor(
         try {
             cursor = db.rawQuery(query, null)
             while (cursor.moveToNext()) {
-                val invoice = Invoice(
+                val invoice = InvoiceEntity(
                     InvoiceID = cursor.getUUID("InvoiceID"),
                     InvoiceDate = cursor.getDateTimeOrNull("InvoiceDate"),
                     Amount = cursor.getDouble("Amount"),
@@ -71,7 +71,6 @@ class InvoiceDao  @Inject constructor(
                     NumberOfPeople = cursor.getInt("NumberOfPeople"),
                     TableName = cursor.getString("TableName"),
                     ListItemName = cursor.getString("ListItemName"),
-                    InvoiceDetails = mutableListOf()
                 )
                 invoices.add(invoice)
             }
@@ -86,8 +85,8 @@ class InvoiceDao  @Inject constructor(
         invoices
     }
 
-    suspend fun getListInvoicesDetail(invoiceId: UUID) : MutableList<InvoiceDetail> = withContext(Dispatchers.IO) {
-        val invoicesDetail = mutableListOf<InvoiceDetail>()
+    suspend fun getListInvoicesDetail(invoiceId: UUID) : MutableList<InvoiceDetailEntity> = withContext(Dispatchers.IO) {
+        val invoicesDetail = mutableListOf<InvoiceDetailEntity>()
         val query = """
             SELECT 
                 InvoiceDetailID, InvoiceID, InventoryID, InventoryName, UnitID, UnitName,
@@ -102,7 +101,7 @@ class InvoiceDao  @Inject constructor(
         try {
             cursor = db.rawQuery(query, arrayOf(invoiceId.toString()))
             while (cursor.moveToNext()) {
-                val invoiceDetail = InvoiceDetail(
+                val invoiceDetail = InvoiceDetailEntity(
                     InvoiceDetailID = cursor.getUUID("InvoiceDetailID"),
                     InvoiceID = cursor.getUUID("InvoiceID"),
                     InventoryID = cursor.getUUID("InventoryID"),
@@ -152,73 +151,38 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-    suspend fun getInvoiceById(invoiceId: UUID): Invoice? = withContext(Dispatchers.IO) {
-        var invoice: Invoice? = null
+    suspend fun getInvoiceById(invoiceId: UUID): InvoiceEntity? = withContext(Dispatchers.IO) {
+        var invoice: InvoiceEntity? = null
         val invoiceQuery = "SELECT * FROM Invoice WHERE InvoiceID = ?"
         val cursor = db.rawQuery(invoiceQuery, arrayOf(invoiceId.toString()))
 
         if (cursor.moveToFirst()) {
-            invoice = Invoice(
+            invoice = InvoiceEntity(
                 InvoiceID = cursor.getUUID("InvoiceID"),
                 InvoiceType = cursor.getInt("InvoiceType"),
-                InvoiceNo = cursor.getString("InvoiceNo"),
                 InvoiceDate = cursor.getDateTimeOrNull("InvoiceDate"),
                 Amount = cursor.getDouble("Amount"),
                 ReceiveAmount = cursor.getDouble("ReceiveAmount"),
                 ReturnAmount = cursor.getDouble("ReturnAmount"),
-                RemainAmount = cursor.getDouble("RemainAmount"),
-                JournalMemo = cursor.getString("JournalMemo"),
                 PaymentStatus = cursor.getInt("PaymentStatus"),
                 NumberOfPeople = cursor.getInt("NumberOfPeople"),
                 TableName = cursor.getString("TableName"),
                 ListItemName = cursor.getString("ListItemName"),
-                CreatedDate = cursor.getDateTimeOrNull("CreatedDate"),
-                CreatedBy = cursor.getString("CreatedBy"),
-                ModifiedDate = cursor.getDateTimeOrNull("ModifiedDate"),
-                ModifiedBy = cursor.getString("ModifiedBy"),
-                InvoiceDetails = mutableListOf()
             )
         }
         cursor.close()
-
-        invoice?.let {
-            val detailQuery = "SELECT * FROM InvoiceDetail WHERE InvoiceID = ? ORDER BY SortOrder"
-            val detailCursor = db.rawQuery(detailQuery, arrayOf(invoiceId.toString()))
-            while (detailCursor.moveToNext()) {
-                val detail = InvoiceDetail(
-                    InvoiceDetailID = detailCursor.getUUID("InvoiceDetailID"),
-                    InvoiceDetailType = detailCursor.getInt("InvoiceDetailType"),
-                    InvoiceID = detailCursor.getUUID("InvoiceID"),
-                    InventoryID = detailCursor.getUUID("InventoryID"),
-                    InventoryName = detailCursor.getString("InventoryName"),
-                    UnitID = detailCursor.getUUID("UnitID"),
-                    UnitName = detailCursor.getString("UnitName"),
-                    Quantity = detailCursor.getDouble("Quantity"),
-                    UnitPrice = detailCursor.getDouble("UnitPrice"),
-                    Amount = detailCursor.getDouble("Amount"),
-                    Description = detailCursor.getString("Description"),
-                    SortOrder = detailCursor.getInt("SortOrder"),
-                    CreatedDate = detailCursor.getDateTimeOrNull("CreatedDate"),
-                    CreatedBy = detailCursor.getString("CreatedBy"),
-                    ModifiedDate = detailCursor.getDateTimeOrNull("ModifiedDate"),
-                    ModifiedBy = detailCursor.getString("ModifiedBy")
-                )
-                invoice.InvoiceDetails.add(detail)
-            }
-            detailCursor.close()
-        }
         invoice
     }
 
-    suspend fun getInvoiceDetailById(invoiceDetailId: UUID): InvoiceDetail? = withContext(Dispatchers.IO) {
-        var invoiceDetail: InvoiceDetail? = null
+    suspend fun getInvoiceDetailById(invoiceDetailId: UUID): InvoiceDetailEntity? = withContext(Dispatchers.IO) {
+        var invoiceDetail: InvoiceDetailEntity? = null
         val invoiceQuery = "SELECT * FROM InvoiceDetail WHERE InvoiceDetailID = ?"
         var cursor: Cursor? = null
 
         try {
             cursor = db.rawQuery(invoiceQuery, arrayOf(invoiceDetailId.toString()))
             if (cursor.moveToFirst()) {
-                invoiceDetail = InvoiceDetail(
+                invoiceDetail = InvoiceDetailEntity(
                     InvoiceDetailID = cursor.getUUID("InvoiceDetailID"),
                     InvoiceDetailType = cursor.getInt("InvoiceDetailType"),
                     InvoiceID = cursor.getUUID("InvoiceID"),
@@ -249,7 +213,7 @@ class InvoiceDao  @Inject constructor(
         invoiceDetail
     }
 
-    suspend fun getAllInventoryInactive() : MutableList<Inventory>  = withContext(Dispatchers.IO) {
+    suspend fun getAllInventoryInactive() : MutableList<InventoryEntity>  = withContext(Dispatchers.IO) {
         val query =""" 
             SELECT 
                 i.InventoryID, i.InventoryName, i.Price,
@@ -262,12 +226,12 @@ class InvoiceDao  @Inject constructor(
         """
 
         var cursor: Cursor? = null
-        val inventoryList = mutableListOf<Inventory>()
+        val inventoryList = mutableListOf<InventoryEntity>()
 
         try {
             cursor = db.rawQuery(query,null)
             while (cursor.moveToNext()) {
-                val inventory = Inventory(
+                val inventory = InventoryEntity(
                     InventoryID = cursor.getUUID("InventoryID"),
                     InventoryName = cursor.getString("InventoryName"),
                     Price = cursor.getDouble("Price"),
@@ -291,11 +255,11 @@ class InvoiceDao  @Inject constructor(
         inventoryList
     }
 
-    suspend fun createInvoice(invoice: Invoice): Boolean  = withContext(Dispatchers.IO){
+    suspend fun createInvoice(invoice: InvoiceEntity, details: List<InvoiceDetailEntity>): Boolean  = withContext(Dispatchers.IO){
         try {
             db.beginTransaction()
             insertInvoice(invoice)
-            insertInvoiceDetailRange(invoice.InvoiceDetails)
+            insertInvoiceDetailRange(details)
             db.setTransactionSuccessful()
             true
         } catch (ex: Exception) {
@@ -307,10 +271,10 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-    suspend fun updateInvoice(invoice: Invoice,
-                      newsDetail: MutableList<InvoiceDetail>,
-                      updatesDetail: MutableList<InvoiceDetail>,
-                      deletesDetail: MutableList<InvoiceDetail>): Boolean = withContext(Dispatchers.IO){
+    suspend fun updateInvoice(invoice: InvoiceEntity,
+                              newsDetail: MutableList<InvoiceDetailEntity>,
+                              updatesDetail: MutableList<InvoiceDetailEntity>,
+                              deletesDetail: MutableList<InvoiceDetailEntity>): Boolean = withContext(Dispatchers.IO){
         try {
             db.beginTransaction()
             updateInvoiceOnly(invoice)
@@ -329,7 +293,7 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-    suspend fun paymentInvoice(invoice: Invoice): Boolean = withContext(Dispatchers.IO) {
+    suspend fun paymentInvoice(invoice: InvoiceEntity): Boolean = withContext(Dispatchers.IO) {
         try {
             db.beginTransaction()
             val values = ContentValues().apply {
@@ -340,7 +304,6 @@ class InvoiceDao  @Inject constructor(
                 put("InvoiceNo", invoice.InvoiceNo)
                 put("PaymentStatus", 1)
                 put("ModifiedDate", invoice.ModifiedDate.toString())
-                put("ModifiedBy", invoice.ModifiedBy)
             }
             db.update("Invoice", values, "InvoiceID = ?", arrayOf(invoice.InvoiceID.toString()))
             db.setTransactionSuccessful()
@@ -354,34 +317,28 @@ class InvoiceDao  @Inject constructor(
         }
     }
 
-    private suspend fun insertInvoice(invoice: Invoice) = withContext(Dispatchers.IO) {
+    private suspend fun insertInvoice(invoice: InvoiceEntity) = withContext(Dispatchers.IO) {
         val values = ContentValues().apply {
             put("InvoiceID", invoice.InvoiceID.toString())
-            put("InvoiceType", invoice.InvoiceType)
             put("InvoiceNo", invoice.InvoiceNo)
             put("InvoiceDate", invoice.InvoiceDate.toString())
             put("Amount", invoice.Amount)
             put("ReceiveAmount", invoice.ReceiveAmount)
             put("ReturnAmount", invoice.ReturnAmount)
             put("RemainAmount", invoice.RemainAmount)
-            put("JournalMemo", invoice.JournalMemo)
             put("PaymentStatus", invoice.PaymentStatus)
             put("NumberOfPeople", invoice.NumberOfPeople)
             put("TableName", invoice.TableName)
             put("ListItemName", invoice.ListItemName)
             put("CreatedDate", invoice.CreatedDate.toString())
-            put("CreatedBy", invoice.CreatedBy)
-            put("ModifiedDate", invoice.ModifiedDate.toString())
-            put("ModifiedBy", invoice.ModifiedBy)
         }
         db.insert("Invoice", null, values)
     }
 
-    private suspend fun insertInvoiceDetailRange(details: List<InvoiceDetail>) = withContext(Dispatchers.IO) {
+    private suspend fun insertInvoiceDetailRange(details: List<InvoiceDetailEntity>) = withContext(Dispatchers.IO) {
         for (detail in details) {
             val values = ContentValues().apply {
                 put("InvoiceDetailID", detail.InvoiceDetailID.toString())
-                put("InvoiceDetailType", detail.InvoiceDetailType)
                 put("InvoiceID", detail.InvoiceID.toString())
                 put("InventoryID", detail.InventoryID.toString())
                 put("InventoryName", detail.InventoryName)
@@ -393,31 +350,20 @@ class InvoiceDao  @Inject constructor(
                 put("Description", detail.Description)
                 put("SortOrder", detail.SortOrder)
                 put("CreatedDate", detail.CreatedDate.toString())
-                put("CreatedBy", detail.CreatedBy)
-                put("ModifiedDate", detail.ModifiedDate.toString())
-                put("ModifiedBy", detail.ModifiedBy)
             }
 
             db.insert("InvoiceDetail", null, values)
         }
     }
 
-    private suspend fun updateInvoiceOnly(invoice: Invoice) = withContext(Dispatchers.IO) {
+    private suspend fun updateInvoiceOnly(invoice: InvoiceEntity) = withContext(Dispatchers.IO) {
         val values = ContentValues().apply {
-            put("InvoiceType", invoice.InvoiceType)
-            put("InvoiceNo", invoice.InvoiceNo)
-            put("InvoiceDate", invoice.InvoiceDate.toString())
             put("Amount", invoice.Amount)
             put("ReceiveAmount", invoice.ReceiveAmount)
-            put("ReturnAmount", invoice.ReturnAmount)
-            put("RemainAmount", invoice.RemainAmount)
-            put("JournalMemo", invoice.JournalMemo)
-            put("PaymentStatus", invoice.PaymentStatus)
             put("NumberOfPeople", invoice.NumberOfPeople)
             put("TableName", invoice.TableName)
             put("ListItemName", invoice.ListItemName)
             put("ModifiedDate", invoice.ModifiedDate.toString())
-            put("ModifiedBy", invoice.ModifiedBy)
         }
 
         db.update(
@@ -428,7 +374,7 @@ class InvoiceDao  @Inject constructor(
         )
     }
 
-    private suspend fun updateInvoiceDetailRange(details: List<InvoiceDetail>) = withContext(Dispatchers.IO) {
+    private suspend fun updateInvoiceDetailRange(details: List<InvoiceDetailEntity>) = withContext(Dispatchers.IO) {
         val sql = """
         UPDATE InvoiceDetail SET
             InvoiceDetailType = ?,

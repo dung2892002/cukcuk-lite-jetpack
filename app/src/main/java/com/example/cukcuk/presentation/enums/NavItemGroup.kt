@@ -23,13 +23,19 @@ enum class NavItemGroup(
             NavItem.AppInfo,
         )
     ),
+    Other(
+        label = "Khác",
+        items = listOf(
+            NavItem.TestApi,
+        )
+    ),
     Account(
         label = "Tài khoản",
         items = listOf(
             NavItem.SetPassword,
             NavItem.Logout,
         )
-    )
+    ),
 }
 
 enum class NavItem(
@@ -84,5 +90,10 @@ enum class NavItem(
         label = "Đăng xuất",
         iconResId = R.drawable.ic_nav_logout,
         route = "login"
+    ),
+    TestApi(
+        label = "Test API",
+        iconResId = R.drawable.ic_nav_logout,
+        route = "test_api"
     )
 }

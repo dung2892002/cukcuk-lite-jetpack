@@ -3,6 +3,7 @@ package com.example.cukcuk.domain.usecase.inventory
 import com.example.cukcuk.domain.dtos.ResponseData
 import com.example.cukcuk.domain.model.Inventory
 import com.example.cukcuk.domain.repository.InventoryRepository
+import com.example.cukcuk.presentation.enums.SynchronizeTable
 import com.example.cukcuk.utils.SynchronizeHelper
 import javax.inject.Inject
 
@@ -21,7 +22,7 @@ class DeleteInventoryUseCase @Inject constructor(
          response.isSuccess = repository.deleteInventory(inventory.InventoryID!!)
          if (response.isSuccess) {
              response.message = null
-             syncHelper.deleteSync("Inventory", inventory.InventoryID)
+             syncHelper.deleteSync(SynchronizeTable.Inventory, inventory.InventoryID)
          }
          return response
     }

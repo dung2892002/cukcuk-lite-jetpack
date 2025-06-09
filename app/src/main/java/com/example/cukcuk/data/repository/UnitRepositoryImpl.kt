@@ -1,6 +1,8 @@
 package com.example.cukcuk.data.repository
 
 import com.example.cukcuk.data.local.dao.UnitDao
+import com.example.cukcuk.data.mapper.toDomainUnit
+import com.example.cukcuk.data.mapper.toEntity
 import com.example.cukcuk.domain.model.Unit
 import com.example.cukcuk.domain.repository.UnitRepository
 import java.util.UUID
@@ -10,11 +12,13 @@ class UnitRepositoryImpl @Inject constructor(
     private val dao: UnitDao
 ) : UnitRepository {
     override suspend fun getAllUnit(): List<Unit> {
-        return dao.getAllUnit()
+        val unitsLocal = dao.getAllUnit()
+        return unitsLocal.map { it.toDomainUnit() }
     }
 
     override suspend fun createUnit(unit: Unit) : Boolean {
-        return dao.createUnit(unit)
+        val unitEntity = unit.toEntity()
+        return dao.createUnit(unitEntity)
     }
 
     override suspend fun deleteUnit(unitId: UUID) : Boolean {
@@ -22,11 +26,13 @@ class UnitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateUnit(unit: Unit) : Boolean {
-        return dao.updateUnit(unit)
+        val unitEntity = unit.toEntity()
+        return dao.updateUnit(unitEntity)
     }
 
     override suspend fun getUnitByID(unitId: UUID): Unit {
-        return dao.getUnitById(unitId)!!
+        val unitEntity = dao.getUnitById(unitId)!!
+        return unitEntity.toDomainUnit()
     }
 
     override suspend fun checkUseByInventory(unitId: UUID): Boolean {
