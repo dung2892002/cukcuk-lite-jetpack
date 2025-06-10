@@ -28,9 +28,17 @@ fun SplashScreen(
     LaunchedEffect(true) {
         isLoggedIn.value = SharedPrefManager.isLoggedIn(context)
         if (isLoggedIn.value) {
-            navController.navigate("home")
+            navController.navigate("home") {
+                popUpTo(0) {
+                    inclusive = true
+                }
+            }
         } else {
-            navController.navigate("login")
+            navController.navigate("login") {
+                popUpTo(0) {
+                    inclusive = true
+                }
+            }
         }
     }
 

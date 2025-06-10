@@ -1,6 +1,6 @@
 package com.example.cukcuk.domain.usecase.invoice
 
-import com.example.cukcuk.domain.model.ResponseData
+import com.example.cukcuk.domain.common.ResponseData
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.repository.InvoiceRepository
 import com.example.cukcuk.presentation.enums.SynchronizeTable

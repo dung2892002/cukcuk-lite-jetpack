@@ -31,7 +31,7 @@ import com.example.cukcuk.utils.FormatDisplay
 
 @Composable
 fun StatisticOverViewBlock(
-    onItemClick: (StatisticOverview) -> Unit,
+    onItemClick: (StatisticOverview, index: Int) -> Unit,
     statisticOverview: List<StatisticOverview>
 ) {
     Column(
@@ -53,7 +53,7 @@ fun StatisticOverViewBlock(
                     .fillMaxWidth()
                     .height(42.dp)
                     .clickable {
-                        onItemClick(item)
+                        onItemClick(item, index)
                     }
                     .padding(start = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -88,7 +88,7 @@ fun StatisticOverViewBlock(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = item.StatisticState.title,
+                        text = item.Title,
                         modifier = Modifier.weight(1f),
                         fontSize = 16.sp,
                         color = Color.Black

@@ -92,8 +92,8 @@ enum class NavItem(
         route = "login"
     ),
     TestApi(
-        label = "Test API",
+        label = "Product API",
         iconResId = R.drawable.ic_nav_logout,
-        route = "test_api"
+        route = "product_api"
     )
 }

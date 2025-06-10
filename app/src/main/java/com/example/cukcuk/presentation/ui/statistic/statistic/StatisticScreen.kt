@@ -95,14 +95,15 @@ fun StatisticScreen(
         when (currentState) {
             StateStatistic.Overview -> {
                 StatisticOverViewBlock(
-                    onItemClick = {
-                        if (it.Amount > 0.0) {
-                            if (it.StatisticState == StateStatistic.Yesterday || it.StatisticState == StateStatistic.Today) {
-                                val request = viewModel.createRequestByStatisticOverview(it)
+                    onItemClick = { item, index ->
+                        when (index) {
+                            2 -> viewModel.changeState(StateStatistic.ThisWeek)
+                            3 -> viewModel.changeState(StateStatistic.ThisMonth)
+                            4 -> viewModel.changeState(StateStatistic.ThisYear)
+                            else -> {
+                                val request = viewModel.createRequestByStatisticOverview(item)
                                 sharedViewModel.setRequestStatisticByInventory(request)
                                 navController.navigate("statistic_by_inventory")
-                            } else {
-                                viewModel.changeState(it.StatisticState)
                             }
                         }
                     },

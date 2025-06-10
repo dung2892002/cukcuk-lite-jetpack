@@ -3,7 +3,7 @@ package com.example.cukcuk.presentation.ui.login.login_account
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.cukcuk.domain.model.ResponseData
+import com.example.cukcuk.domain.common.ResponseData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

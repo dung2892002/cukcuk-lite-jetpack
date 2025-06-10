@@ -25,7 +25,6 @@ import com.example.cukcuk.R
 import com.example.cukcuk.presentation.enums.NavItem
 import com.example.cukcuk.presentation.enums.NavItemGroup
 import com.example.cukcuk.presentation.enums.Screen
-import com.example.cukcuk.utils.ImageHelper
 
 
 @Composable
@@ -211,12 +210,12 @@ private fun NavigationItem(
         if (countSync > 0 && showBadge) {
             Box(
                 modifier = Modifier
-                    .width(18.dp)
                     .height(24.dp)
                     .clip(RoundedCornerShape(2.dp))
                     .background(
                         color = colorResource(R.color.bg_sync_count)
-                    ),
+                    )
+                    .padding(horizontal = 2.dp),
                 contentAlignment = Alignment.Center
             )
             {

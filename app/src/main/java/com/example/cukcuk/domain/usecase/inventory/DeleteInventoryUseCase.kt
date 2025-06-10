@@ -1,6 +1,6 @@
 package com.example.cukcuk.domain.usecase.inventory
 
-import com.example.cukcuk.domain.model.ResponseData
+import com.example.cukcuk.domain.common.ResponseData
 import com.example.cukcuk.domain.model.Inventory
 import com.example.cukcuk.domain.repository.InventoryRepository
 import com.example.cukcuk.presentation.enums.SynchronizeTable

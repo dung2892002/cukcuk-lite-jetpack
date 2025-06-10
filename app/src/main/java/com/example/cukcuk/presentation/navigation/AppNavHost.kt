@@ -24,7 +24,7 @@ import com.example.cukcuk.presentation.ui.setting.SettingScreen
 import com.example.cukcuk.presentation.ui.splash.SplashScreen
 import com.example.cukcuk.presentation.ui.statistic.statistic_by_inventory.StatisticByInventoryScreen
 import com.example.cukcuk.presentation.ui.synchronize.SynchronizeScreen
-import com.example.cukcuk.presentation.ui.test_api.ProductScreen
+import com.example.cukcuk.presentation.ui.product.ProductScreen
 import com.example.cukcuk.presentation.ui.unit.unit_list.UnitListScreen
 
 
@@ -161,7 +161,7 @@ fun AppNavHost(navController: NavHostController) {
         }
 
         composable(
-            route = "test_api"
+            route = "product_api"
         ) {
             ProductScreen(navController)
         }

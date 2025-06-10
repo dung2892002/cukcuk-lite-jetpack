@@ -75,10 +75,10 @@ class StatisticViewModel @Inject constructor(
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val request = RequestStatisticByInventory()
 
-        request.start = item.StatisticState.timeRange!!.first
-        request.end = item.StatisticState.timeRange!!.second
+        request.start = item.TimeStart
+        request.end = item.TimeEnd
 
-        request.title = item.StatisticState.title + " (${request.start.format(formatter)})"
+        request.title = item.Title + " (${request.start.format(formatter)})"
         return request
     }
 
@@ -123,8 +123,8 @@ class StatisticViewModel @Inject constructor(
         }
     }
 
-    fun setLineChartLabels(label: LineChartLabels) {
-        _lineChartLabel.value = label
+    fun setLineChartLabels(labels: LineChartLabels) {
+        _lineChartLabel.value = labels
     }
 
     fun getStatisticByInventory(start: LocalDateTime, end: LocalDateTime) {

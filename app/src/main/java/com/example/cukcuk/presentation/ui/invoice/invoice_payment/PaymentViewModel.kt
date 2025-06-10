@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cukcuk.domain.model.ResponseData
+import com.example.cukcuk.domain.common.ResponseData
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.usecase.invoice.GetInvoiceDataToPaymentUseCase
 import com.example.cukcuk.domain.usecase.invoice.PaymentInvoiceUseCase

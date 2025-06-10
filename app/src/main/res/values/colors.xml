@@ -31,4 +31,5 @@
 
     <color name="button_login">#001CAD</color>
     <color name="inventory_price">#B1B1B1</color>
+    <color name="error_message">#F82323</color>
 </resources>

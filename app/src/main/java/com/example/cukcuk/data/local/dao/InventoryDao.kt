@@ -22,7 +22,8 @@ class InventoryDao @Inject constructor(
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)
     }
 
-    suspend fun getAllInventory() : List<InventoryEntity>  = withContext(Dispatchers.IO) {
+    suspend fun getAllInventory()
+    : List<InventoryEntity>  = withContext(Dispatchers.IO) {
         val query =""" 
             SELECT 
                 i.InventoryID, i.InventoryName, i.Price,
@@ -59,7 +60,8 @@ class InventoryDao @Inject constructor(
         inventoryList
     }
 
-    suspend fun getInventoryById(inventoryID: UUID) : InventoryEntity? = withContext(Dispatchers.IO) {
+    suspend fun getInventoryById(inventoryID: UUID)
+    : InventoryEntity? = withContext(Dispatchers.IO) {
         val query = """
             SELECT 
                 i.InventoryID, i.InventoryName, i.Price,
@@ -99,7 +101,8 @@ class InventoryDao @Inject constructor(
         inventory
     }
 
-    suspend fun createInventory(inventory: InventoryEntity): Boolean = withContext(Dispatchers.IO) {
+    suspend fun createInventory(inventory: InventoryEntity)
+    : Boolean = withContext(Dispatchers.IO) {
         try {
             val values = ContentValues().apply {
                 put("InventoryID", inventory.InventoryID.toString())
@@ -121,7 +124,8 @@ class InventoryDao @Inject constructor(
         }
     }
 
-    suspend fun updateInventory(inventory: InventoryEntity): Boolean = withContext(Dispatchers.IO) {
+    suspend fun updateInventory(inventory: InventoryEntity)
+    : Boolean = withContext(Dispatchers.IO) {
         if (inventory.InventoryID == null) false
 
         try {
@@ -150,7 +154,8 @@ class InventoryDao @Inject constructor(
         }
     }
 
-    suspend fun deleteInventory(inventoryID: UUID): Boolean  = withContext(Dispatchers.IO) {
+    suspend fun deleteInventory(inventoryID: UUID)
+    : Boolean  = withContext(Dispatchers.IO) {
 
          try {
             val result = db.delete(
@@ -166,7 +171,8 @@ class InventoryDao @Inject constructor(
         }
     }
 
-    suspend fun checkInventoryIsInInvoice(inventory: InventoryEntity): Boolean = withContext(Dispatchers.IO) {
+    suspend fun checkInventoryIsInInvoice(inventory: InventoryEntity)
+    : Boolean = withContext(Dispatchers.IO) {
         if (inventory.InventoryID == null) false
 
         val query = """

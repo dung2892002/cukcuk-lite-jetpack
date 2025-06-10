@@ -5,7 +5,7 @@ import com.example.cukcuk.domain.model.StatisticByInventory
 import com.example.cukcuk.domain.model.StatisticByTime
 import com.example.cukcuk.domain.model.StatisticOverview
 import com.example.cukcuk.domain.repository.StatisticRepository
-import com.example.cukcuk.presentation.enums.StateStatistic
+import com.example.cukcuk.utils.DateTimeHelper
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -23,16 +23,23 @@ class StatisticRepositoryImpl @Inject constructor(
 
         val colors = listOf<String>("#5AB4FD", "#5AB4FD", "#4CAF50", "#F44336", "#2196F3")
         val icons = listOf<String>("ic-calendar-1.png", "ic-calendar-1.png", "ic-calendar-7.png", "ic-calendar-30.png", "ic-calendar-12.png")
-        val states = listOf(
-            StateStatistic.Yesterday, StateStatistic.Today, StateStatistic.ThisWeek,
-            StateStatistic.ThisMonth, StateStatistic.ThisYear)
+        val titles = listOf<String>("Hôm qua", "Hôm nay", "Tuần này", "Tháng này", "Năm nay")
+        val timeRanges = listOf<Pair<LocalDateTime, LocalDateTime>>(
+            DateTimeHelper.getYesterday(),
+            DateTimeHelper.getToday(),
+            DateTimeHelper.getThisWeek(),
+            DateTimeHelper.getThisMonth(),
+            DateTimeHelper.getThisYear()
+        )
 
         val statistics = result.mapIndexed { index, item ->
             StatisticOverview(
                 Amount = item.Amount,
                 Color = colors[index],
                 IconFile = icons[index],
-                StatisticState = states[index]
+                Title = titles[index],
+                TimeStart = timeRanges[index].first,
+                TimeEnd = timeRanges[index].second
             )
         }
 
@@ -129,4 +136,5 @@ class StatisticRepositoryImpl @Inject constructor(
 
         return statistics
     }
+
 }

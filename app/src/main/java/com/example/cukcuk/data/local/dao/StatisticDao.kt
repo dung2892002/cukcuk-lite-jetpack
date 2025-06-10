@@ -23,7 +23,8 @@ class StatisticDao @Inject constructor(
         context.openOrCreateDatabase("cukcuk.db", Context.MODE_PRIVATE, null)
     }
 
-    suspend fun getStatisticOverview(): List<StatisticOverView> = withContext(Dispatchers.IO) {
+    suspend fun getStatisticOverview()
+    : List<StatisticOverView> = withContext(Dispatchers.IO) {
         val result = mutableListOf<StatisticOverView>()
         val query = """
             SELECT 'Yesterday' AS Title, 
@@ -92,17 +93,24 @@ class StatisticDao @Inject constructor(
         result
     }
 
-    suspend fun getDailyStatisticOfWeek(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime): List<StatisticByDay> = withContext(Dispatchers.IO) {
+    suspend fun getDailyStatisticOfWeek(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime)
+    : List<StatisticByDay> = withContext(Dispatchers.IO) {
         val results = mutableListOf<StatisticByDay>()
-
         val query = """
+            WITH RECURSIVE dates(Day) AS (
+              SELECT date(?)
+              UNION ALL
+              SELECT date(Day, '+1 day')
+              FROM dates
+              WHERE Day < date(?)
+            )
             SELECT
-                 date(InvoiceDate) as Day,
-                 SUM(Amount) as Amount
-            FROM Invoice
-            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ? 
-            GROUP BY Day
-            ORDER BY Day
+              dates.Day AS Day,
+              COALESCE(SUM(Invoice.Amount), 0) AS Amount
+            FROM dates
+            LEFT JOIN Invoice ON date(Invoice.InvoiceDate) = dates.Day AND Invoice.PaymentStatus = 1
+            GROUP BY dates.Day
+            ORDER BY dates.Day
         """.trimIndent()
 
         var cursor: Cursor? = null
@@ -110,7 +118,7 @@ class StatisticDao @Inject constructor(
         try {
             cursor = db.rawQuery(
                 query,
-                arrayOf(startOfWeek.toLocalDate().toString(), endOfWeek.toLocalDate().toString())
+                arrayOf(startOfWeek.toString(), endOfWeek.toString())
             )
             while (cursor.moveToNext()) {
                 val day = LocalDate.parse(cursor.getString("Day"))
@@ -133,16 +141,24 @@ class StatisticDao @Inject constructor(
         results.toList()
     }
 
-    suspend fun getDailyStatisticOfMonth(start: LocalDateTime, end: LocalDateTime): List<StatisticByDay> = withContext(Dispatchers.IO) {
+    suspend fun getDailyStatisticOfMonth(start: LocalDateTime, end: LocalDateTime)
+    : List<StatisticByDay> = withContext(Dispatchers.IO) {
         val results = mutableListOf<StatisticByDay>()
         val query = """
+            WITH RECURSIVE dates(Day) AS (
+              SELECT date(?)
+              UNION ALL
+              SELECT date(Day, '+1 day')
+              FROM dates
+              WHERE Day < date(?)
+            )
             SELECT
-                 date(InvoiceDate) as Day,
-                 SUM(Amount) as Amount
-            FROM Invoice
-            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ?
-            GROUP BY Day
-            ORDER BY Day
+              dates.Day AS Day,
+              COALESCE(SUM(Invoice.Amount), 0) AS Amount
+            FROM dates
+            LEFT JOIN Invoice ON date(Invoice.InvoiceDate) = dates.Day AND Invoice.PaymentStatus = 1
+            GROUP BY dates.Day
+            ORDER BY dates.Day
         """.trimIndent()
 
         var cursor: Cursor? = null
@@ -173,17 +189,25 @@ class StatisticDao @Inject constructor(
         results
     }
 
-    suspend fun getMonthlyStatistic(start: LocalDateTime, end: LocalDateTime): List<StatisticByMonth> = withContext(Dispatchers.IO) {
+    suspend fun getMonthlyStatistic(start: LocalDateTime, end: LocalDateTime)
+    : List<StatisticByMonth> = withContext(Dispatchers.IO) {
         val results = mutableListOf<StatisticByMonth>()
 
         val query = """
+            WITH RECURSIVE months(Month) AS (
+              SELECT strftime('%Y-%m', date(?))
+              UNION ALL
+              SELECT strftime('%Y-%m', date(Month || '-01', '+1 month'))
+              FROM months
+              WHERE Month < strftime('%Y-%m', date(?))
+            )
             SELECT
-                 strftime('%Y-%m', InvoiceDate) as Month,
-                 SUM(Amount) as Amount
-            FROM Invoice
-            WHERE PaymentStatus = 1 AND InvoiceDate BETWEEN ? AND ?
-            GROUP BY Month
-            ORDER BY Month
+                months.Month AS Month,
+                COALESCE(SUM(Invoice.Amount), 0) AS Amount
+            FROM months
+            LEFT JOIN Invoice ON strftime('%Y-%m', Invoice.InvoiceDate) = months.Month AND Invoice.PaymentStatus = 1
+            GROUP BY months.Month
+            ORDER BY months.Month
         """.trimIndent()
 
         var cursor: Cursor? = null
@@ -215,7 +239,8 @@ class StatisticDao @Inject constructor(
         results
     }
 
-    suspend fun getStatisticByInventory(fromDate: LocalDateTime, toDate: LocalDateTime): List<StatisticByInventory> = withContext(Dispatchers.IO) {
+    suspend fun getStatisticByInventory(fromDate: LocalDateTime, toDate: LocalDateTime)
+    : List<StatisticByInventory> = withContext(Dispatchers.IO) {
         val query = """
             SELECT
                 d.InventoryName as InventoryName,
@@ -259,4 +284,5 @@ class StatisticDao @Inject constructor(
 
         result
     }
+
 }
