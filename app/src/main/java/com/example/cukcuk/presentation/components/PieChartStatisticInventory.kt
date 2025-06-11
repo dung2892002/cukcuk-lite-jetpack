@@ -39,6 +39,20 @@ fun PieChartStatisticInventory(
     val entries = mutableListOf<PieEntry>()
     val colors = mutableListOf<Int>()
 
+    fun generateCenterText(totalAmount: Double): AnnotatedString {
+        val line1 = "Tổng\ndoanh thu\n"
+        val line2 = FormatDisplay.formatNumber(totalAmount.toString())
+
+        return buildAnnotatedString {
+            withStyle(style = SpanStyle(fontSize = 30.sp)) {
+                append(line1)
+            }
+            withStyle(style = SpanStyle(fontSize = 40.sp)) {
+                append(line2)
+            }
+        }
+    }
+
     mainParts.forEach {
         entries.add(PieEntry(it.Percentage.toFloat()))
         colors.add(it.Color.toColorInt())
@@ -104,16 +118,3 @@ fun PieChartStatisticInventory(
 }
 
 
-fun generateCenterText(totalAmount: Double): AnnotatedString {
-    val line1 = "Tổng\ndoanh thu\n"
-    val line2 = FormatDisplay.formatNumber(totalAmount.toString())
-
-    return buildAnnotatedString {
-        withStyle(style = SpanStyle(fontSize = 30.sp)) {
-            append(line1)
-        }
-        withStyle(style = SpanStyle(fontSize = 40.sp)) {
-            append(line2)
-        }
-    }
-}

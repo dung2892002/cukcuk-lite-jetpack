@@ -1,53 +1,47 @@
 package com.example.cukcuk.presentation.enums
 
+import androidx.annotation.StringRes
 import com.example.cukcuk.utils.DateTimeHelper
 import java.time.LocalDateTime
+import com.example.cukcuk.R
 
 enum class StateStatistic(
-    var title: String,
+    @StringRes var title: Int,
     var timeRange: Pair<LocalDateTime, LocalDateTime>? = null
 ) {
-    Yesterday(
-        title = "Hôm qua",
-        timeRange = DateTimeHelper.getYesterday()
-    ),
-    Today(
-        title = "Hôm nay",
-        timeRange = DateTimeHelper.getToday()
-    ),
     Overview(
-        title = "Gần đây",
+        title = R.string.statistic_state_title_Overview,
     ),
     ThisWeek(
-        title = "Tuần này",
+        title = R.string.statistic_state_title_ThisWeek,
         timeRange = DateTimeHelper.getThisWeek()
     ),
     ThisMonth(
-        title = "Tháng này",
+        title = R.string.statistic_state_title_ThisMonth,
         timeRange = DateTimeHelper.getThisMonth()
     ),
 
     ThisYear(
-        title = "Năm nay",
+        title = R.string.statistic_state_title_ThisYear,
         timeRange = DateTimeHelper.getThisYear()
     ),
 
     LastWeek(
-        title = "Tuần trước",
+        title = R.string.statistic_state_title_LastWeek,
         timeRange = DateTimeHelper.getLastWeek()
     ),
 
     LastMonth(
-        title = "Tháng trước",
+        title = R.string.statistic_state_title_LastMonth,
         timeRange = DateTimeHelper.getLastMonth()
         ),
 
     LastYear(
-        title = "Năm trước",
+        title = R.string.statistic_state_title_LastYear,
         timeRange = DateTimeHelper.getLastYear()
     ),
 
     Other(
-        title = "Khác"
+        title = R.string.statistic_state_title_Other
     )
 }

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -60,7 +61,7 @@ fun HomeScreen(
             Modifier.background(Color.White),
             topBar = {
                 CukcukToolbar(
-                    title = title,
+                    title = stringResource(title),
                     menuTitle = null,
                     hasMenuIcon = currentScreen!= Screen.Statistics,
                     onBackClick = {viewModel.openNavigationView()},

@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukImageBox
@@ -114,7 +115,7 @@ fun UnitItem(
                     },
                     text = {
                         Text(
-                            text =  "Xoá đơn vị tính",
+                            text = stringResource(R.string.dropdown_delete_unit),
                             modifier = Modifier.fillMaxHeight().wrapContentHeight(Alignment.CenterVertically)
                         )
                     },

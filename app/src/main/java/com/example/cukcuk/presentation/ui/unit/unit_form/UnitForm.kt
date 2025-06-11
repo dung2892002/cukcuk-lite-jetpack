@@ -10,10 +10,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.cukcuk.presentation.components.CukcukDialog
 import java.util.UUID
+import com.example.cukcuk.R
 
 @Composable
 fun UnitForm(
@@ -73,13 +75,15 @@ fun UnitFormContent(
     onCancel: () -> Unit
 ) {
     CukcukDialog(
-        title = if (unit.UnitID == null) "Thêm đơn vị tính" else "Sửa đơn vị tính",
+        title = if (unit.UnitID == null)
+            stringResource(id = R.string.dialog_add_unit_title)
+        else stringResource(id = R.string.dialog_edit_unit_title),
         message = null,
         valueTextField = unit.UnitName,
         onConfirm = onSubmit,
         onCancel = onCancel,
-        confirmButtonText = "CẤT",
-        cancelButtonText = "HỦY BỎ",
+        confirmButtonText = stringResource(R.string.button_title_Submit),
+        cancelButtonText = stringResource(R.string.button_title_Cancel),
         onValueChange = onUnitNameChange
     )
 }

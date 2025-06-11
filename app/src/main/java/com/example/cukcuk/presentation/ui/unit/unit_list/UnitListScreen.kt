@@ -18,6 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.navigation.NavHostController
 import com.example.cukcuk.R
 import com.example.cukcuk.presentation.components.CukcukButton
@@ -60,15 +65,28 @@ fun UnitListScreen(
             navController.popBackStack()
         }
         else {
-            Toast.makeText(context, "Vui lòng chọn đơn vị tính", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.toast_not_select_unit_error) , Toast.LENGTH_SHORT).show()
         }
+    }
 
+    @Composable
+    fun buildDialogContent() : AnnotatedString {
+        val first = stringResource(id = R.string.annotate_delete_unit_first)
+        val last = stringResource(id = R.string.annotate_delete_unit_last)
+
+        return buildAnnotatedString {
+            append(first)
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                append(" ${unitUpdate?.UnitName} ")
+            }
+            append(last)
+        }
     }
 
     Scaffold(
         topBar = {
             CukcukToolbar(
-                title = "Đơn vị tính",
+                title = stringResource(R.string.toolbar_title_UnitList),
                 menuTitle = null,
                 hasMenuIcon = true,
                 onBackClick = {navController.popBackStack()},
@@ -81,7 +99,7 @@ fun UnitListScreen(
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 20.dp)
             ) {
                 CukcukButton(
-                    title = "XONG",
+                    title = stringResource(R.string.button_title_Done),
                     bgColor = colorResource(R.color.main_color),
                     textColor = Color.White,
                     onClick = {
@@ -132,7 +150,7 @@ fun UnitListScreen(
     if (isOpenDialogDelete) {
         CukcukDialog(
             title = stringResource(R.string.dialog_content),
-            message = viewModel.buildDialogContent(),
+            message = buildDialogContent(),
             valueTextField = null,
             onCancel = {
                 viewModel.closeFormAndDialog(false)
@@ -140,8 +158,8 @@ fun UnitListScreen(
             onConfirm = {
                 viewModel.deleteUnit()
             },
-            confirmButtonText = "CÓ",
-            cancelButtonText = "KHÔNG",
+            confirmButtonText = stringResource(R.string.button_title_Yes),
+            cancelButtonText = stringResource(R.string.button_title_No),
         )
     }
 }

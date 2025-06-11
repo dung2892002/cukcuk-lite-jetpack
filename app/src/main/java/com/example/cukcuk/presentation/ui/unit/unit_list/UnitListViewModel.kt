@@ -2,11 +2,6 @@ package com.example.cukcuk.presentation.ui.unit.unit_list
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -102,15 +97,5 @@ class UnitListViewModel @Inject constructor(
 
     fun setErrorMessage(message: String?) {
         _errorMessage.value = message
-    }
-
-    fun buildDialogContent() : AnnotatedString {
-        return buildAnnotatedString {
-            append("Bạn có chắc muốn xóa đơn vị tính ")
-            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                append(unitUpdate.value?.UnitName)
-            }
-            append(" không?")
-        }
     }
 }

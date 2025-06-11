@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -173,7 +174,7 @@ fun InvoiceItem(
                 InvoiceButton(
                     icon = painterResource(R.drawable.outline_close_24),
                     tint = Color.Red,
-                    label = "Hủy",
+                    label = stringResource(R.string.invoice_item_button_cancel),
                     onClick = {
                         onDeleteClick()
                     },
@@ -183,7 +184,7 @@ fun InvoiceItem(
                 InvoiceButton(
                     icon = painterResource(R.drawable.ic_dollar),
                     tint = colorResource(R.color.dollar_icon_color),
-                    label = "Thu tiền",
+                    label = stringResource(R.string.invoice_item_button_payment),
                     onClick = {
                         onPaymentClick()
                     },

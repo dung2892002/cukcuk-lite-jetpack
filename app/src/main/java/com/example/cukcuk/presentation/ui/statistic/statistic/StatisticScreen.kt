@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,8 +35,7 @@ fun StatisticScreen(
     viewModel: StatisticViewModel = hiltViewModel(),
 ) {
     val currentState = viewModel.currentState.value
-    val headerTitle = viewModel.title.value
-
+    val title = viewModel.title.value
     val statisticOverview = viewModel.statisticOverview.value
     val statisticByTime = viewModel.statisticByTime.value
     val statisticByInventory = viewModel.statisticByInventory.value
@@ -75,12 +75,15 @@ fun StatisticScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Thời gian",
+                text = stringResource(R.string.statistic_header_title),
                 fontSize = 16.sp,
                 color = Color.Gray
             )
             Text(
-                text = headerTitle,
+                text = if (currentState != StateStatistic.Other)
+                    stringResource(currentState.title)
+                else
+                    title,
                 modifier = Modifier.weight(1f).padding(end = 6.dp),
                 fontSize = 18.sp,
                 textAlign = TextAlign.End,
@@ -179,7 +182,7 @@ fun StatisticNoData() {
         )
 
         Text(
-            text = "Báo cáo doanh thu không có số liệu"
+            text = stringResource(R.string.statistic_state_no_data)
         )
     }
 }

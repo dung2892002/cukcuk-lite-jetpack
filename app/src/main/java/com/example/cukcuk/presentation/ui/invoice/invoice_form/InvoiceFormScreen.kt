@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -85,8 +86,8 @@ fun InvoiceFormScreen(
     Scaffold(
         topBar = {
             CukcukToolbar(
-                title = "Chọn món",
-                menuTitle = "Thu tiền",
+                title = stringResource(R.string.toolbar_title_InvoiceForm),
+                menuTitle = stringResource(R.string.toolbar_menuTitle_InvoiceForm),
                 hasMenuIcon = false,
                 onBackClick = {navController.popBackStack()},
                 onMenuClick = {
@@ -155,7 +156,7 @@ fun InvoiceFormScreen(
                     )
 
                     Text(
-                        text = "Tổng tiền",
+                        text = stringResource(R.string.invoice_form_totalAmount),
                         modifier = Modifier.padding(start = 6.dp),
                         fontSize = 16.sp
                     )
@@ -192,7 +193,7 @@ fun InvoiceFormScreen(
                     )
 
                     CukcukButton(
-                        title = "CẤT",
+                        title = stringResource(R.string.button_title_Submit),
                         bgColor = Color.White,
                         textColor = colorResource(R.color.main_color),
                         onClick = {
@@ -202,7 +203,7 @@ fun InvoiceFormScreen(
                     )
 
                     CukcukButton(
-                        title = "THU TIỀN",
+                        title = stringResource(R.string.button_title_Payment),
                         bgColor = colorResource(R.color.main_color),
                         textColor = Color.White,
                         onClick = {
@@ -250,8 +251,8 @@ fun InvoiceFormScreen(
     if (showCalculatorTableName) {
         IntegerCalculatorDialog(
             input = invoice.TableName,
-            title = "Nhập số bàn",
-            message = "Số bàn",
+            title = stringResource(R.string.calculator_title_invoice_tableName),
+            message = stringResource(R.string.calculator_message_invoice_tableName),
             maxValue = 9999.0,
             minValue = 0.0,
             onClose = {
@@ -266,8 +267,8 @@ fun InvoiceFormScreen(
     if (showCalculatorNumberPeople) {
         IntegerCalculatorDialog(
             input = invoice.NumberOfPeople.toString(),
-            title = "Nhập số người",
-            message = "Số người",
+            title = stringResource(R.string.calculator_title_invoice_numberPeople),
+            message = stringResource(R.string.calculator_message_invoice_numberPeople),
             maxValue = 9999.0,
             minValue = 0.0,
             onClose = {
@@ -283,8 +284,8 @@ fun InvoiceFormScreen(
     if (showCalculatorQuantity) {
         CalculatorDialog(
             input = inventoriesSelect[currentInventoryIndex].quantity.toString(),
-            title = "Nhập số lượng",
-            message = "Số lượng",
+            title = stringResource(R.string.calculator_title_invoice_inventoryQuantity),
+            message = stringResource(R.string.calculator_message_invoice_inventoryQuantity),
             maxValue = 9999999.0,
             minValue = 0.0,
             onClose = {

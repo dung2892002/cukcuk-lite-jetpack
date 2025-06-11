@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -124,7 +125,7 @@ fun AppNavigationBarContent(
         ) {
             screens.forEach {
                 NavigationItem(
-                    label = it.displayName,
+                    label = stringResource(it.label),
                     iconResId = it.iconResId,
                     selected = it == currentScreen,
                     onClick = {
@@ -153,14 +154,14 @@ fun AppNavigationBarContent(
                         }
                 ) {
                     Text(
-                        text = group.label,
+                        text = stringResource(group.label),
                         color = Color.Gray,
                         fontSize = 14.sp,
                         modifier = Modifier.fillMaxWidth().padding(start = 10.dp)
                     )
                     group.items.forEach { item ->
                         NavigationItem(
-                            label = item.label,
+                            label = stringResource(item.label),
                             iconResId = item.iconResId,
                             selected = false,
                             onClick = { onSelectNewScreen(item) },

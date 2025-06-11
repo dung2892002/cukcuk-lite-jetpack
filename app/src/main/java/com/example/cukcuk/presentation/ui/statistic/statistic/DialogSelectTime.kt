@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,7 +71,7 @@ fun DialogSelectTime(
                 Modifier.background(Color.White)
             ) {
                 Text(
-                    text = "Thời gian",
+                    text = stringResource(R.string.dialog_select_time_title),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -89,7 +90,11 @@ fun DialogSelectTime(
                         .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Từ ngày", fontSize = 16.sp, color = Color.Gray)
+                    Text(
+                        text = stringResource(R.string.dialog_select_time_startDate_label),
+                        fontSize = 16.sp,
+                        color = Color.Gray
+                    )
                     Text(
                         text = start.format(formatter),
                         textAlign = TextAlign.End,
@@ -116,7 +121,11 @@ fun DialogSelectTime(
                         .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Đến ngày", fontSize = 16.sp, color = Color.Gray)
+                    Text(
+                        text = stringResource(R.string.dialog_select_time_endDate_label),
+                        fontSize = 16.sp,
+                        color = Color.Gray
+                    )
                     Text(
                         text = end.format(formatter),
                         textAlign = TextAlign.End,
@@ -144,7 +153,7 @@ fun DialogSelectTime(
                 ) {
                     Spacer(modifier = Modifier.weight(2f))
                     CukcukButton(
-                        title = "HỦY BỎ",
+                        title = stringResource(R.string.button_title_Cancel),
                         onClick = {
                             onClose()
                         },
@@ -153,7 +162,7 @@ fun DialogSelectTime(
 
                         )
                     CukcukButton(
-                        title = "ĐỒNG Ý",
+                        title = stringResource(R.string.button_title_Accept),
                         onClick = {
                             onSubmit(start.atStartOfDay(), end.atTime(LocalTime.MAX))
                         },

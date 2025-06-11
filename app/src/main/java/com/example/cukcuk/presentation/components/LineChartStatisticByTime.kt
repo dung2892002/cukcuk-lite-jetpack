@@ -25,10 +25,10 @@ fun LineChartStatisticByTime(
     labelMapper: (StatisticByTime) -> Int
 ) {
     val amountMap = mutableMapOf<Int, Float>()
-    val xLabels = label.labels
 
     val context = LocalContext.current
     val lineColor =  ContextCompat.getColor(context, R.color.line_data_color)
+    val xLabels = context.resources.getStringArray(label.labels)
 
     statisticList.forEach {
         val index = labelMapper(it)

@@ -81,7 +81,7 @@ fun InvoiceListScreen(
 
             }
             Text(
-                text = "Chưa có khách gọi món",
+                text = stringResource(R.string.state_no_invoice),
                 modifier = Modifier
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center,
@@ -89,7 +89,7 @@ fun InvoiceListScreen(
                 fontSize = 20.sp
             )
             Text(
-                text = "Bấm vào đây hoặc dấu + để gọi món",
+                text = stringResource(R.string.title_click_to_create_invoice),
                 color = colorResource(R.color.main_color),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -133,7 +133,7 @@ fun InvoiceListScreen(
             title = stringResource(R.string.dialog_content),
             valueTextField = null,
             message = buildAnnotatedString {
-                append("Bạn có chắc muốn hủy các món đã chọn")
+                append(stringResource(R.string.dialog_delete_invoice))
             },
             onConfirm = {
                 viewModel.deleteInvoice()
@@ -141,8 +141,8 @@ fun InvoiceListScreen(
             onCancel = {
                 viewModel.closeDialogDelete()
             },
-            confirmButtonText = "CÓ",
-            cancelButtonText = "KHÔNG"
+            confirmButtonText = stringResource(R.string.button_title_Yes),
+            cancelButtonText = stringResource(R.string.button_title_No)
         )
     }
 }

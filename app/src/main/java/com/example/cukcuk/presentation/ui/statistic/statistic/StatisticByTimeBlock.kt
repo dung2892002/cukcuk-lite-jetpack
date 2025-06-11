@@ -23,6 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,7 +53,7 @@ fun StatisticByTimeBlock(
                 )
         ){
             Text(
-                text = "(Nghìn đồng)",
+                text = stringResource(R.string.statistic_lineChart_yLabel),
                 fontSize = 12.sp,
                 color = Color.Gray,
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
@@ -70,7 +71,7 @@ fun StatisticByTimeBlock(
             }
 
             Text(
-                text = label.xAxisLabel,
+                text = stringResource(label.xAxisLabel),
                 fontSize = 12.sp,
                 color = Color.Gray,
                 modifier = Modifier.fillMaxWidth().padding(6.dp),

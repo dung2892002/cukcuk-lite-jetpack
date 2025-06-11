@@ -60,6 +60,7 @@ fun InventoryListScreen(
 
 @Composable
 fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
+    val price = FormatDisplay.formatNumber(inventory.Price.toString())
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -88,7 +89,7 @@ fun InventoryItem(inventory: Inventory, onClick: () -> Unit = {}) {
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
-                    text = "Giá bán: ${FormatDisplay.formatNumber(inventory.Price.toString())}",
+                    text = "${stringResource(R.string.inventory_price_label)} $price",
                     style = MaterialTheme.typography.bodyMedium,
                     color = colorResource(R.color.inventory_price)
                 )

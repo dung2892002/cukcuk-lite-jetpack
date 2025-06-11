@@ -53,7 +53,7 @@ fun StatisticOverViewBlock(
                     .fillMaxWidth()
                     .height(42.dp)
                     .clickable {
-                        onItemClick(item, index)
+                        if (item.Amount > 0.0) onItemClick(item, index)
                     }
                     .padding(start = 10.dp),
                 verticalAlignment = Alignment.CenterVertically

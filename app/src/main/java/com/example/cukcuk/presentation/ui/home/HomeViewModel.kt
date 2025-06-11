@@ -19,8 +19,8 @@ class HomeViewModel @Inject constructor(
     private val _currentScreen = mutableStateOf(Screen.Sales)
     val currentScreen: State<Screen> = _currentScreen
 
-    private val _title = mutableStateOf(Screen.Sales.displayName)
-    val title: State<String> = _title
+    private val _title = mutableIntStateOf(Screen.Sales.label)
+    val title: State<Int> = _title
 
     private val _showNavigationBar = mutableStateOf(false)
     val showNavigationBar: State<Boolean> = _showNavigationBar
@@ -42,6 +42,6 @@ class HomeViewModel @Inject constructor(
 
     fun navigateScreen(screen: Screen) {
         _currentScreen.value = screen
-        _title.value = screen.displayName
+        _title.intValue = screen.label
     }
 }

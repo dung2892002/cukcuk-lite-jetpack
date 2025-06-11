@@ -32,8 +32,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -89,12 +91,28 @@ fun InventoryFormScreen(
         }
     }
 
+    @Composable
+    fun buildDialogContent() : AnnotatedString {
+        val first = stringResource(id = R.string.annotate_delete_inventory_first)
+        val last = stringResource(id = R.string.annotate_delete_inventory_last)
+
+        return buildAnnotatedString {
+            append(first)
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                append(" ${inventory.InventoryName} ")
+            }
+            append(last)
+        }
+    }
+
     Scaffold(
         containerColor = Color.White,
         topBar = {
             CukcukToolbar(
-                title = if (inventory.InventoryID == null) "Thêm món" else "Sửa món",
-                menuTitle =  "Cất",
+                title = if (inventory.InventoryID == null)
+                    stringResource(R.string.toolbar_title_AddInventory)
+                else stringResource(R.string.toolbar_title_EditInventory),
+                menuTitle =  stringResource(R.string.toolbar_menuTitle_Submit),
                 false,
                 onBackClick =  {navController.popBackStack()},
                 onMenuClick = {viewModel.submit()} )
@@ -110,7 +128,7 @@ fun InventoryFormScreen(
             ) {
                 if (inventory.InventoryID != null) {
                     CukcukButton(
-                        title = "XÓA",
+                        title = stringResource(R.string.button_title_Delete),
                         bgColor = Color.Red,
                         textColor = Color.White,
                         onClick = {
@@ -120,7 +138,7 @@ fun InventoryFormScreen(
                     )
                 }
                 CukcukButton(
-                    title = "CẤT",
+                    title = stringResource(R.string.button_title_Submit),
                     bgColor = colorResource(R.color.main_color),
                     textColor = Color.White,
                     onClick = {
@@ -139,14 +157,14 @@ fun InventoryFormScreen(
 
         ) {
             FormRow(
-                label = "Tên món",
+                label = stringResource(R.string.form_row_inventory_name_title),
                 value = inventory.InventoryName,
                 onValueChange = { viewModel.updateInventoryName(it) },
                 isRequired = true
             )
 
             FormRow(
-                label = "Giá bán",
+                label = stringResource(R.string.form_row_inventory_price_title),
                 value = FormatDisplay.formatNumber(inventory.Price.toString()),
                 isRequired = false,
                 onClick = {
@@ -155,7 +173,7 @@ fun InventoryFormScreen(
             )
 
             FormRow(
-                label = "Đơn vị tính",
+                label = stringResource(R.string.form_row_inventory_unit_title),
                 value = inventory.UnitName,
                 isRequired = true,
                 onClick = {
@@ -177,7 +195,7 @@ fun InventoryFormScreen(
                     modifier = Modifier.padding(vertical = 10.dp)
                 ) {
                     FormRowLabel(
-                        label = "Màu sắc"
+                        label = stringResource(R.string.form_row_inventory_color_title)
                     )
 
                     CukcukImageBox(
@@ -195,7 +213,7 @@ fun InventoryFormScreen(
                     modifier = Modifier.padding(vertical = 4.dp)
                 ) {
                     FormRowLabel(
-                        label = "Biểu tượng"
+                        label = stringResource(R.string.form_row_inventory_icon_title)
                     )
 
                     CukcukImageBox(
@@ -213,7 +231,7 @@ fun InventoryFormScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     FormRowLabel(
-                        label = "Trạng thái"
+                        label = stringResource(R.string.form_row_inventory_active_title)
                     )
 
                     Checkbox(
@@ -225,7 +243,7 @@ fun InventoryFormScreen(
                         ),
                         onCheckedChange = { viewModel.updateInactive(it) }
                     )
-                    Text(text = "Ngừng bán", fontSize = 16.sp)
+                    Text(text = stringResource(R.string.inventory_inactive), fontSize = 16.sp)
                 }
             }
 
@@ -235,7 +253,7 @@ fun InventoryFormScreen(
     if (showDialogDelete) {
         CukcukDialog(
             title = stringResource(R.string.dialog_content),
-            message = viewModel.buildDialogContent(),
+            message = buildDialogContent(),
             valueTextField = null,
             onConfirm = {
                 viewModel.delete()
@@ -243,8 +261,8 @@ fun InventoryFormScreen(
             onCancel = {
                 viewModel.closeDialogDelete()
             },
-            confirmButtonText = "CÓ",
-            cancelButtonText = "KHÔNG",
+            confirmButtonText = stringResource(R.string.button_title_Yes),
+            cancelButtonText = stringResource(R.string.button_title_No),
         )
     }
 
@@ -276,8 +294,8 @@ fun InventoryFormScreen(
     if (showCalculator) {
         CalculatorDialog(
             input = inventory.Price.toString(),
-            title = "Giá bán",
-            message = "Giá bán",
+            title = stringResource(R.string.calculator_title_inventory_price),
+            message = stringResource(R.string.calculator_message_inventory_price),
             maxValue = 999999999.0,
             minValue = 0.0,
             onClose = {
@@ -375,6 +393,7 @@ fun FormRowLabel(
     label: String,
     isRequired: Boolean = false
 ) {
+    val required = stringResource(R.string.required)
     Text(
         buildAnnotatedString {
             withStyle(style = SpanStyle(color = Color.Gray, fontSize = 14.sp)) {
@@ -382,7 +401,7 @@ fun FormRowLabel(
             }
             if (isRequired) {
                 withStyle(style = SpanStyle(color = Color.Red)) {
-                    append(" *")
+                    append(" $required")
                 }
             }
         },

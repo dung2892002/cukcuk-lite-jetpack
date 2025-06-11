@@ -1,12 +1,13 @@
 package com.example.cukcuk.presentation.enums
+import androidx.annotation.StringRes
 import com.example.cukcuk.R
 
 enum class NavItemGroup(
-    val label: String,
+    @StringRes val label: Int,
     val items: List<NavItem>
 ) {
     Setting(
-        label = "Thiết lập",
+        label = R.string.nav_item_group_Setting,
         items = listOf(
             NavItem.SynchronizeData,
             NavItem.Setting,
@@ -14,7 +15,7 @@ enum class NavItemGroup(
         )
     ),
     Help(
-        label = "Trợ giúp",
+        label = R.string.nav_item_group_Help,
         items = listOf(
             NavItem.Notification,
             NavItem.SharedWithFriend,
@@ -24,13 +25,13 @@ enum class NavItemGroup(
         )
     ),
     Other(
-        label = "Khác",
+        label = R.string.nav_item_group_Other,
         items = listOf(
             NavItem.TestApi,
         )
     ),
     Account(
-        label = "Tài khoản",
+        label = R.string.nav_item_group_Account,
         items = listOf(
             NavItem.SetPassword,
             NavItem.Logout,
@@ -39,60 +40,60 @@ enum class NavItemGroup(
 }
 
 enum class NavItem(
-    val label: String,
+    @StringRes val label: Int,
     val iconResId: Int,
     val route: String = "null"
 ){
     SynchronizeData(
-        label = "Đồng bộ dữ liệu",
+        label = R.string.nav_item_SynchronizeData,
         iconResId = R.drawable.ic_nav_sync_data,
         route = "synchronize"
     ),
     Setting(
-        label = "Thiết lập",
+        label = R.string.nav_item_Setting,
         iconResId = R.drawable.ic_nav_setting,
         route = "setting",
     ),
     LinkAccount(
-        label = "Liên kết tài khoản",
+        label = R.string.nav_item_LinkAccount,
         iconResId = R.drawable.ic_nav_link_account,
         route = "link_account"
     ),
     Notification(
-        label = "Thông báo",
+        label = R.string.nav_item_Notification,
         iconResId = R.drawable.ic_nav_notification,
         route = "notification"
     ),
     SharedWithFriend(
-        label = "Giới thiệu cho bạn",
+        label = R.string.nav_item_SharedWithFriend,
         iconResId = R.drawable.ic_nav_share
     ),
     RatingApp(
-        label = "Đánh giá ứng dụng",
+        label = R.string.nav_item_RatingApp,
         iconResId = R.drawable.ic_nav_rating
     ),
     SuggestApp(
-        label = "Góp ý với nhà phát triển",
+        label = R.string.nav_item_SuggestApp,
         iconResId = R.drawable.ic_nav_suggestion,
         route = "feedback"
     ),
     AppInfo(
-        label = "Thông tin sản phẩm",
+        label = R.string.nav_item_AppInfo,
         iconResId = R.drawable.ic_nav_app_info,
         route = "app_info"
     ),
     SetPassword(
-        label = "Đặt mật khẩu",
+        label = R.string.nav_item_SetPassword,
         iconResId = R.drawable.ic_nav_password,
         route = "set_password"
     ),
     Logout(
-        label = "Đăng xuất",
+        label = R.string.nav_item_Logout,
         iconResId = R.drawable.ic_nav_logout,
         route = "login"
     ),
     TestApi(
-        label = "Product API",
+        label = R.string.nav_item_TestApi,
         iconResId = R.drawable.ic_nav_logout,
         route = "product_api"
     )

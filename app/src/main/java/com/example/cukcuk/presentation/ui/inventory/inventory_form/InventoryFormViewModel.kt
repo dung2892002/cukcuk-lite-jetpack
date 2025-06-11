@@ -155,14 +155,4 @@ class InventoryFormViewModel @Inject constructor(
     fun updateInactive(state: Boolean) {
         _inventory.value = _inventory.value.copy(Inactive = !state)
     }
-
-    fun buildDialogContent() : AnnotatedString {
-        return buildAnnotatedString {
-            append("Bạn có chắc muốn xóa món ăn ")
-            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                append(inventory.value.InventoryName)
-            }
-            append(" không?")
-        }
-    }
 }

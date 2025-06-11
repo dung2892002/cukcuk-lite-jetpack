@@ -1,22 +1,26 @@
 package com.example.cukcuk.presentation.enums
 
+import androidx.annotation.ArrayRes
+import androidx.annotation.StringRes
+import com.example.cukcuk.R
+
 enum class LineChartLabels(
-    val labels: List<String>,
-    val xAxisLabel: String = "",
+    @ArrayRes val labels: Int,
+    @StringRes val xAxisLabel: Int,
 ) {
     DAY_IN_WEEK(
-        labels = listOf("T2", "T3", "T4", "T5", "T6", "T7", "CN"),
-        xAxisLabel = "(Ngày)"
+        labels = R.array.day_in_week,
+        xAxisLabel = R.string.xAxisLabel_day
     ),
 
     DAY_IN_MONTH(
-        labels = (1..31).map { it.toString()},
-        xAxisLabel = "(Ngày)"
+        labels = R.array.day_in_month,
+        xAxisLabel = R.string.xAxisLabel_day
     ),
 
     MONTH_IN_YEAR(
-        labels = listOf("T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12"),
-        xAxisLabel = "(Tháng)"
+        labels = R.array.month_in_year,
+        xAxisLabel = R.string.xAxisLabel_day
     )
 
 }

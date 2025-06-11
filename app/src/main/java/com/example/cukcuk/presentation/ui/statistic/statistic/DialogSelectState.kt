@@ -20,6 +20,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,7 +59,7 @@ fun DialogSelectState(
                 Modifier.background(Color.White)
             ) {
                 Text(
-                    text = "Thời gian",
+                    text = stringResource(R.string.dialog_select_state_title),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -95,7 +96,7 @@ fun DialogSelectState(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(text = state.title)
+                        Text(text = stringResource(state.title))
 
                         if (state == currentState)
                             Icon(

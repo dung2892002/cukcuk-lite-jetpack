@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -75,8 +76,8 @@ fun PaymentScreen(
     Scaffold(
         topBar = {
             CukcukToolbar(
-                title = "Thu tiền",
-                menuTitle = "Xong",
+                title = stringResource(R.string.toolbar_title_Payment),
+                menuTitle = stringResource(R.string.toolbar_menuTitle_Payment),
                 hasMenuIcon = false,
                 onBackClick = {navController.popBackStack()},
                 onMenuClick = {
@@ -103,14 +104,14 @@ fun PaymentScreen(
                     .padding(start = 8.dp, end = 8.dp, top = 10.dp),
             ) {
                 Text(
-                    text = "HÓA ĐƠN",
+                    text = stringResource(R.string.payment_invoice),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 10.dp).align(Alignment.CenterHorizontally)
                 )
 
                 Text(
-                    text = "Số: ${invoice.InvoiceNo}",
+                    text = "${stringResource(R.string.payment_invoiceNo)} ${invoice.InvoiceNo}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 10.dp).align(Alignment.CenterHorizontally)
@@ -120,7 +121,7 @@ fun PaymentScreen(
                         modifier = Modifier.padding(bottom = 4.dp)
                     ) {
                         Text(
-                            text = "Bàn: ",
+                            text = stringResource(R.string.payment_invoiceTable),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.width(60.dp)
@@ -136,7 +137,7 @@ fun PaymentScreen(
                     modifier = Modifier.padding(bottom = 10.dp)
                 ) {
                     Text(
-                        text = "Ngày: ",
+                        text = stringResource(R.string.payment_invoiceDate),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.width(60.dp)
@@ -148,7 +149,6 @@ fun PaymentScreen(
                 }
 
 
-                //danh sach mon an
                 TableHeader()
                 LazyColumn(
                     modifier = Modifier
@@ -177,7 +177,7 @@ fun PaymentScreen(
                     modifier = Modifier.padding(vertical = 10.dp)
                 ) {
                     Text(
-                        text = "Số tiền phải trả",
+                        text = stringResource(R.string.payment_amount),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f)
                     )
@@ -200,7 +200,7 @@ fun PaymentScreen(
                         .padding(vertical = 10.dp)
                 ) {
                     Text(
-                        text = "Tiền khách đưa",
+                        text = stringResource(R.string.payment_receiveAmount),
                         modifier = Modifier.weight(1f),
                         color = colorResource(R.color.main_color)
                     )
@@ -227,7 +227,7 @@ fun PaymentScreen(
                     modifier = Modifier.padding(vertical = 10.dp)
                 ) {
                     Text(
-                        text = "Tiền trả lại cho khách",
+                        text = stringResource(R.string.payment_returnAmount),
                         modifier = Modifier.weight(1f)
                     )
 
@@ -249,7 +249,7 @@ fun PaymentScreen(
             )
 
             CukcukButton(
-                title = "XONG",
+                title = stringResource(R.string.button_title_Done),
                 bgColor = colorResource(R.color.main_color),
                 textColor = Color.White,
                 onClick = {
@@ -265,7 +265,7 @@ fun PaymentScreen(
     if (showCalculator) {
         DoubleCalculatorDialog(
             input = invoice.ReceiveAmount.toString(),
-            message = "Số tiền",
+            message = stringResource(R.string.calculator_message_payment),
             maxValue = 999999999.0,
             minValue = 0.0,
             onSubmit = {
@@ -296,7 +296,7 @@ fun TableHeader() {
             .padding(vertical = 10.dp)
     ) {
         Text(
-            text = "Tên hàng",
+            text = stringResource(R.string.payment_headerTable_inventoryName),
             textAlign = TextAlign.Center,
             maxLines = 2,
             fontWeight = FontWeight.Bold,
@@ -305,7 +305,7 @@ fun TableHeader() {
         )
 
         Text(
-            text = "SL",
+            text = stringResource(R.string.payment_headerTable_quantity),
             textAlign = TextAlign.Center,
             maxLines = 1,
             fontWeight = FontWeight.Bold,
@@ -314,7 +314,7 @@ fun TableHeader() {
         )
 
         Text(
-            text = "Đơn giá",
+            text = stringResource(R.string.payment_headerTable_price),
             textAlign = TextAlign.End,
             maxLines = 1,
             fontWeight = FontWeight.Bold,
@@ -323,7 +323,7 @@ fun TableHeader() {
         )
 
         Text(
-            text = "Thành tiền",
+            text = stringResource(R.string.payment_headerTable_amount),
             textAlign = TextAlign.End,
             maxLines = 1,
             fontWeight = FontWeight.Bold,

@@ -27,7 +27,7 @@ class StatisticViewModel @Inject constructor(
     private val getStatisticByInventoryUseCase: GetStatisticByInventoryUseCase
 ) : ViewModel() {
 
-    private val _title = mutableStateOf(StateStatistic.Overview.title)
+    private val _title = mutableStateOf("")
     val title: State<String> = _title
 
     private val _currentState = mutableStateOf(StateStatistic.Overview)
@@ -56,7 +56,6 @@ class StatisticViewModel @Inject constructor(
 
     fun changeState(state: StateStatistic) {
         if (state != StateStatistic.Other){
-            _title.value = state.title
             _currentState.value = state
         }
         closeDialogSelectState()

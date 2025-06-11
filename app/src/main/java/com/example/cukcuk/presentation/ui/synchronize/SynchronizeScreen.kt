@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -50,7 +51,7 @@ fun SynchronizeScreen(
     Scaffold(
         topBar = {
             CukcukToolbar(
-                title = "Đồng bộ dữ liệu",
+                title = stringResource(R.string.toolbar_title_Synchronize),
                 menuTitle = null,
                 onBackClick = { navController.popBackStack() },
                 onMenuClick = {}
@@ -73,7 +74,7 @@ fun SynchronizeScreen(
 
             Text(
                 text = if (lastSyncTime != null) buildLastSyncTimeString(lastSyncTime)
-                    else AnnotatedString("Chưa thực hiện đồng bộ"),
+                    else AnnotatedString(stringResource(R.string.not_synchronize_state)),
                 modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp
@@ -110,7 +111,7 @@ fun SynchronizeScreen(
                 }
             }
             CukcukButton(
-                title = "ĐỒNG BỘ NGAY",
+                title = stringResource(R.string.synchronize_button_title),
                 onClick = { viewModel.handleSyncData() },
                 bgColor = colorResource(R.color.main_color),
                 textColor = colorResource(R.color.white),
@@ -122,23 +123,25 @@ fun SynchronizeScreen(
 
     if(loading) {
         CukcukLoadingDialog(
-            title = "Đang đồng bộ dữ liệu ..."
+            title = stringResource(R.string.annotate_lastSyncTime)
         )
     }
 }
 
+@Composable
 fun buildLastSyncTimeString(lastSyncTime: LocalDateTime) : AnnotatedString {
     return buildAnnotatedString {
-        append("Đồng bộ lần cuối: ")
+        append(stringResource(R.string.annotate_lastSyncTime))
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
             append(FormatDisplay.formatTo12HourWithCustomAMPM(lastSyncTime.toString()))
         }
     }
 }
 
+@Composable
 fun buildCountSyncString(count: Int) : AnnotatedString {
     return buildAnnotatedString {
-        append("Bạn đang có ")
+        append(stringResource(R.string.annotate_countSync_first))
         withStyle(
             style = SpanStyle(
                 fontWeight = FontWeight.Bold,
@@ -146,6 +149,6 @@ fun buildCountSyncString(count: Int) : AnnotatedString {
         ) {
             append(count.toString())
         }
-        append(" giao dịch chưa được đồng bộ. Các thiết bị khác sẽ không nhận được những thay đổi này. Vui lòng kiểm tra kết nối mạng và thực hiện đồng bộ")
+        append(stringResource(R.string.annotate_countSync_last))
     }
 }
