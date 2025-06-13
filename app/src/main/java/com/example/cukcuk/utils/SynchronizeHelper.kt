@@ -2,7 +2,7 @@ package com.example.cukcuk.utils
 
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.domain.repository.SynchronizeRepository
-import com.example.cukcuk.presentation.enums.SynchronizeTable
+import com.example.cukcuk.domain.enums.SynchronizeTable
 import java.util.UUID
 import javax.inject.Inject
 

@@ -6,7 +6,7 @@ import com.example.cukcuk.domain.common.ResponseData
 import com.example.cukcuk.domain.model.Invoice
 import com.example.cukcuk.domain.model.InvoiceDetail
 import com.example.cukcuk.domain.repository.InvoiceRepository
-import com.example.cukcuk.presentation.enums.SynchronizeTable
+import com.example.cukcuk.domain.enums.SynchronizeTable
 import com.example.cukcuk.utils.FormatDisplay
 import com.example.cukcuk.utils.SynchronizeHelper
 import kotlinx.coroutines.async

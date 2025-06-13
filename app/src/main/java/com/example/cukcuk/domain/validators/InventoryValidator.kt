@@ -1,4 +1,4 @@
-package com.example.cukcuk.domain.utils
+package com.example.cukcuk.domain.validators
 
 import com.example.cukcuk.domain.common.ResponseData
 import com.example.cukcuk.domain.model.Inventory

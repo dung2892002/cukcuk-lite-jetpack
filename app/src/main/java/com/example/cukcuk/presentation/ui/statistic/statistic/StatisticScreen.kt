@@ -25,7 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.cukcuk.R
-import com.example.cukcuk.presentation.enums.StateStatistic
+import com.example.cukcuk.domain.enums.StateStatistic
+import com.example.cukcuk.presentation.mapper.getTitleResId
 import com.example.cukcuk.presentation.shared.SharedViewModel
 
 @Composable
@@ -81,7 +82,7 @@ fun StatisticScreen(
             )
             Text(
                 text = if (currentState != StateStatistic.Other)
-                    stringResource(currentState.title)
+                    stringResource(currentState.getTitleResId())
                 else
                     title,
                 modifier = Modifier.weight(1f).padding(end = 6.dp),

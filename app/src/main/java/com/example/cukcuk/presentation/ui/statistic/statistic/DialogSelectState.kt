@@ -26,7 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.cukcuk.R
-import com.example.cukcuk.presentation.enums.StateStatistic
+import com.example.cukcuk.domain.enums.StateStatistic
+import com.example.cukcuk.presentation.mapper.getTitleResId
 import com.example.cukcuk.presentation.theme.CukcukTheme
 
 @Composable
@@ -96,7 +97,7 @@ fun DialogSelectState(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(text = stringResource(state.title))
+                        Text(text = stringResource(state.getTitleResId()))
 
                         if (state == currentState)
                             Icon(

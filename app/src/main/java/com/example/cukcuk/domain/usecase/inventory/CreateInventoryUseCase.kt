@@ -3,8 +3,8 @@ package com.example.cukcuk.domain.usecase.inventory
 import com.example.cukcuk.domain.common.ResponseData
 import com.example.cukcuk.domain.model.Inventory
 import com.example.cukcuk.domain.repository.InventoryRepository
-import com.example.cukcuk.domain.utils.InventoryValidator
-import com.example.cukcuk.presentation.enums.SynchronizeTable
+import com.example.cukcuk.domain.validators.InventoryValidator
+import com.example.cukcuk.domain.enums.SynchronizeTable
 import com.example.cukcuk.utils.SynchronizeHelper
 import java.time.LocalDateTime
 import java.util.UUID

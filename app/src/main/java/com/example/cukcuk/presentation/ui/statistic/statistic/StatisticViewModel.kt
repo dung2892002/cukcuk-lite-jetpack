@@ -13,7 +13,7 @@ import com.example.cukcuk.domain.usecase.statistic.GetStatisticByInventoryUseCas
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticByTimeUseCase
 import com.example.cukcuk.domain.usecase.statistic.GetStatisticOverviewUseCase
 import com.example.cukcuk.presentation.enums.LineChartLabels
-import com.example.cukcuk.presentation.enums.StateStatistic
+import com.example.cukcuk.domain.enums.StateStatistic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -89,7 +89,7 @@ class StatisticViewModel @Inject constructor(
         request.end = item.TimeEnd
 
         if (currentState.value == StateStatistic.ThisWeek || currentState.value == StateStatistic.LastWeek) {
-            request.title = item.Title + " (${item.TimeStart.format(formatter)} )"
+            request.title = item.Title + " (${item.TimeStart.format(formatter)})"
         }
 
         if (currentState.value == StateStatistic.ThisMonth || currentState.value == StateStatistic.LastMonth) {
