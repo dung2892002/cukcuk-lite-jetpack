@@ -9,8 +9,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
-import com.example.cukcuk.presentation.navigation.AppNavHost
-import com.example.cukcuk.presentation.theme.CukcukTheme
+import com.example.presentation.navigation.AppNavHost
+import com.example.presentation.theme.CukcukTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 

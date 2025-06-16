@@ -1,0 +1,189 @@
+package com.example.presentation.ui.statistic.statistic
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.example.presentation.R
+import com.example.domain.enums.StateStatistic
+import com.example.presentation.mapper.getTitleResId
+import com.example.presentation.shared.SharedViewModel
+
+@Composable
+fun StatisticScreen(
+    navController: NavHostController,
+    sharedViewModel: SharedViewModel,
+    viewModel: StatisticViewModel = hiltViewModel(),
+) {
+    val currentState = viewModel.currentState.value
+    val title = viewModel.title.value
+    val statisticOverview = viewModel.statisticOverview.value
+    val statisticByTime = viewModel.statisticByTime.value
+    val statisticByInventory = viewModel.statisticByInventory.value
+
+    val showDialogSelectState = viewModel.showDialogSelectState.value
+    val showDialogSelectTime = viewModel.showDialogSelectTime.value
+
+    val totalAmount = viewModel.totalAmount.value
+    val lineChartLabels = viewModel.lineChartLabels.value
+
+    val isShowOverview = sharedViewModel.isShowOverviewStatistic.value
+
+    LaunchedEffect(isShowOverview) {
+        if (isShowOverview) {
+            viewModel.changeState(StateStatistic.Overview)
+            sharedViewModel.setShowOverviewStatistic(false)
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = colorResource(R.color.background_color)
+            )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = Color.White
+                )
+                .clickable{
+                    viewModel.openDialogSelectState()
+                }
+                .padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.statistic_header_title),
+                fontSize = 16.sp,
+                color = Color.Gray
+            )
+            Text(
+                text = if (currentState != StateStatistic.Other)
+                    stringResource(currentState.getTitleResId())
+                else
+                    title,
+                modifier = Modifier.weight(1f).padding(end = 6.dp),
+                fontSize = 18.sp,
+                textAlign = TextAlign.End,
+            )
+            Icon(
+                painter = painterResource(R.drawable.ic_triangle),
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
+
+        when (currentState) {
+            StateStatistic.Overview -> {
+                StatisticOverViewBlock(
+                    onItemClick = { item, index ->
+                        when (index) {
+                            2 -> viewModel.changeState(StateStatistic.ThisWeek)
+                            3 -> viewModel.changeState(StateStatistic.ThisMonth)
+                            4 -> viewModel.changeState(StateStatistic.ThisYear)
+                            else -> {
+                                val request = viewModel.createRequestByStatisticOverview(item)
+                                sharedViewModel.setRequestStatisticByInventory(request)
+                                navController.navigate("statistic_by_inventory")
+                            }
+                        }
+                    },
+                    statisticOverview = statisticOverview
+                )
+            }
+            StateStatistic.Other -> {
+                if (statisticByInventory.isNotEmpty() && totalAmount != 0.0) {
+                    StatisticByInventoryBlock(
+                        statisticByInventory = statisticByInventory,
+                        totalAmount
+                    )
+                } else {
+                    StatisticNoData()
+                }
+            }
+            else -> {
+                if (statisticByTime.isEmpty()) {
+                    StatisticNoData()
+                } else {
+                    StatisticByTimeBlock(
+                        statisticByTime = statisticByTime,
+                        label = lineChartLabels,
+                        onItemClick = {
+                            val request = viewModel.createRequestByStatisticTime(it)
+                            sharedViewModel.setRequestStatisticByInventory(request)
+                            navController.navigate("statistic_by_inventory")
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+    if (showDialogSelectState) {
+        DialogSelectState(
+            onItemClick = {
+                viewModel.changeState(it)
+            },
+            onClose = {
+                viewModel.closeDialogSelectState()
+            },
+            currentState = currentState
+        )
+    }
+
+    if (showDialogSelectTime) {
+        DialogSelectTime(
+            onSubmit = {
+                start, end ->
+                viewModel.handleStatisticByInventory(start, end)
+            },
+            onClose = {
+                viewModel.closeDialogSelectTime()
+            }
+        )
+    }
+}
+
+
+@Composable
+fun StatisticNoData() {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_chart_background),
+            contentDescription = null,
+            modifier = Modifier.size(60.dp),
+            tint = Color.Gray
+        )
+
+        Text(
+            text = stringResource(R.string.statistic_state_no_data)
+        )
+    }
+}

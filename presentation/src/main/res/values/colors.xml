@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="background_color">#F2F2F2</color>
+    <color name="background_color_bold">#DEDEDE</color>
+    <color name="nav_item_selected">#DFF2FF</color>
+    <color name="inventory_item_background">#FBFCFF</color>
+    <color name="inventory_selected">#EEEEEF</color>
+    <color name="inventory_selected_icon">#51D056</color>
+    <color name="main_color">#078CF8</color>
+    <color name="main_color_bold">#0172CE</color>
+    <color name="invoice_form_bottom_first">#E6E6E6</color>
+    <color name="invoice_form_bottom_last">#C5D0E0</color>
+    <color name="calculator_button">#EBEBEB</color>
+    <color name="invoice_item_color">#E6E6E6</color>
+    <color name="invoice_table_block_exist">#00E5FF</color>
+    <color name="line_data_color">#4CAF50</color>"
+    <color name="dollar_icon_color">#FF9800</color>
+    <color name="unit_selected">#4CAF50</color>
+    <color name="bg_sync_count">#FF0000</color>
+    <color name="dialog_footer_color">#E7E7E7</color>
+    <color name="inventory_item_not_active">#990000</color>
+
+    <color name="button_login_facebook">#154EF8</color>
+    <color name="button_login_facebook_icon">#00258E</color>
+    <color name="button_login_google">#F82323</color>
+    <color name="button_login_google_icon">#A90000</color>
+    <color name="button_login_account">#29D1C2</color>
+    <color name="button_login_account_icon">#00B4A3</color>
+
+    <color name="button_login">#001CAD</color>
+    <color name="inventory_price">#B1B1B1</color>
+    <color name="error_message">#F82323</color>
+</resources>

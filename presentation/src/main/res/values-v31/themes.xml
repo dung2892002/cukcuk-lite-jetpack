@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Cukcuk" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowSplashScreenBackground">@android:color/white</item>
+
+        <!-- Không hiển thị logo -->
+        <item name="android:windowSplashScreenAnimatedIcon">@null</item>
+
+        <!-- Không dùng icon mặc định -->
+        <item name="android:windowSplashScreenIconBackgroundColor">@null</item>
+    </style>
+</resources>

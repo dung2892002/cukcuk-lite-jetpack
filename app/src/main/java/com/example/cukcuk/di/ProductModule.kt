@@ -1,8 +1,11 @@
 package com.example.cukcuk.di
 
-import com.example.cukcuk.data.network.apis.ProductApiService
-import com.example.cukcuk.data.repository.ProductRepositoryImpl
-import com.example.cukcuk.domain.repository.ProductRepository
+import com.example.data.network.apis.ProductApiService
+import com.example.data.repository.ProductRepositoryImpl
+import com.example.domain.repository.ProductRepository
+import com.example.domain.usecase.product.CreateProductUseCase
+import com.example.domain.usecase.product.GetProductByIdUseCase
+import com.example.domain.usecase.product.GetProductsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +25,41 @@ class ProductModule {
 
     @Provides
     @Singleton
-    fun provideProductRepository(productApi: ProductApiService): ProductRepository {
+    fun provideRepositoryImpl(
+        productApi: ProductApiService
+    ) : ProductRepositoryImpl {
         return ProductRepositoryImpl(productApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductRepository(
+        repository: ProductRepositoryImpl
+    ): ProductRepository {
+        return repository
+    }
+
+    @Provides
+    @Singleton
+    fun provideCreateProductUseCase(
+        repository: ProductRepository
+    ): CreateProductUseCase {
+        return CreateProductUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetProductsUseCase(
+        repository: ProductRepository
+    ): GetProductsUseCase {
+        return GetProductsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetProductByIdUseCase(
+        repository: ProductRepository
+    ): GetProductByIdUseCase {
+        return GetProductByIdUseCase(repository)
     }
 }
