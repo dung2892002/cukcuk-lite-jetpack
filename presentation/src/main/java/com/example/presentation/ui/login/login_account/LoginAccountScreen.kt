@@ -24,19 +24,19 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukDialog
 import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.utils.SharedPrefManager
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun LoginAccountScreen(
     navController: NavHostController,
-    viewModel: LoginAccountViewModel = hiltViewModel()
+    viewModel: LoginAccountViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
 

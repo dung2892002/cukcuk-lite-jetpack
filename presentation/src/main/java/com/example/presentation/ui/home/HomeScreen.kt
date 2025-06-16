@@ -13,7 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.zIndex
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.components.AppNavigationBarOverlay
@@ -25,13 +24,14 @@ import com.example.presentation.ui.inventory.inventory_list.InventoryListScreen
 import com.example.presentation.ui.invoice.invoice_list.InvoiceListScreen
 import com.example.presentation.ui.statistic.statistic.StatisticScreen
 import com.example.presentation.utils.SharedPrefManager
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     sharedViewModel: SharedViewModel,
-    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = koinViewModel()
 ) {
 
     val context = LocalContext.current

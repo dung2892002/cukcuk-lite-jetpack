@@ -7,13 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.StatisticByInventory
 import com.example.domain.usecase.statistic.GetStatisticByInventoryUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import javax.inject.Inject
 
-@HiltViewModel
-class StatisticByInventoryViewModel @Inject constructor(
+class StatisticByInventoryViewModel (
     private val getStatisticByInventoryUseCase: GetStatisticByInventoryUseCase
 ) : ViewModel() {
     private val _statisticByInventory = mutableStateOf(listOf<StatisticByInventory>())

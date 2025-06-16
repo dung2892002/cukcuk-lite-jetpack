@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +30,7 @@ fun StatisticByInventoryBlock(
     statisticByInventory: List<StatisticByInventory>,
     totalAmount: Double
 ) {
+
     Column {
         Box(
             modifier = Modifier
@@ -41,7 +43,8 @@ fun StatisticByInventoryBlock(
         ){
             PieChartStatisticInventory(
                 items = statisticByInventory,
-                totalAmount = totalAmount
+                totalAmount = totalAmount,
+                context = LocalContext.current
             )
         }
 

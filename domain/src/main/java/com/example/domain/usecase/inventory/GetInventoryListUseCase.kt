@@ -9,5 +9,4 @@ class GetInventoryListUseCase (
     suspend operator fun invoke(): List<Inventory> {
         return inventoryRepository.getAllInventory()
     }
-
 }

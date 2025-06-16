@@ -1,7 +1,6 @@
 package com.example.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -26,11 +25,12 @@ import com.example.presentation.ui.statistic.statistic_by_inventory.StatisticByI
 import com.example.presentation.ui.synchronize.SynchronizeScreen
 import com.example.presentation.ui.product.ProductScreen
 import com.example.presentation.ui.unit.unit_list.UnitListScreen
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
-    val sharedViewModel: SharedViewModel = hiltViewModel()
+    val sharedViewModel: SharedViewModel = koinViewModel()
 
     NavHost(navController = navController, startDestination = "splash") {
 

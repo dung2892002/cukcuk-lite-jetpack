@@ -8,13 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Unit
 import com.example.domain.usecase.unit.DeleteUnitUseCase
 import com.example.domain.usecase.unit.GetAllUnitUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
-import javax.inject.Inject
 
-@HiltViewModel
-class UnitListViewModel @Inject constructor(
+
+class UnitListViewModel(
     private val getAllUnitUseCase: GetAllUnitUseCase,
     private val deleteUnitUseCase: DeleteUnitUseCase,
     savedStateHandle: SavedStateHandle

@@ -33,15 +33,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.components.CukcukDialog
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun InvoiceListScreen(
     navController: NavHostController,
-    viewModel: InvoiceListViewModel = hiltViewModel()
+    viewModel: InvoiceListViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
 

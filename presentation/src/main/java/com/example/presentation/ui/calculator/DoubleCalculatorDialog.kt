@@ -24,12 +24,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
 import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukImageButton
 import com.example.presentation.theme.CukcukTheme
 import com.example.domain.utils.FormatDisplay
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DoubleCalculatorDialog(
@@ -38,7 +38,7 @@ fun DoubleCalculatorDialog(
     maxValue: Double = 999999999.0,
     minValue: Double = 0.0,
     onSubmit: (String) -> Unit,
-    viewModel: CalculatorViewModel = hiltViewModel()
+    viewModel: CalculatorViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
     val resultValue = viewModel.resultValue.value

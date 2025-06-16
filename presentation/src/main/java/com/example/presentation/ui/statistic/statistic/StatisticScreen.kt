@@ -22,18 +22,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.domain.enums.StateStatistic
 import com.example.presentation.mapper.getTitleResId
 import com.example.presentation.shared.SharedViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun StatisticScreen(
     navController: NavHostController,
     sharedViewModel: SharedViewModel,
-    viewModel: StatisticViewModel = hiltViewModel(),
+    viewModel: StatisticViewModel = koinViewModel(),
 ) {
     val currentState = viewModel.currentState.value
     val title = viewModel.title.value

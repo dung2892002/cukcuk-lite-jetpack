@@ -40,7 +40,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.components.CukcukButton
@@ -49,11 +48,12 @@ import com.example.presentation.components.CukcukImageBox
 import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.ui.calculator.CalculatorDialog
 import com.example.domain.utils.FormatDisplay
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun InventoryFormScreen(
     navController: NavHostController,
-    viewModel: InventoryFormViewModel = hiltViewModel()
+    viewModel: InventoryFormViewModel = koinViewModel()
 ) {
 
     val context = LocalContext.current

@@ -2,16 +2,30 @@ package com.example.cukcuk
 
 import android.app.Application
 import android.content.Context
-import dagger.hilt.android.HiltAndroidApp
+import com.example.cukcuk.di_koin.dataModule
+import com.example.cukcuk.di_koin.domainModule
+import com.example.cukcuk.di_koin.presentationModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 import java.io.FileOutputStream
 import java.io.IOException
 
 
-@HiltAndroidApp
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         copyDatabaseIfNotExists(this)
+
+        startKoin {
+            androidContext(this@MyApp)
+            modules(
+                listOf(
+                    dataModule,
+                    domainModule,
+                    presentationModule
+                )
+            )
+        }
     }
 
     private fun copyDatabaseIfNotExists(context: Context) {

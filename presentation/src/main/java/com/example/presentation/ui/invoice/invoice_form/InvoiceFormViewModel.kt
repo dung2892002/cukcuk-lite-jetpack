@@ -12,13 +12,10 @@ import com.example.domain.usecase.invoice.CreateInvoiceUseCase
 import com.example.domain.usecase.invoice.GetInventorySelectUseCase
 import com.example.domain.usecase.invoice.GetInvoiceDetailUseCase
 import com.example.domain.usecase.invoice.UpdateInvoiceUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
-import javax.inject.Inject
 
-@HiltViewModel
-class InvoiceFormViewModel @Inject constructor(
+class InvoiceFormViewModel(
     private val getInvoiceDetailUseCase: GetInvoiceDetailUseCase,
     private val getInventorySelectUseCase: GetInventorySelectUseCase,
     private val updateInvoiceUseCase: UpdateInvoiceUseCase,

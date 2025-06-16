@@ -14,14 +14,11 @@ import com.example.domain.usecase.statistic.GetStatisticByTimeUseCase
 import com.example.domain.usecase.statistic.GetStatisticOverviewUseCase
 import com.example.presentation.enums.LineChartLabels
 import com.example.domain.enums.StateStatistic
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import javax.inject.Inject
 
-@HiltViewModel
-class StatisticViewModel @Inject constructor(
+class StatisticViewModel(
     private val getStatisticByTimeUseCase: GetStatisticByTimeUseCase,
     private val getStatisticOverviewUseCase: GetStatisticOverviewUseCase,
     private val getStatisticByInventoryUseCase: GetStatisticByInventoryUseCase

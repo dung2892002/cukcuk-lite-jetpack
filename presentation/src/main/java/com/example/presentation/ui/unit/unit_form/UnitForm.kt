@@ -12,16 +12,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.components.CukcukDialog
 import java.util.UUID
 import com.example.presentation.R
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun UnitForm(
     unitId: UUID?,
     onClose: (Boolean) -> Unit,
-    viewModel: UnitFormViewModel = hiltViewModel()
+    viewModel: UnitFormViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
 

@@ -10,14 +10,11 @@ import com.example.domain.model.ResponseData
 import com.example.domain.model.Invoice
 import com.example.domain.usecase.invoice.GetInvoiceDataToPaymentUseCase
 import com.example.domain.usecase.invoice.PaymentInvoiceUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
-import javax.inject.Inject
 
-@HiltViewModel
-class PaymentViewModel @Inject constructor(
+class PaymentViewModel (
     private val getInvoiceDataToPaymentUseCase: GetInvoiceDataToPaymentUseCase,
     private val paymentInvoiceUseCase: PaymentInvoiceUseCase,
     savedStateHandle: SavedStateHandle

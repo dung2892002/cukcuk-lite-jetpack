@@ -6,12 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Inventory
 import com.example.domain.usecase.inventory.GetInventoryListUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class InventoryListViewModel @Inject constructor(
+class InventoryListViewModel (
     private val getInventoryListUseCase: GetInventoryListUseCase
 ) :ViewModel() {
     private val _inventories = mutableStateOf<List<Inventory>>(emptyList())

@@ -4,11 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.presentation.ui.statistic.statistic_by_inventory.RequestStatisticByInventory
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class SharedViewModel @Inject constructor() : ViewModel() {
+class SharedViewModel : ViewModel() {
     private val _requestStatisticByInventory = mutableStateOf<RequestStatisticByInventory?>(null)
     val requestStatisticByInventory: State<RequestStatisticByInventory?> = _requestStatisticByInventory
 

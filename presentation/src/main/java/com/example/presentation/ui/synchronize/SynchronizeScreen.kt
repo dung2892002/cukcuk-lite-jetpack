@@ -30,19 +30,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukLoadingDialog
 import com.example.presentation.components.CukcukToolbar
 import com.example.domain.utils.FormatDisplay
+import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDateTime
 
 @Composable
 fun SynchronizeScreen(
     navController: NavHostController,
-    viewModel: SynchronizeViewModel = hiltViewModel()
+    viewModel: SynchronizeViewModel = koinViewModel()
 ) {
     val count = viewModel.count.value
     val lastSyncTime = viewModel.lastSyncTime.value

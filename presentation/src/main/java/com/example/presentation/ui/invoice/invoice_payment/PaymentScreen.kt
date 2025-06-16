@@ -36,7 +36,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.domain.model.InvoiceDetail
@@ -46,11 +45,12 @@ import com.example.presentation.ui.calculator.DoubleCalculatorDialog
 import com.example.domain.utils.FormatDisplay.formatNumber
 import com.example.domain.utils.FormatDisplay.formatTo12HourWithCustomAMPM
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PaymentScreen(
     navController: NavHostController,
-    viewModel: PaymentViewModel = hiltViewModel()
+    viewModel: PaymentViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
 

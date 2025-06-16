@@ -12,13 +12,10 @@ import com.example.domain.usecase.inventory.DeleteInventoryUseCase
 import com.example.domain.usecase.inventory.GetInventoryDetailUseCase
 import com.example.domain.usecase.inventory.UpdateInventoryUseCase
 import com.example.presentation.enums.ColorInventory
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
-import javax.inject.Inject
 
-@HiltViewModel
-class InventoryFormViewModel @Inject constructor(
+class InventoryFormViewModel(
     private val createInventoryUseCase: CreateInventoryUseCase,
     private val updateInventoryUseCase: UpdateInventoryUseCase,
     private val deleteInventoryUseCase: DeleteInventoryUseCase,

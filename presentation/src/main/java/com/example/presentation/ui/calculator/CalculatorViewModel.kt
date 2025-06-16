@@ -6,12 +6,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.utils.FormatDisplay
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlin.text.toDouble
 
-@HiltViewModel
-class CalculatorViewModel @Inject constructor() : ViewModel() {
+class CalculatorViewModel : ViewModel() {
     private val _resultValue = mutableStateOf("")
     val resultValue: State<String> = _resultValue
 

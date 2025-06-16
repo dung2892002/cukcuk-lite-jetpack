@@ -13,18 +13,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.shared.SharedViewModel
 import com.example.presentation.ui.statistic.statistic.StatisticByInventoryBlock
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun StatisticByInventoryScreen(
     navController: NavHostController,
     sharedViewModel: SharedViewModel,
-    viewModel: StatisticByInventoryViewModel = hiltViewModel(),
+    viewModel: StatisticByInventoryViewModel = koinViewModel(),
 
 ) {
     val request = sharedViewModel.requestStatisticByInventory.value

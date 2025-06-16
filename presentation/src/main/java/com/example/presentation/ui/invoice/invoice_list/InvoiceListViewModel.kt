@@ -7,13 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Invoice
 import com.example.domain.usecase.invoice.DeleteInvoiceUseCase
 import com.example.domain.usecase.invoice.GetInvoicesNotPaymentUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-@HiltViewModel
-class InvoiceListViewModel @Inject constructor(
+class InvoiceListViewModel (
     private val getInvoicesNotPaymentUseCase: GetInvoicesNotPaymentUseCase,
     private val deleteInvoiceUseCase: DeleteInvoiceUseCase
 ) : ViewModel() {

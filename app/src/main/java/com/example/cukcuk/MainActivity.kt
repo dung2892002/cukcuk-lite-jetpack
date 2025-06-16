@@ -11,10 +11,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.example.presentation.navigation.AppNavHost
 import com.example.presentation.theme.CukcukTheme
-import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

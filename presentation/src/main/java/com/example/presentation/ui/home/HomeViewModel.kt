@@ -7,12 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.synchronize.GetCountSyncUseCase
 import com.example.presentation.enums.Screen
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class HomeViewModel @Inject constructor(
+class HomeViewModel(
     private val getCountSyncUseCase: GetCountSyncUseCase
 ) : ViewModel() {
 

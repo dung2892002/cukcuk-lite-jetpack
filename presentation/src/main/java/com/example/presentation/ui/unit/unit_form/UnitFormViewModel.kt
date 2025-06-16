@@ -8,13 +8,10 @@ import com.example.domain.model.Unit
 import com.example.domain.usecase.unit.CreateUnitUseCase
 import com.example.domain.usecase.unit.GetUnitDetailUseCase
 import com.example.domain.usecase.unit.UpdateUnitUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
-import javax.inject.Inject
 
-@HiltViewModel
-class UnitFormViewModel @Inject constructor(
+class UnitFormViewModel(
     private val createUnitUseCase: CreateUnitUseCase,
     private val updateUnitUseCase: UpdateUnitUseCase,
     private val getUnitDetailUseCase: GetUnitDetailUseCase

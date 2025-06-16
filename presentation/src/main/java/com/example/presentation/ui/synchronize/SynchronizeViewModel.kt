@@ -8,15 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.synchronize.GetCountSyncUseCase
 import com.example.domain.usecase.synchronize.GetLastSyncTimeUseCase
 import com.example.domain.usecase.synchronize.UpdateSyncDataUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import javax.inject.Inject
 
-@HiltViewModel
-class SynchronizeViewModel @Inject constructor(
+class SynchronizeViewModel(
     private val getCountSyncUseCase: GetCountSyncUseCase,
     private val getLastSyncTimeUseCase: GetLastSyncTimeUseCase,
     private val updateSyncDataUseCase: UpdateSyncDataUseCase

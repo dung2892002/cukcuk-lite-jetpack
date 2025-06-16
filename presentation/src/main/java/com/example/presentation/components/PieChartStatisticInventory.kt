@@ -1,12 +1,12 @@
 package com.example.presentation.components
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -23,14 +23,16 @@ import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.utils.Utils
 
 @SuppressLint("DefaultLocale")
 @Composable
 fun PieChartStatisticInventory(
     items: List<StatisticByInventory>,
-    totalAmount: Double
+    totalAmount: Double,
+    context: Context
 ) {
-    val context = LocalContext.current
+    Utils.init(context)
 
     val mainParts = items.take(6)
     val otherParts = items.drop(6)

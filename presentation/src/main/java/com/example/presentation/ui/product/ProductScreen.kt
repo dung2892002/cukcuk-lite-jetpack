@@ -22,18 +22,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.presentation.R
 import com.example.domain.model.Product
 import com.example.presentation.components.CukcukLoadingDialog
 import com.example.presentation.components.CukcukToolbar
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProductScreen(
     navController: NavHostController,
-    viewModel: ProductViewModel = hiltViewModel()
+    viewModel: ProductViewModel = koinViewModel()
 ) {
     val products = viewModel.products.value
     val loading = viewModel.loading.value

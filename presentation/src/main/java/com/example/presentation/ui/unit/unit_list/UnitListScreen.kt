@@ -10,7 +10,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.LaunchedEffect
@@ -29,13 +28,14 @@ import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukDialog
 import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.ui.unit.unit_form.UnitForm
+import org.koin.androidx.compose.koinViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UnitListScreen(
     navController: NavHostController,
-    viewModel: UnitListViewModel = hiltViewModel()
+    viewModel: UnitListViewModel = koinViewModel()
 
 ) {
     val context = LocalContext.current

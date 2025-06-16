@@ -4,12 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.model.ResponseData
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class LoginAccountViewModel @Inject constructor(
-
+class LoginAccountViewModel(
 ) : ViewModel() {
     private val _account = mutableStateOf("")
     val account: State<String> = _account

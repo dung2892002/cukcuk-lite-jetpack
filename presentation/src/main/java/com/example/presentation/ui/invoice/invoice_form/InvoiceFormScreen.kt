@@ -31,7 +31,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.components.CukcukButton
@@ -41,11 +40,12 @@ import com.example.presentation.ui.calculator.CalculatorDialog
 import com.example.presentation.ui.calculator.IntegerCalculatorDialog
 import com.example.domain.utils.FormatDisplay
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun InvoiceFormScreen(
     navController: NavHostController,
-    viewModel: InvoiceFormViewModel = hiltViewModel()
+    viewModel: InvoiceFormViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
