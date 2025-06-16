@@ -1,10 +1,5 @@
-package com.example.cukcuk.di
+package com.example.cukcuk.di.invoice
 
-import android.content.Context
-import com.example.data.local.dao.InventoryDao
-import com.example.data.local.dao.InvoiceDao
-import com.example.data.repository.InventoryRepositoryImpl
-import com.example.data.repository.InvoiceRepositoryImpl
 import com.example.domain.repository.InvoiceRepository
 import com.example.domain.usecase.invoice.CreateInvoiceUseCase
 import com.example.domain.usecase.invoice.DeleteInvoiceUseCase
@@ -18,39 +13,13 @@ import com.example.domain.utils.SynchronizeHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ViewModelComponent
 
 
 @Module
-@InstallIn(SingletonComponent::class)
-class InvoiceModule {
-
+@InstallIn(ViewModelComponent::class)
+class UseCaseModule {
     @Provides
-    @Singleton
-    fun provideInvoiceDao(
-        @ApplicationContext context: Context) : InvoiceDao {
-        return InvoiceDao(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideRepositoryImpl(dao: InvoiceDao) : InvoiceRepositoryImpl {
-        return InvoiceRepositoryImpl(dao)
-    }
-
-    @Provides
-    @Singleton
-    fun provideInvoiceRepository(
-        repository: InvoiceRepositoryImpl
-    ): InvoiceRepository {
-        return repository
-    }
-
-
-    @Provides
-    @Singleton
     fun provideCreateInvoiceUseCase(
         repository: InvoiceRepository,
         syncHelper: SynchronizeHelper
@@ -59,7 +28,6 @@ class InvoiceModule {
     }
 
     @Provides
-    @Singleton
     fun provideDeleteInvoiceUseCase(
         repository: InvoiceRepository,
         syncHelper: SynchronizeHelper
@@ -68,7 +36,6 @@ class InvoiceModule {
     }
 
     @Provides
-    @Singleton
     fun provideGetInventorySelectUseCase(
         repository: InvoiceRepository
     ): GetInventorySelectUseCase {
@@ -76,7 +43,6 @@ class InvoiceModule {
     }
 
     @Provides
-    @Singleton
     fun provideGetInvoiceDataToPaymentUseCase(
         repository: InvoiceRepository
     ): GetInvoiceDataToPaymentUseCase {
@@ -84,7 +50,6 @@ class InvoiceModule {
     }
 
     @Provides
-    @Singleton
     fun provideGetInvoiceDetailUseCase(
         repository: InvoiceRepository
     ): GetInvoiceDetailUseCase {
@@ -92,7 +57,6 @@ class InvoiceModule {
     }
 
     @Provides
-    @Singleton
     fun provideGetInvoicesNotPaymentUseCase(
         repository: InvoiceRepository
     ): GetInvoicesNotPaymentUseCase {
@@ -100,7 +64,6 @@ class InvoiceModule {
     }
 
     @Provides
-    @Singleton
     fun providePaymentInvoiceUseCase(
         repository: InvoiceRepository,
         syncHelper: SynchronizeHelper
@@ -109,7 +72,6 @@ class InvoiceModule {
     }
 
     @Provides
-    @Singleton
     fun provideUpdateInvoiceUseCase(
         repository: InvoiceRepository,
         syncHelper: SynchronizeHelper

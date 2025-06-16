@@ -5,18 +5,26 @@ import com.example.domain.repository.SynchronizeRepository
 import com.example.domain.enums.SynchronizeTable
 import java.util.UUID
 
+
+//cập nhật dữ liệu đồng bộ
 class SynchronizeHelper (
     private val syncRepository: SynchronizeRepository
 ) {
+
+    //tạo bản ghi khi thêm mới
     suspend fun insertSync(table: SynchronizeTable, objectId: UUID?) {
         syncRepository.create(table.tableName, objectId!!, 0)
     }
 
+
+    // tạo bản ghi khi cập nhật
     suspend fun updateSync(table: SynchronizeTable, objectId: UUID?) {
         val existingSyncId = syncRepository.getExistingSyncIdForCreateNewOrUpdate(table.tableName, objectId!!)
         if (existingSyncId == null) syncRepository.create(table.tableName, objectId, 1)
     }
 
+
+    // tạo bản ghi khi xóa
     suspend fun deleteSync(table: SynchronizeTable, objectId: UUID?) {
 
         val existingSyncId = syncRepository.getExistingSyncIdForCreateNew(table.tableName, objectId!!)
@@ -28,6 +36,7 @@ class SynchronizeHelper (
         }
     }
 
+    // xóa bản ghi đồng bộ theo danh sách objectIds
     suspend fun deleteSyncRange(table: SynchronizeTable, objectIds: List<UUID>) {
         val toDelete = mutableListOf<UUID>()
         val toCreate = mutableListOf<UUID>()
@@ -51,16 +60,19 @@ class SynchronizeHelper (
         }
     }
 
+    // tạo bản ghi đồng bộ cho InvoiceDetail khi thêm mới
     suspend fun createInvoiceDetail(details: MutableList<InvoiceDetail>){
         val ids = details.mapNotNull { it.InvoiceDetailID }
         syncRepository.createRange(SynchronizeTable.InvoiceDetail.tableName, ids, 0)
     }
 
+    // cập nhật bản ghi đồng bộ cho InvoiceDetail khi xóa
     suspend fun deleteInvoiceDetail(details: List<InvoiceDetail>) {
         val ids = details.mapNotNull { it.InvoiceDetailID }
         deleteSyncRange(SynchronizeTable.InvoiceDetail, ids)
     }
 
+    // cập nhật bản ghi đồng bộ cho InvoiceDetail khi cập nhật
     suspend fun updateInvoiceDetail(details: List<InvoiceDetail>) {
         val ids = details.mapNotNull { it.InvoiceDetailID }
         val existingIds = syncRepository.getExistingSyncIdsForCreateNewOrUpdate(SynchronizeTable.InvoiceDetail.tableName, ids)

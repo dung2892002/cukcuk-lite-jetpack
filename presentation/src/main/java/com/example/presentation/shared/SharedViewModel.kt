@@ -22,8 +22,4 @@ class SharedViewModel @Inject constructor() : ViewModel() {
     fun setShowOverviewStatistic(isShow: Boolean) {
         _isShowOverviewStatistic.value = isShow
     }
-
-    fun clearData() {
-        _requestStatisticByInventory.value = null
-    }
 }

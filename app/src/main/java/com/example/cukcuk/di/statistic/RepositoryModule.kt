@@ -1,4 +1,4 @@
-package com.example.cukcuk.di
+package com.example.cukcuk.di.statistic
 
 import android.content.Context
 import com.example.data.local.dao.StatisticDao
@@ -16,12 +16,13 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class StatisticModule {
+class RepositoryModule {
 
     @Provides
     @Singleton
     fun provideStatisticDao(
-        @ApplicationContext context: Context) : StatisticDao {
+        @ApplicationContext context: Context
+    ) : StatisticDao {
         return StatisticDao(context)
     }
 
@@ -37,29 +38,5 @@ class StatisticModule {
         repository: StatisticRepositoryImpl
     ): StatisticRepository {
         return repository
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetStatisticByInventoryUseCase(
-        repository: StatisticRepository
-    ): GetStatisticByInventoryUseCase {
-        return GetStatisticByInventoryUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetStatisticOverviewUseCase(
-        repository: StatisticRepository
-    ): GetStatisticOverviewUseCase {
-        return GetStatisticOverviewUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetStatisticByTimeUseCase(
-        repository: StatisticRepository
-    ): GetStatisticByTimeUseCase {
-        return GetStatisticByTimeUseCase(repository)
     }
 }

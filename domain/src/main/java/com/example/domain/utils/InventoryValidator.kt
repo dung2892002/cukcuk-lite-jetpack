@@ -4,6 +4,8 @@ import com.example.domain.model.ResponseData
 import com.example.domain.model.Inventory
 
 object InventoryValidator {
+
+    //validate input nhập thông tin inventory
     fun validate(inventory: Inventory): ResponseData {
         if (inventory.InventoryName.isEmpty()) {
             return ResponseData(false, "Tên món ăn không được để trống")

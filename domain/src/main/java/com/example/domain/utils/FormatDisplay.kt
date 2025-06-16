@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 object FormatDisplay {
+
+    // định dạng số thực về 2 chữ số sau dấu phẩy, chỉ lấy phần thập phân có giá trị
     fun formatNumber(number: String): String {
         var resultValue = number
 
@@ -43,6 +45,8 @@ object FormatDisplay {
         return formatted
     }
 
+
+    // định dạng biểu thức toán  học
     fun formatExpression(expression: String): String {
         if (expression.isBlank()) return ""
 
@@ -67,6 +71,7 @@ object FormatDisplay {
 
 
 
+    // định dạng thời gian về 12h
     fun formatTo12HourWithCustomAMPM(input: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
         val outputFormat = SimpleDateFormat("dd/MM/yyyy (hh:mm a)", Locale.getDefault())

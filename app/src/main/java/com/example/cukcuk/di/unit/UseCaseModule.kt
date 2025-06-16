@@ -1,10 +1,5 @@
-package com.example.cukcuk.di
+package com.example.cukcuk.di.unit
 
-import android.content.Context
-import com.example.data.local.dao.InvoiceDao
-import com.example.data.local.dao.UnitDao
-import com.example.data.repository.InvoiceRepositoryImpl
-import com.example.data.repository.UnitRepositoryImpl
 import com.example.domain.repository.UnitRepository
 import com.example.domain.usecase.unit.CreateUnitUseCase
 import com.example.domain.usecase.unit.DeleteUnitUseCase
@@ -15,37 +10,12 @@ import com.example.domain.utils.SynchronizeHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ViewModelComponent
 
 @Module
-@InstallIn(SingletonComponent::class)
-class UnitModule {
-
+@InstallIn(ViewModelComponent::class)
+class UseCaseModule {
     @Provides
-    @Singleton
-    fun provideUnitDao(
-        @ApplicationContext context: Context) : UnitDao{
-        return UnitDao(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideRepositoryImpl(dao: UnitDao) : UnitRepositoryImpl {
-        return UnitRepositoryImpl(dao)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUnitRepository(
-        repository: UnitRepositoryImpl
-    ): UnitRepository {
-        return repository
-    }
-
-    @Provides
-    @Singleton
     fun provideCreateUnitUseCase(
         repository: UnitRepository,
         syncHelper: SynchronizeHelper
@@ -54,7 +24,6 @@ class UnitModule {
     }
 
     @Provides
-    @Singleton
     fun provideDeleteUnitUseCase(
         repository: UnitRepository,
         syncHelper: SynchronizeHelper
@@ -63,7 +32,6 @@ class UnitModule {
     }
 
     @Provides
-    @Singleton
     fun provideGetUnitDetailUseCase(
         repository: UnitRepository
     ): GetUnitDetailUseCase {
@@ -71,7 +39,6 @@ class UnitModule {
     }
 
     @Provides
-    @Singleton
     fun provideGetAllUnitUseCase(
         repository: UnitRepository
     ): GetAllUnitUseCase {
@@ -79,7 +46,6 @@ class UnitModule {
     }
 
     @Provides
-    @Singleton
     fun provideUpdateUnitUseCase(
         repository: UnitRepository,
         syncHelper: SynchronizeHelper

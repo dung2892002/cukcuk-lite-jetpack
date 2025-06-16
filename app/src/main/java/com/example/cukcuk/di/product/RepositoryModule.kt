@@ -1,4 +1,4 @@
-package com.example.cukcuk.di
+package com.example.cukcuk.di.product
 
 import com.example.data.network.apis.ProductApiService
 import com.example.data.repository.ProductRepositoryImpl
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class ProductModule {
+class RepositoryModule {
 
     @Provides
     @Singleton
@@ -37,29 +37,5 @@ class ProductModule {
         repository: ProductRepositoryImpl
     ): ProductRepository {
         return repository
-    }
-
-    @Provides
-    @Singleton
-    fun provideCreateProductUseCase(
-        repository: ProductRepository
-    ): CreateProductUseCase {
-        return CreateProductUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetProductsUseCase(
-        repository: ProductRepository
-    ): GetProductsUseCase {
-        return GetProductsUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetProductByIdUseCase(
-        repository: ProductRepository
-    ): GetProductByIdUseCase {
-        return GetProductByIdUseCase(repository)
     }
 }
