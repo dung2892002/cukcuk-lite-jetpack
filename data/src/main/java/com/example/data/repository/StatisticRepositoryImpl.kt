@@ -6,7 +6,6 @@ import com.example.domain.model.StatisticByTime
 import com.example.domain.model.StatisticOverview
 import com.example.domain.repository.StatisticRepository
 import com.example.domain.utils.DateTimeHelper
-import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.YearMonth
@@ -22,7 +21,6 @@ class StatisticRepositoryImpl (
 
         val colors = listOf<String>("#5AB4FD", "#5AB4FD", "#4CAF50", "#F44336", "#2196F3")
         val icons = listOf<String>("ic-calendar-1.png", "ic-calendar-1.png", "ic-calendar-7.png", "ic-calendar-30.png", "ic-calendar-12.png")
-        val titles = listOf<String>("Hôm qua", "Hôm nay", "Tuần này", "Tháng này", "Năm nay")
         val timeRanges = listOf<Pair<LocalDateTime, LocalDateTime>>(
             DateTimeHelper.getYesterday(),
             DateTimeHelper.getToday(),
@@ -36,7 +34,6 @@ class StatisticRepositoryImpl (
                 Amount = item.Amount,
                 Color = colors[index],
                 IconFile = icons[index],
-                Title = titles[index],
                 TimeStart = timeRanges[index].first,
                 TimeEnd = timeRanges[index].second
             )
@@ -55,15 +52,6 @@ class StatisticRepositoryImpl (
                 Amount = item.TotalAmount,
                 TimeStart = item.Day.atStartOfDay(),
                 TimeEnd = item.Day.atTime(LocalTime.MAX),
-                Title = when (item.Day.dayOfWeek) {
-                    DayOfWeek.MONDAY -> "Thứ 2"
-                    DayOfWeek.TUESDAY -> "Thứ 3"
-                    DayOfWeek.WEDNESDAY -> "Thứ 4"
-                    DayOfWeek.THURSDAY -> "Thứ 5"
-                    DayOfWeek.FRIDAY -> "Thứ 6"
-                    DayOfWeek.SATURDAY -> "Thứ 7"
-                    DayOfWeek.SUNDAY -> "Chủ nhật"
-                }
             )
         }
 
@@ -80,8 +68,7 @@ class StatisticRepositoryImpl (
             StatisticByTime(
                 Amount = item.TotalAmount,
                 TimeStart = item.Day.atStartOfDay(),
-                TimeEnd = item.Day.atTime(LocalTime.MAX),
-                Title = "Ngày ${item.Day.dayOfMonth}"
+                TimeEnd = item.Day.atTime(LocalTime.MAX)
             )
         }
 
@@ -100,8 +87,7 @@ class StatisticRepositoryImpl (
             StatisticByTime(
                 Amount = item.TotalAmount,
                 TimeStart = month.atDay(1).atStartOfDay(),
-                TimeEnd = month.atEndOfMonth().atTime(LocalTime.MAX),
-                Title = "Tháng ${month.monthValue}"
+                TimeEnd = month.atEndOfMonth().atTime(LocalTime.MAX)
             )
         }
 

@@ -17,6 +17,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.toColorInt
 import com.example.domain.model.StatisticByInventory
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.R
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.animation.Easing
@@ -42,7 +43,7 @@ fun PieChartStatisticInventory(
     val colors = mutableListOf<Int>()
 
     fun generateCenterText(totalAmount: Double): AnnotatedString {
-        val line1 = "Tổng\ndoanh thu\n"
+        val line1 = context.getString(R.string.pie_chart_total_amount)
         val line2 = FormatDisplay.formatNumber(totalAmount.toString())
 
         return buildAnnotatedString {

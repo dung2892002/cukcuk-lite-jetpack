@@ -1,5 +1,7 @@
 package com.example.cukcuk
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,15 +16,18 @@ import com.example.presentation.theme.CukcukTheme
 import java.util.Locale
 
 class MainActivity : ComponentActivity() {
+    override fun attachBaseContext(newBase: Context?) {
+        val locale = Locale("en")
+        val config = Configuration(newBase?.resources?.configuration)
+        Locale.setDefault(locale)
+        config.setLocale(locale)
+        val context = newBase?.createConfigurationContext(config)
+        super.attachBaseContext(context)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        val config = resources.configuration
-        val locale = Locale("vi")
-        Locale.setDefault(locale)
-        config.setLocale(locale)
-        createConfigurationContext(config)
 
         setContent {
             CukcukTheme {

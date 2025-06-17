@@ -10,10 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.presentation.R
 import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.shared.SharedViewModel
 import com.example.presentation.ui.statistic.statistic.StatisticByInventoryBlock
@@ -34,7 +36,7 @@ fun StatisticByInventoryScreen(
     Scaffold(
         topBar = {
             CukcukToolbar(
-                title = "Doanh thu theo mặt hàng",
+                title = stringResource(R.string.toolbar_title_StatisticByInventory),
                 menuTitle = null,
                 hasMenuIcon = false,
                 onBackClick = {
