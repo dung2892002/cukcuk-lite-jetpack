@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">cukcuk</string>
+    <string name="app_name">CUKCUK</string>
     <string name="dialog_content">CUKCUK LITE</string>
 
     <string name="required">*</string>
@@ -10,94 +10,96 @@
     <string name="button_title_No">NO</string>
     <string name="button_title_Submit">SAVE</string>
     <string name="button_title_Cancel" tools:ignore="ButtonCase">CANCEL</string>
-    <string name="button_title_Accept">ACCEPT</string>
+    <string name="button_title_Accept">AGREE</string>
     <string name="button_title_Delete">DELETE</string>
-    <string name="button_title_Payment">PAY</string>
+    <string name="button_title_Payment">COLLECT PAYMENT</string>
 
-    <string name="calculator_title_inventory_price">Price</string>
-    <string name="calculator_message_inventory_price">Price</string>
-    <string name="calculator_title_invoice_tableName">Enter table number</string>
+    <string name="calculator_title_inventory_price">Selling Price</string>
+    <string name="calculator_message_inventory_price">Selling Price</string>
+    <string name="calculator_title_invoice_tableName">Enter Table Number</string>
     <string name="calculator_message_invoice_tableName">Quantity</string>
-    <string name="calculator_title_invoice_numberPeople">Enter number of people</string>
-    <string name="calculator_message_invoice_numberPeople">People</string>
-    <string name="calculator_title_invoice_inventoryQuantity">Enter quantity</string>
+    <string name="calculator_title_invoice_numberPeople">Enter Number of People</string>
+    <string name="calculator_message_invoice_numberPeople">Number of People</string>
+    <string name="calculator_title_invoice_inventoryQuantity">Enter Quantity</string>
     <string name="calculator_message_invoice_inventoryQuantity">Quantity</string>
     <string name="calculator_message_payment">Amount</string>
 
     <string name="nav_screen_Sales">Sales</string>
     <string name="nav_screen_Menu">Menu</string>
-    <string name="nav_screen_Statistics">Statistics</string>
+    <string name="nav_screen_Statistics">Revenue</string>
 
     <string name="nav_item_group_Setting">Settings</string>
     <string name="nav_item_group_Help">Help</string>
-    <string name="nav_item_group_Other">Others</string>
+    <string name="nav_item_group_Other">Other</string>
     <string name="nav_item_group_Account">Account</string>
 
-    <string name="nav_item_SynchronizeData">Sync data</string>
+    <string name="nav_item_SynchronizeData">Synchronize Data</string>
     <string name="nav_item_Setting">Settings</string>
-    <string name="nav_item_LinkAccount">Link account</string>
+    <string name="nav_item_LinkAccount">Link Account</string>
     <string name="nav_item_Notification">Notifications</string>
-    <string name="nav_item_SharedWithFriend">Share with friends</string>
-    <string name="nav_item_RatingApp">Rate this app</string>
-    <string name="nav_item_SuggestApp">Send feedback</string>
-    <string name="nav_item_AppInfo">About</string>
-    <string name="nav_item_SetPassword">Set password</string>
-    <string name="nav_item_Logout">Logout</string>
+    <string name="nav_item_SharedWithFriend">Share with Friends</string>
+    <string name="nav_item_RatingApp">Rate the App</string>
+    <string name="nav_item_SuggestApp">Provide Feedback</string>
+    <string name="nav_item_AppInfo">App Information</string>
+    <string name="nav_item_SetPassword">Set Password</string>
+    <string name="nav_item_Logout">Log Out</string>
     <string name="nav_item_TestApi">Product API</string>
+    <string name="nav_item_Language">Language</string>
 
-    <string name="toolbar_title_UnitList">Units</string>
-    <string name="toolbar_title_AddInventory">Add item</string>
-    <string name="toolbar_title_EditInventory">Edit item</string>
-    <string name="toolbar_title_InvoiceForm">Select items</string>
-    <string name="toolbar_title_Payment">Payment</string>
-    <string name="toolbar_title_Synchronize">Sync data</string>
-    <string name="toolbar_title_StatisticByInventory">Statistic by inventory</string>
+    <string name="toolbar_title_UnitList">Unit List</string>
+    <string name="toolbar_title_AddInventory">Add Item</string>
+    <string name="toolbar_title_EditInventory">Edit Item</string>
+    <string name="toolbar_title_InvoiceForm">Select Item</string>
+    <string name="toolbar_title_Payment">Collect Payment</string>
+    <string name="toolbar_title_Synchronize">Synchronize Data</string>
+    <string name="toolbar_title_StatisticByInventory">Revenue by Item</string>
+    <string name="toolbar_title_Language">Language</string>
 
     <string name="toolbar_menuTitle_Submit">Save</string>
-    <string name="toolbar_menuTitle_InvoiceForm">Payment</string>
+    <string name="toolbar_menuTitle_InvoiceForm">Collect Payment</string>
     <string name="toolbar_menuTitle_Payment">Done</string>
 
-    <string name="dialog_add_unit_title">Add unit</string>
-    <string name="dialog_edit_unit_title">Edit unit</string>
+    <string name="dialog_add_unit_title">Add Unit</string>
+    <string name="dialog_edit_unit_title">Edit Unit</string>
     <string name="toast_not_select_unit_error">Please select a unit</string>
-    <string name="dropdown_delete_unit">Delete unit</string>
-    <string name="annotate_delete_unit_first">Are you sure you want to delete unit</string>
-    <string name="annotate_delete_unit_last">-?</string>
+    <string name="dropdown_delete_unit">Delete Unit</string>
+    <string name="annotate_delete_unit_first">Are you sure you want to delete the unit</string>
+    <string name="annotate_delete_unit_last">/?</string>
 
-    <string name="inventory_inactive">Inactive</string>
-    <string name="inventory_price_label">Price</string>
-    <string name="annotate_delete_inventory_first">Are you sure you want to delete item</string>
-    <string name="annotate_delete_inventory_last">-?</string>
-    <string name="form_row_inventory_name_title">Item name</string>
-    <string name="form_row_inventory_price_title">Price</string>
+    <string name="inventory_inactive">Discontinued</string>
+    <string name="inventory_price_label">Selling Price</string>
+    <string name="annotate_delete_inventory_first">Are you sure you want to delete the item</string>
+    <string name="annotate_delete_inventory_last">/?</string>
+    <string name="form_row_inventory_name_title">Item Name</string>
+    <string name="form_row_inventory_price_title">Selling Price</string>
     <string name="form_row_inventory_unit_title">Unit</string>
     <string name="form_row_inventory_color_title">Color</string>
     <string name="form_row_inventory_icon_title">Icon</string>
     <string name="form_row_inventory_active_title">Status</string>
     <string name="form_inventory_color_cancel">Cancel</string>
 
-    <string name="dialog_delete_invoice">Are you sure you want to cancel selected items</string>
-    <string name="state_no_invoice">No order placed</string>
-    <string name="title_click_to_create_invoice">Click here or + to place an order</string>
+    <string name="dialog_delete_invoice">Are you sure you want to cancel the selected items</string>
+    <string name="state_no_invoice">No customer orders yet</string>
+    <string name="title_click_to_create_invoice">Click here or the + icon to place an order</string>
     <string name="invoice_item_button_cancel">Cancel</string>
-    <string name="invoice_item_button_payment">Pay</string>
-    <string name="invoice_form_totalAmount">Total amount\n</string>
+    <string name="invoice_item_button_payment">Collect Payment</string>
+    <string name="invoice_form_totalAmount">Total Amount</string>
 
     <string name="payment_invoice">INVOICE</string>
     <string name="payment_invoiceNo">No:</string>
     <string name="payment_invoiceTable">Table:</string>
     <string name="payment_invoiceDate">Date:</string>
-    <string name="payment_amount">Amount due</string>
-    <string name="payment_receiveAmount">Amount received</string>
-    <string name="payment_returnAmount">Change</string>
-    <string name="payment_headerTable_inventoryName">Item</string>
+    <string name="payment_amount">Amount Due</string>
+    <string name="payment_receiveAmount">Amount Received</string>
+    <string name="payment_returnAmount">Change Returned</string>
+    <string name="payment_headerTable_inventoryName">Item Name</string>
     <string name="payment_headerTable_quantity">Qty</string>
-    <string name="payment_headerTable_price">Price</string>
+    <string name="payment_headerTable_price">Unit Price</string>
     <string name="payment_headerTable_amount">Total</string>
 
     <string name="xAxisLabel_day">(Day)</string>
     <string name="xAxisLabel_month">(Month)</string>
-    <string name="pie_chart_total_amount">Total amount</string>
+    <string name="pie_chart_total_amount">Total\nRevenue\n</string>
 
     <string-array name="day_in_week">
         <item>Mon</item>
@@ -161,9 +163,9 @@
     <string-array name="statistic_overview_title">
         <item>Yesterday</item>
         <item>Today</item>
-        <item>This week</item>
-        <item>This month</item>
-        <item>This year</item>
+        <item>This Week</item>
+        <item>This Month</item>
+        <item>This Year</item>
     </string-array>
 
     <string-array name="statistic_time_week_title">
@@ -225,30 +227,39 @@
         <item>December</item>
     </string-array>
 
-
     <string name="statistic_state_title_Overview">Recent</string>
-    <string name="statistic_state_title_ThisWeek">This week</string>
-    <string name="statistic_state_title_ThisMonth">This month</string>
-    <string name="statistic_state_title_ThisYear">This year</string>
-    <string name="statistic_state_title_LastWeek">Last week</string>
-    <string name="statistic_state_title_LastMonth">Last month</string>
-    <string name="statistic_state_title_LastYear">Last year</string>
-    <string name="statistic_state_title_Other">Custom</string>
+    <string name="statistic_state_title_ThisWeek">This Week</string>
+    <string name="statistic_state_title_ThisMonth">This Month</string>
+    <string name="statistic_state_title_ThisYear">This Year</string>
+    <string name="statistic_state_title_LastWeek">Last Week</string>
+    <string name="statistic_state_title_LastMonth">Last Month</string>
+    <string name="statistic_state_title_LastYear">Last Year</string>
+    <string name="statistic_state_title_Other">Other</string>
 
     <string name="statistic_header_title">Time</string>
-    <string name="statistic_state_no_data">No statistics data available</string>
-    <string name="statistic_lineChart_yLabel">(thousands)</string>
+    <string name="statistic_state_no_data">Revenue report has no data</string>
+    <string name="statistic_lineChart_yLabel">(Thousand VND)</string>
 
     <string name="dialog_select_time_title">Time</string>
     <string name="dialog_select_state_title">Time</string>
-    <string name="dialog_select_time_startDate_label">From</string>
-    <string name="dialog_select_time_endDate_label">To</string>
+    <string name="dialog_select_time_startDate_label">From Date</string>
+    <string name="dialog_select_time_endDate_label">To Date</string>
 
-    <string name="not_synchronize_state">Not synced yet</string>
-    <string name="synchronize_button_title">SYNC NOW</string>
-    <string name="synchronize_loading_title">Syncing data…</string>
-    <string name="annotate_lastSyncTime">Last sync:</string>
+    <string name="not_synchronize_state">Not yet synchronized</string>
+    <string name="synchronize_button_title">SYNCHRONIZE NOW</string>
+    <string name="synchronize_loading_title">Synchronizing data…</string>
+    <string name="annotate_lastSyncTime">Last synchronized:</string>
 
     <string name="annotate_countSync_first">You have </string>
-    <string name="annotate_countSync_last"> unsynced transactions. Other devices won\'t receive these changes. Please check your network connection and sync.</string>
+    <string name="annotate_countSync_last"> unsynchronized transactions. Other devices will not receive these changes. Please check your network connection and synchronize.</string>
+
+    <string name="language_vi">Vietnamese</string>
+    <string name="language_en">English</string>
+    <string name="language_ja">Japanese</string>
+    <string name="language_ko">Korean</string>
+    <string name="language_zh">Chinese</string>
+    <string name="language_fr">French</string>
+    <string name="language_it">Italian</string>
+    <string name="language_es">Spanish</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package com.example.cukcuk.di_koin
+package com.example.cukcuk.di
 
 import com.example.data.local.dao.InventoryDao
 import com.example.data.local.dao.InvoiceDao

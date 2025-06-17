@@ -44,6 +44,7 @@
     <string name="nav_item_SetPassword">Đặt mật khẩu</string>
     <string name="nav_item_Logout">Đăng xuất</string>
     <string name="nav_item_TestApi">Product API</string>
+    <string name="nav_item_Language">Ngôn ngữ</string>
 
     <string name="toolbar_title_UnitList">Đơn vị tính</string>
     <string name="toolbar_title_AddInventory">Thêm món</string>
@@ -52,6 +53,7 @@
     <string name="toolbar_title_Payment">Thu tiền</string>
     <string name="toolbar_title_Synchronize">Đồng bộ dữ liệu</string>
     <string name="toolbar_title_StatisticByInventory">Doanh thu theo mặt hàng</string>
+    <string name="toolbar_title_Language">Ngôn ngữ</string>
 
     <string name="toolbar_menuTitle_Submit">Cất</string>
     <string name="toolbar_menuTitle_InvoiceForm">Thu tiền</string>
@@ -252,5 +254,13 @@
     <string name="annotate_countSync_first">Bạn đang có </string>
     <string name="annotate_countSync_last"> giao dịch chưa được đồng bộ. Các thiết bị khác sẽ không nhận được những thay đổi này. Vui lòng kiểm tra kết nối mạng và thực hiện đồng bộ</string>
 
+    <string name="language_vi">Tiếng Việt</string>
+    <string name="language_en">Tiếng Anh</string>
+    <string name="language_ja">Nhật Bản</string>
+    <string name="language_ko">Hàn Quốc</string>
+    <string name="language_zh">Trung Quốc</string>
+    <string name="language_fr">Pháp</string>
+    <string name="language_it">Ý</string>
+    <string name="language_es">Tây Ban Nha</string>
 
 </resources>

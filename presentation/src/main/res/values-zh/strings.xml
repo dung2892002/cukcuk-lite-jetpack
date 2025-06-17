@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CUKCUK</string>
+    <string name="dialog_content">CUKCUK LITE</string>
+
+    <string name="required">*</string>
+
+    <string name="button_title_Done">完成</string>
+    <string name="button_title_Yes">是</string>
+    <string name="button_title_No">否</string>
+    <string name="button_title_Submit">保存</string>
+    <string name="button_title_Cancel">取消</string>
+    <string name="button_title_Accept">同意</string>
+    <string name="button_title_Delete">删除</string>
+    <string name="button_title_Payment">收款</string>
+
+    <string name="calculator_title_inventory_price">售价</string>
+    <string name="calculator_message_inventory_price">售价</string>
+    <string name="calculator_title_invoice_tableName">输入桌号</string>
+    <string name="calculator_message_invoice_tableName">数量</string>
+    <string name="calculator_title_invoice_numberPeople">输入人数</string>
+    <string name="calculator_message_invoice_numberPeople">人数</string>
+    <string name="calculator_title_invoice_inventoryQuantity">输入数量</string>
+    <string name="calculator_message_invoice_inventoryQuantity">数量</string>
+    <string name="calculator_message_payment">金额</string>
+
+    <string name="nav_screen_Sales">销售</string>
+    <string name="nav_screen_Menu">菜单</string>
+    <string name="nav_screen_Statistics">收入</string>
+
+    <string name="nav_item_group_Setting">设置</string>
+    <string name="nav_item_group_Help">帮助</string>
+    <string name="nav_item_group_Other">其他</string>
+    <string name="nav_item_group_Account">账户</string>
+
+    <string name="nav_item_SynchronizeData">同步数据</string>
+    <string name="nav_item_Setting">设置</string>
+    <string name="nav_item_LinkAccount">关联账户</string>
+    <string name="nav_item_Notification">通知</string>
+    <string name="nav_item_SharedWithFriend">分享给朋友</string>
+    <string name="nav_item_RatingApp">评价应用</string>
+    <string name="nav_item_SuggestApp">向开发者反馈</string>
+    <string name="nav_item_AppInfo">应用信息</string>
+    <string name="nav_item_SetPassword">设置密码</string>
+    <string name="nav_item_Logout">退出登录</string>
+    <string name="nav_item_TestApi">产品API</string>
+    <string name="nav_item_Language">语言</string>
+
+    <string name="toolbar_title_UnitList">单位列表</string>
+    <string name="toolbar_title_AddInventory">添加项目</string>
+    <string name="toolbar_title_EditInventory">编辑项目</string>
+    <string name="toolbar_title_InvoiceForm">选择项目</string>
+    <string name="toolbar_title_Payment">收款</string>
+    <string name="toolbar_title_Synchronize">同步数据</string>
+    <string name="toolbar_title_StatisticByInventory">按项目收入</string>
+    <string name="toolbar_title_Language">语言</string>
+
+    <string name="toolbar_menuTitle_Submit">保存</string>
+    <string name="toolbar_menuTitle_InvoiceForm">收款</string>
+    <string name="toolbar_menuTitle_Payment">完成</string>
+
+    <string name="dialog_add_unit_title">添加单位</string>
+    <string name="dialog_edit_unit_title">编辑单位</string>
+    <string name="toast_not_select_unit_error">请选择单位</string>
+    <string name="dropdown_delete_unit">删除单位</string>
+    <string name="annotate_delete_unit_first">您确定要删除单位</string>
+    <string name="annotate_delete_unit_last">吗？</string>
+
+    <string name="inventory_inactive">停售</string>
+    <string name="inventory_price_label">售价</string>
+    <string name="annotate_delete_inventory_first">您确定要删除项目</string>
+    <string name="annotate_delete_inventory_last">吗？</string>
+    <string name="form_row_inventory_name_title">项目名称</string>
+    <string name="form_row_inventory_price_title">售价</string>
+    <string name="form_row_inventory_unit_title">单位</string>
+    <string name="form_row_inventory_color_title">颜色</string>
+    <string name="form_row_inventory_icon_title">图标</string>
+    <string name="form_row_inventory_active_title">状态</string>
+    <string name="form_inventory_color_cancel">取消</string>
+
+    <string name="dialog_delete_invoice">您确定要取消选中的项目吗</string>
+    <string name="state_no_invoice">暂无客户点单</string>
+    <string name="title_click_to_create_invoice">点击此处或+图标进行点单</string>
+    <string name="invoice_item_button_cancel">取消</string>
+    <string name="invoice_item_button_payment">收款</string>
+    <string name="invoice_form_totalAmount">总金额</string>
+
+    <string name="payment_invoice">发票</string>
+    <string name="payment_invoiceNo">编号：</string>
+    <string name="payment_invoiceTable">桌号：</string>
+    <string name="payment_invoiceDate">日期：</string>
+    <string name="payment_amount">应付金额</string>
+    <string name="payment_receiveAmount">客户支付金额</string>
+    <string name="payment_returnAmount">找零金额</string>
+    <string name="payment_headerTable_inventoryName">项目名称</string>
+    <string name="payment_headerTable_quantity">数量</string>
+    <string name="payment_headerTable_price">单价</string>
+    <string name="payment_headerTable_amount">总计</string>
+
+    <string name="xAxisLabel_day">（日）</string>
+    <string name="xAxisLabel_month">（月）</string>
+    <string name="pie_chart_total_amount">总\n收入\n</string>
+
+    <string-array name="day_in_week">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+
+    <string-array name="day_in_month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <string-array name="month_in_year">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+
+    <string-array name="statistic_overview_title">
+        <item>昨天</item>
+        <item>今天</item>
+        <item>本周</item>
+        <item>本月</item>
+        <item>今年</item>
+    </string-array>
+
+    <string-array name="statistic_time_week_title">
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+
+    <string-array name="statistic_time_month_title">
+        <item>1日</item>
+        <item>2日</item>
+        <item>3日</item>
+        <item>4日</item>
+        <item>5日</item>
+        <item>6日</item>
+        <item>7日</item>
+        <item>8日</item>
+        <item>9日</item>
+        <item>10日</item>
+        <item>11日</item>
+        <item>12日</item>
+        <item>13日</item>
+        <item>14日</item>
+        <item>15日</item>
+        <item>16日</item>
+        <item>17日</item>
+        <item>18日</item>
+        <item>19日</item>
+        <item>20日</item>
+        <item>21日</item>
+        <item>22日</item>
+        <item>23日</item>
+        <item>24日</item>
+        <item>25日</item>
+        <item>26日</item>
+        <item>27日</item>
+        <item>28日</item>
+        <item>29日</item>
+        <item>30日</item>
+        <item>31日</item>
+    </string-array>
+
+    <string-array name="statistic_time_year_title">
+        <item>一月</item>
+        <item>二月</item>
+        <item>三月</item>
+        <item>四月</item>
+        <item>五月</item>
+        <item>六月</item>
+        <item>七月</item>
+        <item>八月</item>
+        <item>九月</item>
+        <item>十月</item>
+        <item>十一月</item>
+        <item>十二月</item>
+    </string-array>
+
+    <string name="statistic_state_title_Overview">最近</string>
+    <string name="statistic_state_title_ThisWeek">本周</string>
+    <string name="statistic_state_title_ThisMonth">本月</string>
+    <string name="statistic_state_title_ThisYear">今年</string>
+    <string name="statistic_state_title_LastWeek">上周</string>
+    <string name="statistic_state_title_LastMonth">上月</string>
+    <string name="statistic_state_title_LastYear">去年</string>
+    <string name="statistic_state_title_Other">其他</string>
+
+    <string name="statistic_header_title">时间</string>
+    <string name="statistic_state_no_data">收入报告无数据</string>
+    <string name="statistic_lineChart_yLabel">（千元）</string>
+
+    <string name="dialog_select_time_title">时间</string>
+    <string name="dialog_select_state_title">时间</string>
+    <string name="dialog_select_time_startDate_label">起始日期</string>
+    <string name="dialog_select_time_endDate_label">结束日期</string>
+
+    <string name="not_synchronize_state">尚未同步</string>
+    <string name="synchronize_button_title">立即同步</string>
+    <string name="synchronize_loading_title">正在同步数据…</string>
+    <string name="annotate_lastSyncTime">上次同步：</string>
+
+    <string name="annotate_countSync_first">您有 </string>
+    <string name="annotate_countSync_last"> 条未同步的交易记录。其他设备无法接收这些更改。请检查网络连接并进行同步。</string>
+
+    <string name="language_vi">越南语</string>
+    <string name="language_en">英语</string>
+    <string name="language_ja">日语</string>
+    <string name="language_ko">韩语</string>
+    <string name="language_zh">中文</string>
+    <string name="language_fr">法语</string>
+    <string name="language_it">意大利语</string>
+    <string name="language_es">西班牙语</string>
+
+</resources>

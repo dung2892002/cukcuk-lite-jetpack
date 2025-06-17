@@ -1,4 +1,4 @@
-package com.example.cukcuk.di_koin
+package com.example.cukcuk.di
 
 import com.example.domain.usecase.inventory.CreateInventoryUseCase
 import com.example.domain.usecase.inventory.DeleteInventoryUseCase

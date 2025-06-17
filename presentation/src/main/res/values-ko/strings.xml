@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CUKCUK</string>
+    <string name="dialog_content">CUKCUK LITE</string>
+
+    <string name="required">*</string>
+
+    <string name="button_title_Done">완료</string>
+    <string name="button_title_Yes">예</string>
+    <string name="button_title_No">아니요</string>
+    <string name="button_title_Submit">저장</string>
+    <string name="button_title_Cancel">취소</string>
+    <string name="button_title_Accept">동의</string>
+    <string name="button_title_Delete">삭제</string>
+    <string name="button_title_Payment">결제 수령</string>
+
+    <string name="calculator_title_inventory_price">판매 가격</string>
+    <string name="calculator_message_inventory_price">판매 가격</string>
+    <string name="calculator_title_invoice_tableName">테이블 번호 입력</string>
+    <string name="calculator_message_invoice_tableName">수량</string>
+    <string name="calculator_title_invoice_numberPeople">인원 수 입력</string>
+    <string name="calculator_message_invoice_numberPeople">인원 수</string>
+    <string name="calculator_title_invoice_inventoryQuantity">수량 입력</string>
+    <string name="calculator_message_invoice_inventoryQuantity">수량</string>
+    <string name="calculator_message_payment">금액</string>
+
+    <string name="nav_screen_Sales">판매</string>
+    <string name="nav_screen_Menu">메뉴</string>
+    <string name="nav_screen_Statistics">수익</string>
+
+    <string name="nav_item_group_Setting">설정</string>
+    <string name="nav_item_group_Help">도움말</string>
+    <string name="nav_item_group_Other">기타</string>
+    <string name="nav_item_group_Account">계정</string>
+
+    <string name="nav_item_SynchronizeData">데이터 동기화</string>
+    <string name="nav_item_Setting">설정</string>
+    <string name="nav_item_LinkAccount">계정 연동</string>
+    <string name="nav_item_Notification">알림</string>
+    <string name="nav_item_SharedWithFriend">친구와 공유</string>
+    <string name="nav_item_RatingApp">앱 평가</string>
+    <string name="nav_item_SuggestApp">개발자에게 피드백</string>
+    <string name="nav_item_AppInfo">앱 정보</string>
+    <string name="nav_item_SetPassword">비밀번호 설정</string>
+    <string name="nav_item_Logout">로그아웃</string>
+    <string name="nav_item_TestApi">제품 API</string>
+    <string name="nav_item_Language">언어</string>
+
+    <string name="toolbar_title_UnitList">단위 목록</string>
+    <string name="toolbar_title_AddInventory">항목 추가</string>
+    <string name="toolbar_title_EditInventory">항목 편집</string>
+    <string name="toolbar_title_InvoiceForm">항목 선택</string>
+    <string name="toolbar_title_Payment">결제 수령</string>
+    <string name="toolbar_title_Synchronize">데이터 동기화</string>
+    <string name="toolbar_title_StatisticByInventory">항목별 수익</string>
+    <string name="toolbar_title_Language">언어</string>
+
+    <string name="toolbar_menuTitle_Submit">저장</string>
+    <string name="toolbar_menuTitle_InvoiceForm">결제 수령</string>
+    <string name="toolbar_menuTitle_Payment">완료</string>
+
+    <string name="dialog_add_unit_title">단위 추가</string>
+    <string name="dialog_edit_unit_title">단위 편집</string>
+    <string name="toast_not_select_unit_error">단위를 선택해 주세요</string>
+    <string name="dropdown_delete_unit">단위 삭제</string>
+    <string name="annotate_delete_unit_first">정말로 단위를 삭제하시겠습니까</string>
+    <string name="annotate_delete_unit_last">\?</string>
+
+    <string name="inventory_inactive">판매 중단</string>
+    <string name="inventory_price_label">판매 가격</string>
+    <string name="annotate_delete_inventory_first">정말로 항목을 삭제하시겠습니까</string>
+    <string name="annotate_delete_inventory_last">\?</string>
+    <string name="form_row_inventory_name_title">항목 이름</string>
+    <string name="form_row_inventory_price_title">판매 가격</string>
+    <string name="form_row_inventory_unit_title">단위</string>
+    <string name="form_row_inventory_color_title">색상</string>
+    <string name="form_row_inventory_icon_title">아이콘</string>
+    <string name="form_row_inventory_active_title">상태</string>
+    <string name="form_inventory_color_cancel">취소</string>
+
+    <string name="dialog_delete_invoice">선택한 항목을 취소하시겠습니까</string>
+    <string name="state_no_invoice">아직 고객 주문이 없습니다</string>
+    <string name="title_click_to_create_invoice">여기 또는 + 아이콘을 클릭하여 주문하세요</string>
+    <string name="invoice_item_button_cancel">취소</string>
+    <string name="invoice_item_button_payment">결제 수령</string>
+    <string name="invoice_form_totalAmount">총 금액</string>
+
+    <string name="payment_invoice">인보이스</string>
+    <string name="payment_invoiceNo">번호:</string>
+    <string name="payment_invoiceTable">테이블:</string>
+    <string name="payment_invoiceDate">날짜:</string>
+    <string name="payment_amount">지불해야 할 금액</string>
+    <string name="payment_receiveAmount">고객이 지불한 금액</string>
+    <string name="payment_returnAmount">고객에게 반환된 금액</string>
+    <string name="payment_headerTable_inventoryName">항목 이름</string>
+    <string name="payment_headerTable_quantity">수량</string>
+    <string name="payment_headerTable_price">단가</string>
+    <string name="payment_headerTable_amount">합계</string>
+
+    <string name="xAxisLabel_day">(일)</string>
+    <string name="xAxisLabel_month">(월)</string>
+    <string name="pie_chart_total_amount">총\n수익\n</string>
+
+    <string-array name="day_in_week">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+
+    <string-array name="day_in_month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <string-array name="month_in_year">
+        <item>1월</item>
+        <item>2월</item>
+        <item>3월</item>
+        <item>4월</item>
+        <item>5월</item>
+        <item>6월</item>
+        <item>7월</item>
+        <item>8월</item>
+        <item>9월</item>
+        <item>10월</item>
+        <item>11월</item>
+        <item>12월</item>
+    </string-array>
+
+    <string-array name="statistic_overview_title">
+        <item>어제</item>
+        <item>오늘</item>
+        <item>이번 주</item>
+        <item>이번 달</item>
+        <item>올해</item>
+    </string-array>
+
+    <string-array name="statistic_time_week_title">
+        <item>월요일</item>
+        <item>화요일</item>
+        <item>수요일</item>
+        <item>목요일</item>
+        <item>금요일</item>
+        <item>토요일</item>
+        <item>일요일</item>
+    </string-array>
+
+    <string-array name="statistic_time_month_title">
+        <item>1일</item>
+        <item>2일</item>
+        <item>3일</item>
+        <item>4일</item>
+        <item>5일</item>
+        <item>6일</item>
+        <item>7일</item>
+        <item>8일</item>
+        <item>9일</item>
+        <item>10일</item>
+        <item>11일</item>
+        <item>12일</item>
+        <item>13일</item>
+        <item>14일</item>
+        <item>15일</item>
+        <item>16일</item>
+        <item>17일</item>
+        <item>18일</item>
+        <item>19일</item>
+        <item>20일</item>
+        <item>21일</item>
+        <item>22일</item>
+        <item>23일</item>
+        <item>24일</item>
+        <item>25일</item>
+        <item>26일</item>
+        <item>27일</item>
+        <item>28일</item>
+        <item>29일</item>
+        <item>30일</item>
+        <item>31일</item>
+    </string-array>
+
+    <string-array name="statistic_time_year_title">
+        <item>1월</item>
+        <item>2월</item>
+        <item>3월</item>
+        <item>4월</item>
+        <item>5월</item>
+        <item>6월</item>
+        <item>7월</item>
+        <item>8월</item>
+        <item>9월</item>
+        <item>10월</item>
+        <item>11월</item>
+        <item>12월</item>
+    </string-array>
+
+    <string name="statistic_state_title_Overview">최근</string>
+    <string name="statistic_state_title_ThisWeek">이번 주</string>
+    <string name="statistic_state_title_ThisMonth">이번 달</string>
+    <string name="statistic_state_title_ThisYear">올해</string>
+    <string name="statistic_state_title_LastWeek">지난 주</string>
+    <string name="statistic_state_title_LastMonth">지난 달</string>
+    <string name="statistic_state_title_LastYear">작년</string>
+    <string name="statistic_state_title_Other">기타</string>
+
+    <string name="statistic_header_title">시간</string>
+    <string name="statistic_state_no_data">수익 보고서에 데이터가 없습니다</string>
+    <string name="statistic_lineChart_yLabel">(천 원)</string>
+
+    <string name="dialog_select_time_title">시간</string>
+    <string name="dialog_select_state_title">시간</string>
+    <string name="dialog_select_time_startDate_label">시작 날짜</string>
+    <string name="dialog_select_time_endDate_label">종료 날짜</string>
+
+    <string name="not_synchronize_state">아직 동기화되지 않음</string>
+    <string name="synchronize_button_title">지금 동기화</string>
+    <string name="synchronize_loading_title">데이터 동기화 중…</string>
+    <string name="annotate_lastSyncTime">마지막 동기화:</string>
+
+    <string name="annotate_countSync_first">동기화되지 않은 </string>
+    <string name="annotate_countSync_last">개의 거래가 있습니다. 다른 기기에서는 이러한 변경 사항을 받지 않습니다. 네트워크 연결을 확인하고 동기화해 주세요.</string>
+
+    <string name="language_vi">베트남어</string>
+    <string name="language_en">영어</string>
+    <string name="language_ja">일본어</string>
+    <string name="language_ko">한국어</string>
+    <string name="language_zh">중국어</string>
+    <string name="language_fr">프랑스어</string>
+    <string name="language_it">이탈리아어</string>
+    <string name="language_es">스페인어</string>
+
+</resources>
