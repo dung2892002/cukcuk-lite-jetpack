@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">cukcuk</string>
     <string name="dialog_content">CUKCUK LITE</string>
@@ -43,6 +44,7 @@
     <string name="nav_item_SetPassword">Đặt mật khẩu</string>
     <string name="nav_item_Logout">Đăng xuất</string>
     <string name="nav_item_TestApi">Product API</string>
+    <string name="nav_item_Language">Ngôn ngữ</string>
 
     <string name="toolbar_title_UnitList">Đơn vị tính</string>
     <string name="toolbar_title_AddInventory">Thêm món</string>
@@ -50,6 +52,8 @@
     <string name="toolbar_title_InvoiceForm">Chọn món</string>
     <string name="toolbar_title_Payment">Thu tiền</string>
     <string name="toolbar_title_Synchronize">Đồng bộ dữ liệu</string>
+    <string name="toolbar_title_StatisticByInventory">Doanh thu theo mặt hàng</string>
+    <string name="toolbar_title_Language">Ngôn ngữ</string>
 
     <string name="toolbar_menuTitle_Submit">Cất</string>
     <string name="toolbar_menuTitle_InvoiceForm">Thu tiền</string>
@@ -96,6 +100,7 @@
 
     <string name="xAxisLabel_day">(Ngày)</string>
     <string name="xAxisLabel_month">(Tháng)</string>
+    <string name="pie_chart_total_amount">Tổng\ndoanh thu\n</string>
 
     <string-array name="day_in_week">
         <item>T2</item>
@@ -156,6 +161,73 @@
         <item>T12</item>
     </string-array>
 
+    <string-array name="statistic_overview_title">
+        <item>Hôm qua</item>
+        <item>Hôm nay</item>
+        <item>Tuần này</item>
+        <item>Tháng này</item>
+        <item>Năm nay</item>
+    </string-array>
+
+    <string-array name="statistic_time_week_title">
+        <item>Thứ 2</item>
+        <item>Thứ 3</item>
+        <item>Thứ 4</item>
+        <item>Thứ 5</item>
+        <item>Thứ 6</item>
+        <item>Thứ 7</item>
+        <item>Chủ nhật</item>
+    </string-array>
+
+    <string-array name="statistic_time_month_title">
+        <item>Ngày 1</item>
+        <item>Ngày 2</item>
+        <item>Ngày 3</item>
+        <item>Ngày 4</item>
+        <item>Ngày 5</item>
+        <item>Ngày 6</item>
+        <item>Ngày 7</item>
+        <item>Ngày 8</item>
+        <item>Ngày 9</item>
+        <item>Ngày 10</item>
+        <item>Ngày 11</item>
+        <item>Ngày 12</item>
+        <item>Ngày 13</item>
+        <item>Ngày 14</item>
+        <item>Ngày 15</item>
+        <item>Ngày 16</item>
+        <item>Ngày 17</item>
+        <item>Ngày 18</item>
+        <item>Ngày 19</item>
+        <item>Ngày 20</item>
+        <item>Ngày 21</item>
+        <item>Ngày 22</item>
+        <item>Ngày 23</item>
+        <item>Ngày 24</item>
+        <item>Ngày 25</item>
+        <item>Ngày 26</item>
+        <item>Ngày 27</item>
+        <item>Ngày 28</item>
+        <item>Ngày 29</item>
+        <item>Ngày 30</item>
+        <item>Ngày 31</item>
+    </string-array>
+
+    <string-array name="statistic_time_year_title">
+        <item>Tháng 1</item>
+        <item>Tháng 2</item>
+        <item>Tháng 3</item>
+        <item>Tháng 4</item>
+        <item>Tháng 5</item>
+        <item>Tháng 6</item>
+        <item>Tháng 7</item>
+        <item>Tháng 8</item>
+        <item>Tháng 9</item>
+        <item>Tháng 10</item>
+        <item>Tháng 11</item>
+        <item>Tháng 12</item>
+    </string-array>
+
     <string name="statistic_state_title_Overview">Gần đây</string>
     <string name="statistic_state_title_ThisWeek">Tuần này</string>
     <string name="statistic_state_title_ThisMonth">Tháng này</string>
@@ -182,5 +254,13 @@
     <string name="annotate_countSync_first">Bạn đang có </string>
     <string name="annotate_countSync_last"> giao dịch chưa được đồng bộ. Các thiết bị khác sẽ không nhận được những thay đổi này. Vui lòng kiểm tra kết nối mạng và thực hiện đồng bộ</string>
 
+    <string name="language_vi">Tiếng Việt</string>
+    <string name="language_en">Tiếng Anh</string>
+    <string name="language_ja">Nhật Bản</string>
+    <string name="language_ko">Hàn Quốc</string>
+    <string name="language_zh">Trung Quốc</string>
+    <string name="language_fr">Pháp</string>
+    <string name="language_it">Ý</string>
+    <string name="language_es">Tây Ban Nha</string>
 
 </resources>

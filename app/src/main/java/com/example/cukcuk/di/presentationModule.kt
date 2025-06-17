@@ -1,5 +1,6 @@
-package com.example.cukcuk.di_koin
+package com.example.cukcuk.di
 
+import com.example.presentation.ui.language.LanguageViewModel
 import com.example.presentation.shared.SharedViewModel
 import com.example.presentation.ui.calculator.CalculatorViewModel
 import com.example.presentation.ui.home.HomeViewModel
@@ -48,4 +49,7 @@ val presentationModule = module {
     //unit
     viewModel { UnitListViewModel(get(), get(), get()) }
     viewModel { UnitFormViewModel(get(), get(), get()) }
+
+    //language
+    viewModel { LanguageViewModel(get()) }
 }

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CUKCUK</string>
+    <string name="dialog_content">CUKCUK LITE</string>
+
+    <string name="required">*</string>
+
+    <string name="button_title_Done">FATTO</string>
+    <string name="button_title_Yes">SÌ</string>
+    <string name="button_title_No">NO</string>
+    <string name="button_title_Submit">SALVA</string>
+    <string name="button_title_Cancel">ANNULLA</string>
+    <string name="button_title_Accept">ACCETTA</string>
+    <string name="button_title_Delete">ELIMINA</string>
+    <string name="button_title_Payment">RICEVI PAGAMENTO</string>
+
+    <string name="calculator_title_inventory_price">Prezzo di vendita</string>
+    <string name="calculator_message_inventory_price">Prezzo di vendita</string>
+    <string name="calculator_title_invoice_tableName">Inserisci numero del tavolo</string>
+    <string name="calculator_message_invoice_tableName">Quantità</string>
+    <string name="calculator_title_invoice_numberPeople">Inserisci numero di persone</string>
+    <string name="calculator_message_invoice_numberPeople">Numero di persone</string>
+    <string name="calculator_title_invoice_inventoryQuantity">Inserisci quantità</string>
+    <string name="calculator_message_invoice_inventoryQuantity">Quantità</string>
+    <string name="calculator_message_payment">Importo</string>
+
+    <string name="nav_screen_Sales">Vendite</string>
+    <string name="nav_screen_Menu">Menu</string>
+    <string name="nav_screen_Statistics">Fatturato</string>
+
+    <string name="nav_item_group_Setting">Impostazioni</string>
+    <string name="nav_item_group_Help">Aiuto</string>
+    <string name="nav_item_group_Other">Altro</string>
+    <string name="nav_item_group_Account">Account</string>
+
+    <string name="nav_item_SynchronizeData">Sincronizza dati</string>
+    <string name="nav_item_Setting">Impostazioni</string>
+    <string name="nav_item_LinkAccount">Collega account</string>
+    <string name="nav_item_Notification">Notifiche</string>
+    <string name="nav_item_SharedWithFriend">Condividi con amici</string>
+    <string name="nav_item_RatingApp">Valuta l\'app</string>
+    <string name="nav_item_SuggestApp">Invia feedback agli sviluppatori</string>
+    <string name="nav_item_AppInfo">Informazioni sull\'app</string>
+    <string name="nav_item_SetPassword">Imposta password</string>
+    <string name="nav_item_Logout">Esci</string>
+    <string name="nav_item_TestApi">API prodotto</string>
+    <string name="nav_item_Language">Lingua</string>
+
+    <string name="toolbar_title_UnitList">Elenco unità</string>
+    <string name="toolbar_title_AddInventory">Aggiungi articolo</string>
+    <string name="toolbar_title_EditInventory">Modifica articolo</string>
+    <string name="toolbar_title_InvoiceForm">Seleziona articolo</string>
+    <string name="toolbar_title_Payment">Ricevi pagamento</string>
+    <string name="toolbar_title_Synchronize">Sincronizza dati</string>
+    <string name="toolbar_title_StatisticByInventory">Fatturato per articolo</string>
+    <string name="toolbar_title_Language">Lingua</string>
+
+    <string name="toolbar_menuTitle_Submit">Salva</string>
+    <string name="toolbar_menuTitle_InvoiceForm">Ricevi pagamento</string>
+    <string name="toolbar_menuTitle_Payment">Fatto</string>
+
+    <string name="dialog_add_unit_title">Aggiungi unità</string>
+    <string name="dialog_edit_unit_title">Modifica unità</string>
+    <string name="toast_not_select_unit_error">Seleziona un\'unità</string>
+    <string name="dropdown_delete_unit">Elimina unità</string>
+    <string name="annotate_delete_unit_first">Sei sicuro di voler eliminare l\'unità</string>
+    <string name="annotate_delete_unit_last">\?</string>
+
+    <string name="inventory_inactive">Non in vendita</string>
+    <string name="inventory_price_label">Prezzo di vendita</string>
+    <string name="annotate_delete_inventory_first">Sei sicuro di voler eliminare l\'articolo</string>
+    <string name="annotate_delete_inventory_last">\?</string>
+    <string name="form_row_inventory_name_title">Nome articolo</string>
+    <string name="form_row_inventory_price_title">Prezzo di vendita</string>
+    <string name="form_row_inventory_unit_title">Unità</string>
+    <string name="form_row_inventory_color_title">Colore</string>
+    <string name="form_row_inventory_icon_title">Icona</string>
+    <string name="form_row_inventory_active_title">Stato</string>
+    <string name="form_inventory_color_cancel">Annulla</string>
+
+    <string name="dialog_delete_invoice">Sei sicuro di voler annullare gli articoli selezionati</string>
+    <string name="state_no_invoice">Nessun ordine da clienti ancora</string>
+    <string name="title_click_to_create_invoice">Clicca qui o sull\'icona + per ordinare</string>
+    <string name="invoice_item_button_cancel">Annulla</string>
+    <string name="invoice_item_button_payment">Ricevi pagamento</string>
+    <string name="invoice_form_totalAmount">Importo totale</string>
+
+    <string name="payment_invoice">FATTURA</string>
+    <string name="payment_invoiceNo">N.:</string>
+    <string name="payment_invoiceTable">Tavolo:</string>
+    <string name="payment_invoiceDate">Data:</string>
+    <string name="payment_amount">Importo dovuto</string>
+    <string name="payment_receiveAmount">Importo ricevuto dal cliente</string>
+    <string name="payment_returnAmount">Resto restituito al cliente</string>
+    <string name="payment_headerTable_inventoryName">Nome articolo</string>
+    <string name="payment_headerTable_quantity">Qtà</string>
+    <string name="payment_headerTable_price">Prezzo unitario</string>
+    <string name="payment_headerTable_amount">Totale</string>
+
+    <string name="xAxisLabel_day">(Giorno)</string>
+    <string name="xAxisLabel_month">(Mese)</string>
+    <string name="pie_chart_total_amount">Fatturato\nTotale\n</string>
+
+    <string-array name="day_in_week">
+        <item>Lun</item>
+        <item>Mar</item>
+        <item>Mer</item>
+        <item>Gio</item>
+        <item>Ven</item>
+        <item>Sab</item>
+        <item>Dom</item>
+    </string-array>
+
+    <string-array name="day_in_month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <string-array name="month_in_year">
+        <item>Gen</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>Mag</item>
+        <item>Giu</item>
+        <item>Lug</item>
+        <item>Ago</item>
+        <item>Set</item>
+        <item>Ott</item>
+        <item>Nov</item>
+        <item>Dic</item>
+    </string-array>
+
+    <string-array name="statistic_overview_title">
+        <item>Ieri</item>
+        <item>Oggi</item>
+        <item>Questa settimana</item>
+        <item>Questo mese</item>
+        <item>Quest\'anno</item>
+    </string-array>
+
+    <string-array name="statistic_time_week_title">
+        <item>Lunedì</item>
+        <item>Martedì</item>
+        <item>Mercoledì</item>
+        <item>Giovedì</item>
+        <item>Venerdì</item>
+        <item>Sabato</item>
+        <item>Domenica</item>
+    </string-array>
+
+    <string-array name="statistic_time_month_title">
+        <item>Giorno 1</item>
+        <item>Giorno 2</item>
+        <item>Giorno 3</item>
+        <item>Giorno 4</item>
+        <item>Giorno 5</item>
+        <item>Giorno 6</item>
+        <item>Giorno 7</item>
+        <item>Giorno 8</item>
+        <item>Giorno 9</item>
+        <item>Giorno 10</item>
+        <item>Giorno 11</item>
+        <item>Giorno 12</item>
+        <item>Giorno 13</item>
+        <item>Giorno 14</item>
+        <item>Giorno 15</item>
+        <item>Giorno 16</item>
+        <item>Giorno 17</item>
+        <item>Giorno 18</item>
+        <item>Giorno 19</item>
+        <item>Giorno 20</item>
+        <item>Giorno 21</item>
+        <item>Giorno 22</item>
+        <item>Giorno 23</item>
+        <item>Giorno 24</item>
+        <item>Giorno 25</item>
+        <item>Giorno 26</item>
+        <item>Giorno 27</item>
+        <item>Giorno 28</item>
+        <item>Giorno 29</item>
+        <item>Giorno 30</item>
+        <item>Giorno 31</item>
+    </string-array>
+
+    <string-array name="statistic_time_year_title">
+        <item>Gennaio</item>
+        <item>Febbraio</item>
+        <item>Marzo</item>
+        <item>Aprile</item>
+        <item>Maggio</item>
+        <item>Giugno</item>
+        <item>Luglio</item>
+        <item>Agosto</item>
+        <item>Settembre</item>
+        <item>Ottobre</item>
+        <item>Novembre</item>
+        <item>Dicembre</item>
+    </string-array>
+
+    <string name="statistic_state_title_Overview">Recente</string>
+    <string name="statistic_state_title_ThisWeek">Questa settimana</string>
+    <string name="statistic_state_title_ThisMonth">Questo mese</string>
+    <string name="statistic_state_title_ThisYear">Quest\'anno</string>
+    <string name="statistic_state_title_LastWeek">Settimana scorsa</string>
+    <string name="statistic_state_title_LastMonth">Mese scorso</string>
+    <string name="statistic_state_title_LastYear">Anno scorso</string>
+    <string name="statistic_state_title_Other">Altro</string>
+
+    <string name="statistic_header_title">Tempo</string>
+    <string name="statistic_state_no_data">Il rapporto sul fatturato non ha dati</string>
+    <string name="statistic_lineChart_yLabel">(Migliaia di VND)</string>
+
+    <string name="dialog_select_time_title">Tempo</string>
+    <string name="dialog_select_state_title">Tempo</string>
+    <string name="dialog_select_time_startDate_label">Data di inizio</string>
+    <string name="dialog_select_time_endDate_label">Data di fine</string>
+
+    <string name="not_synchronize_state">Non ancora sincronizzato</string>
+    <string name="synchronize_button_title">SINCRONIZZA ORA</string>
+    <string name="synchronize_loading_title">Sincronizzazione dati in corso…</string>
+    <string name="annotate_lastSyncTime">Ultima sincronizzazione:</string>
+
+    <string name="annotate_countSync_first">Hai </string>
+    <string name="annotate_countSync_last"> transazioni non sincronizzate. Gli altri dispositivi non riceveranno queste modifiche. Controlla la connessione di rete e sincronizza.</string>
+
+    <string name="language_vi">Vietnamita</string>
+    <string name="language_en">Inglese</string>
+    <string name="language_ja">Giapponese</string>
+    <string name="language_ko">Coreano</string>
+    <string name="language_zh">Cinese</string>
+    <string name="language_fr">Francese</string>
+    <string name="language_it">Italiano</string>
+    <string name="language_es">Spagnolo</string>
+
+</resources>

@@ -1,5 +1,6 @@
 package com.example.cukcuk
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,18 +12,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.example.presentation.navigation.AppNavHost
 import com.example.presentation.theme.CukcukTheme
-import java.util.Locale
+import com.example.presentation.utils.LocaleHelper
 
 class MainActivity : ComponentActivity() {
+    override fun attachBaseContext(newBase: Context?) {
+        val sharedPreferences = newBase?.getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val langCode = sharedPreferences?.getString("language_code", "vi") ?: "vi"
+        val context = LocaleHelper.updateLocale(newBase!!, langCode)
+        super.attachBaseContext(context)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        val config = resources.configuration
-        val locale = Locale("vi")
-        Locale.setDefault(locale)
-        config.setLocale(locale)
-        createConfigurationContext(config)
 
         setContent {
             CukcukTheme {
@@ -34,6 +36,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
     }
 }

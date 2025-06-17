@@ -16,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -48,10 +49,10 @@ fun StatisticScreen(
     val lineChartLabels = viewModel.lineChartLabels.value
 
     val isShowOverview = sharedViewModel.isShowOverviewStatistic.value
-
+    val context = LocalContext.current
     LaunchedEffect(isShowOverview) {
         if (isShowOverview) {
-            viewModel.changeState(StateStatistic.Overview)
+            viewModel.changeState(StateStatistic.Overview, context)
             sharedViewModel.setShowOverviewStatistic(false)
         }
     }
@@ -101,9 +102,9 @@ fun StatisticScreen(
                 StatisticOverViewBlock(
                     onItemClick = { item, index ->
                         when (index) {
-                            2 -> viewModel.changeState(StateStatistic.ThisWeek)
-                            3 -> viewModel.changeState(StateStatistic.ThisMonth)
-                            4 -> viewModel.changeState(StateStatistic.ThisYear)
+                            2 -> viewModel.changeState(StateStatistic.ThisWeek, context)
+                            3 -> viewModel.changeState(StateStatistic.ThisMonth, context)
+                            4 -> viewModel.changeState(StateStatistic.ThisYear, context)
                             else -> {
                                 val request = viewModel.createRequestByStatisticOverview(item)
                                 sharedViewModel.setRequestStatisticByInventory(request)
@@ -145,7 +146,7 @@ fun StatisticScreen(
     if (showDialogSelectState) {
         DialogSelectState(
             onItemClick = {
-                viewModel.changeState(it)
+                viewModel.changeState(it, context)
             },
             onClose = {
                 viewModel.closeDialogSelectState()

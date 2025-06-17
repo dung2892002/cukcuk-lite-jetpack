@@ -13,6 +13,7 @@ import com.example.presentation.ui.home.HomeScreen
 import com.example.presentation.ui.inventory.inventory_form.InventoryFormScreen
 import com.example.presentation.ui.invoice.invoice_form.InvoiceFormScreen
 import com.example.presentation.ui.invoice.invoice_payment.PaymentScreen
+import com.example.presentation.ui.language.LanguageScreen
 import com.example.presentation.ui.link_account.LinkAccountScreen
 import com.example.presentation.ui.login.LoginScreen
 import com.example.presentation.ui.login.login_account.LoginAccountScreen
@@ -164,6 +165,12 @@ fun AppNavHost(navController: NavHostController) {
             route = "product_api"
         ) {
             ProductScreen(navController)
+        }
+
+        composable(
+            route = "language"
+        ) {
+            LanguageScreen(navController)
         }
     }
 }

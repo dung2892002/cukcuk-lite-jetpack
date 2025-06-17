@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">CUKCUK</string>
+    <string name="dialog_content">CUKCUK LITE</string>
+
+    <string name="required">*</string>
+
+    <string name="button_title_Done">DONE</string>
+    <string name="button_title_Yes">YES</string>
+    <string name="button_title_No">NO</string>
+    <string name="button_title_Submit">SAVE</string>
+    <string name="button_title_Cancel" tools:ignore="ButtonCase">CANCEL</string>
+    <string name="button_title_Accept">AGREE</string>
+    <string name="button_title_Delete">DELETE</string>
+    <string name="button_title_Payment">COLLECT PAYMENT</string>
+
+    <string name="calculator_title_inventory_price">Selling Price</string>
+    <string name="calculator_message_inventory_price">Selling Price</string>
+    <string name="calculator_title_invoice_tableName">Enter Table Number</string>
+    <string name="calculator_message_invoice_tableName">Quantity</string>
+    <string name="calculator_title_invoice_numberPeople">Enter Number of People</string>
+    <string name="calculator_message_invoice_numberPeople">Number of People</string>
+    <string name="calculator_title_invoice_inventoryQuantity">Enter Quantity</string>
+    <string name="calculator_message_invoice_inventoryQuantity">Quantity</string>
+    <string name="calculator_message_payment">Amount</string>
+
+    <string name="nav_screen_Sales">Sales</string>
+    <string name="nav_screen_Menu">Menu</string>
+    <string name="nav_screen_Statistics">Revenue</string>
+
+    <string name="nav_item_group_Setting">Settings</string>
+    <string name="nav_item_group_Help">Help</string>
+    <string name="nav_item_group_Other">Other</string>
+    <string name="nav_item_group_Account">Account</string>
+
+    <string name="nav_item_SynchronizeData">Synchronize Data</string>
+    <string name="nav_item_Setting">Settings</string>
+    <string name="nav_item_LinkAccount">Link Account</string>
+    <string name="nav_item_Notification">Notifications</string>
+    <string name="nav_item_SharedWithFriend">Share with Friends</string>
+    <string name="nav_item_RatingApp">Rate the App</string>
+    <string name="nav_item_SuggestApp">Provide Feedback</string>
+    <string name="nav_item_AppInfo">App Information</string>
+    <string name="nav_item_SetPassword">Set Password</string>
+    <string name="nav_item_Logout">Log Out</string>
+    <string name="nav_item_TestApi">Product API</string>
+    <string name="nav_item_Language">Language</string>
+
+    <string name="toolbar_title_UnitList">Unit List</string>
+    <string name="toolbar_title_AddInventory">Add Item</string>
+    <string name="toolbar_title_EditInventory">Edit Item</string>
+    <string name="toolbar_title_InvoiceForm">Select Item</string>
+    <string name="toolbar_title_Payment">Collect Payment</string>
+    <string name="toolbar_title_Synchronize">Synchronize Data</string>
+    <string name="toolbar_title_StatisticByInventory">Revenue by Item</string>
+    <string name="toolbar_title_Language">Language</string>
+
+    <string name="toolbar_menuTitle_Submit">Save</string>
+    <string name="toolbar_menuTitle_InvoiceForm">Collect Payment</string>
+    <string name="toolbar_menuTitle_Payment">Done</string>
+
+    <string name="dialog_add_unit_title">Add Unit</string>
+    <string name="dialog_edit_unit_title">Edit Unit</string>
+    <string name="toast_not_select_unit_error">Please select a unit</string>
+    <string name="dropdown_delete_unit">Delete Unit</string>
+    <string name="annotate_delete_unit_first">Are you sure you want to delete the unit</string>
+    <string name="annotate_delete_unit_last">/?</string>
+
+    <string name="inventory_inactive">Discontinued</string>
+    <string name="inventory_price_label">Selling Price</string>
+    <string name="annotate_delete_inventory_first">Are you sure you want to delete the item</string>
+    <string name="annotate_delete_inventory_last">/?</string>
+    <string name="form_row_inventory_name_title">Item Name</string>
+    <string name="form_row_inventory_price_title">Selling Price</string>
+    <string name="form_row_inventory_unit_title">Unit</string>
+    <string name="form_row_inventory_color_title">Color</string>
+    <string name="form_row_inventory_icon_title">Icon</string>
+    <string name="form_row_inventory_active_title">Status</string>
+    <string name="form_inventory_color_cancel">Cancel</string>
+
+    <string name="dialog_delete_invoice">Are you sure you want to cancel the selected items</string>
+    <string name="state_no_invoice">No customer orders yet</string>
+    <string name="title_click_to_create_invoice">Click here or the + icon to place an order</string>
+    <string name="invoice_item_button_cancel">Cancel</string>
+    <string name="invoice_item_button_payment">Collect Payment</string>
+    <string name="invoice_form_totalAmount">Total Amount</string>
+
+    <string name="payment_invoice">INVOICE</string>
+    <string name="payment_invoiceNo">No:</string>
+    <string name="payment_invoiceTable">Table:</string>
+    <string name="payment_invoiceDate">Date:</string>
+    <string name="payment_amount">Amount Due</string>
+    <string name="payment_receiveAmount">Amount Received</string>
+    <string name="payment_returnAmount">Change Returned</string>
+    <string name="payment_headerTable_inventoryName">Item Name</string>
+    <string name="payment_headerTable_quantity">Qty</string>
+    <string name="payment_headerTable_price">Unit Price</string>
+    <string name="payment_headerTable_amount">Total</string>
+
+    <string name="xAxisLabel_day">(Day)</string>
+    <string name="xAxisLabel_month">(Month)</string>
+    <string name="pie_chart_total_amount">Total\nRevenue\n</string>
+
+    <string-array name="day_in_week">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+
+    <string-array name="day_in_month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <string-array name="month_in_year">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>May</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+    </string-array>
+
+    <string-array name="statistic_overview_title">
+        <item>Yesterday</item>
+        <item>Today</item>
+        <item>This Week</item>
+        <item>This Month</item>
+        <item>This Year</item>
+    </string-array>
+
+    <string-array name="statistic_time_week_title">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+
+    <string-array name="statistic_time_month_title">
+        <item>Day 1</item>
+        <item>Day 2</item>
+        <item>Day 3</item>
+        <item>Day 4</item>
+        <item>Day 5</item>
+        <item>Day 6</item>
+        <item>Day 7</item>
+        <item>Day 8</item>
+        <item>Day 9</item>
+        <item>Day 10</item>
+        <item>Day 11</item>
+        <item>Day 12</item>
+        <item>Day 13</item>
+        <item>Day 14</item>
+        <item>Day 15</item>
+        <item>Day 16</item>
+        <item>Day 17</item>
+        <item>Day 18</item>
+        <item>Day 19</item>
+        <item>Day 20</item>
+        <item>Day 21</item>
+        <item>Day 22</item>
+        <item>Day 23</item>
+        <item>Day 24</item>
+        <item>Day 25</item>
+        <item>Day 26</item>
+        <item>Day 27</item>
+        <item>Day 28</item>
+        <item>Day 29</item>
+        <item>Day 30</item>
+        <item>Day 31</item>
+    </string-array>
+
+    <string-array name="statistic_time_year_title">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <string name="statistic_state_title_Overview">Recent</string>
+    <string name="statistic_state_title_ThisWeek">This Week</string>
+    <string name="statistic_state_title_ThisMonth">This Month</string>
+    <string name="statistic_state_title_ThisYear">This Year</string>
+    <string name="statistic_state_title_LastWeek">Last Week</string>
+    <string name="statistic_state_title_LastMonth">Last Month</string>
+    <string name="statistic_state_title_LastYear">Last Year</string>
+    <string name="statistic_state_title_Other">Other</string>
+
+    <string name="statistic_header_title">Time</string>
+    <string name="statistic_state_no_data">Revenue report has no data</string>
+    <string name="statistic_lineChart_yLabel">(Thousand VND)</string>
+
+    <string name="dialog_select_time_title">Time</string>
+    <string name="dialog_select_state_title">Time</string>
+    <string name="dialog_select_time_startDate_label">From Date</string>
+    <string name="dialog_select_time_endDate_label">To Date</string>
+
+    <string name="not_synchronize_state">Not yet synchronized</string>
+    <string name="synchronize_button_title">SYNCHRONIZE NOW</string>
+    <string name="synchronize_loading_title">Synchronizing data…</string>
+    <string name="annotate_lastSyncTime">Last synchronized:</string>
+
+    <string name="annotate_countSync_first">You have </string>
+    <string name="annotate_countSync_last"> unsynchronized transactions. Other devices will not receive these changes. Please check your network connection and synchronize.</string>
+
+    <string name="language_vi">Vietnamese</string>
+    <string name="language_en">English</string>
+    <string name="language_ja">Japanese</string>
+    <string name="language_ko">Korean</string>
+    <string name="language_zh">Chinese</string>
+    <string name="language_fr">French</string>
+    <string name="language_it">Italian</string>
+    <string name="language_es">Spanish</string>
+
+</resources>

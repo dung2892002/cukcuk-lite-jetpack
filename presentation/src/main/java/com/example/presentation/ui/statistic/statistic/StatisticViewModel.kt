@@ -1,5 +1,6 @@
 package com.example.presentation.ui.statistic.statistic
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -51,19 +52,19 @@ class StatisticViewModel(
     private val _lineChartLabel = mutableStateOf(LineChartLabels.DAY_IN_WEEK)
     val lineChartLabels: State<LineChartLabels> = _lineChartLabel
 
-    fun changeState(state: StateStatistic) {
+    fun changeState(state: StateStatistic, context: Context) {
         if (state != StateStatistic.Other){
             _currentState.value = state
         }
         closeDialogSelectState()
         when (state) {
             StateStatistic.Overview -> {
-                getStatisticOverview()
+                getStatisticOverview(context)
             }
             StateStatistic.Other -> {
                 openDialogSelectTime()
             }
-            else -> getStatisticByTime(state)
+            else -> getStatisticByTime(state, context)
         }
     }
 
@@ -99,15 +100,37 @@ class StatisticViewModel(
         return request
     }
 
-    fun getStatisticOverview()  {
+    fun getStatisticOverview(context: Context)  {
         viewModelScope.launch {
-            _statisticOverview.value = getStatisticOverviewUseCase()
+            val titles = context.resources.getStringArray(com.example.presentation.R.array.statistic_overview_title)
+            val statisticResults = getStatisticOverviewUseCase()
+            _statisticOverview.value = statisticResults.mapIndexed { index, item ->
+                item.copy(
+                    Title = getTitleStatistic(titles, index)
+                )
+            }
         }
     }
 
-    fun getStatisticByTime(state: StateStatistic) {
+    fun getStatisticByTime(state: StateStatistic, context: Context) {
         viewModelScope.launch {
-            _statisticByTime.value = getStatisticByTimeUseCase(state)!!
+            val titles = when (state) {
+                StateStatistic.LastWeek -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_week_title)
+                StateStatistic.ThisWeek -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_week_title)
+                StateStatistic.LastMonth -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_month_title)
+                StateStatistic.ThisMonth -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_month_title)
+                StateStatistic.LastYear -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_year_title)
+                StateStatistic.ThisYear -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_year_title)
+                else -> emptyArray()
+            }
+
+            val statisticResults = getStatisticByTimeUseCase(state)!!
+            _statisticByTime.value = statisticResults.mapIndexed { index, item ->
+                item.copy(
+                    Title = getTitleStatistic(titles,index)
+                )
+            }
+
             when(state) {
                 StateStatistic.ThisWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
                 StateStatistic.LastWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
@@ -152,8 +175,12 @@ class StatisticViewModel(
         if (start.toLocalDate() == end.toLocalDate())
             _title.value = "${start.format(formatter)}"
         else
-            _title.value = "Từ ${start.format(formatter)} - ${end.format(formatter)}"
+            _title.value = "${start.format(formatter)} - ${end.format(formatter)}"
         _currentState.value = StateStatistic.Other
         closeDialogSelectTime()
+    }
+
+    fun getTitleStatistic(titles: Array<String>, index: Int): String {
+        return titles.getOrNull(index) ?: ""
     }
 }

@@ -12,6 +12,7 @@ enum class NavItemGroup(
             NavItem.SynchronizeData,
             NavItem.Setting,
             NavItem.LinkAccount,
+            NavItem.Language
         )
     ),
     Help(
@@ -96,5 +97,11 @@ enum class NavItem(
         label = R.string.nav_item_TestApi,
         iconResId = R.drawable.ic_nav_logout,
         route = "product_api"
+    ),
+
+    Language(
+        label = R.string.nav_item_Language,
+        iconResId = R.drawable.ic_language,
+        route = "language"
     )
 }

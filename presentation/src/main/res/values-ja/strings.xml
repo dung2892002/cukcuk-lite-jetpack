@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CUKCUK</string>
+    <string name="dialog_content">CUKCUK LITE</string>
+
+    <string name="required">*</string>
+
+    <string name="button_title_Done">完了</string>
+    <string name="button_title_Yes">はい</string>
+    <string name="button_title_No">いいえ</string>
+    <string name="button_title_Submit">保存</string>
+    <string name="button_title_Cancel">キャンセル</string>
+    <string name="button_title_Accept">同意</string>
+    <string name="button_title_Delete">削除</string>
+    <string name="button_title_Payment">支払い受領</string>
+
+    <string name="calculator_title_inventory_price">販売価格</string>
+    <string name="calculator_message_inventory_price">販売価格</string>
+    <string name="calculator_title_invoice_tableName">テーブル番号を入力</string>
+    <string name="calculator_message_invoice_tableName">数量</string>
+    <string name="calculator_title_invoice_numberPeople">人数を入力</string>
+    <string name="calculator_message_invoice_numberPeople">人数</string>
+    <string name="calculator_title_invoice_inventoryQuantity">数量を入力</string>
+    <string name="calculator_message_invoice_inventoryQuantity">数量</string>
+    <string name="calculator_message_payment">金額</string>
+
+    <string name="nav_screen_Sales">販売</string>
+    <string name="nav_screen_Menu">メニュー</string>
+    <string name="nav_screen_Statistics">収益</string>
+
+    <string name="nav_item_group_Setting">設定</string>
+    <string name="nav_item_group_Help">ヘルプ</string>
+    <string name="nav_item_group_Other">その他</string>
+    <string name="nav_item_group_Account">アカウント</string>
+
+    <string name="nav_item_SynchronizeData">データ同期</string>
+    <string name="nav_item_Setting">設定</string>
+    <string name="nav_item_LinkAccount">アカウント連携</string>
+    <string name="nav_item_Notification">通知</string>
+    <string name="nav_item_SharedWithFriend">友達と共有</string>
+    <string name="nav_item_RatingApp">アプリを評価</string>
+    <string name="nav_item_SuggestApp">開発者にフィードバック</string>
+    <string name="nav_item_AppInfo">アプリ情報</string>
+    <string name="nav_item_SetPassword">パスワード設定</string>
+    <string name="nav_item_Logout">ログアウト</string>
+    <string name="nav_item_TestApi">製品API</string>
+    <string name="nav_item_Language">言語</string>
+
+    <string name="toolbar_title_UnitList">単位リスト</string>
+    <string name="toolbar_title_AddInventory">アイテム追加</string>
+    <string name="toolbar_title_EditInventory">アイテム編集</string>
+    <string name="toolbar_title_InvoiceForm">アイテム選択</string>
+    <string name="toolbar_title_Payment">支払い受領</string>
+    <string name="toolbar_title_Synchronize">データ同期</string>
+    <string name="toolbar_title_StatisticByInventory">アイテム別収益</string>
+    <string name="toolbar_title_Language">言語</string>
+
+    <string name="toolbar_menuTitle_Submit">保存</string>
+    <string name="toolbar_menuTitle_InvoiceForm">支払い受領</string>
+    <string name="toolbar_menuTitle_Payment">完了</string>
+
+    <string name="dialog_add_unit_title">単位追加</string>
+    <string name="dialog_edit_unit_title">単位編集</string>
+    <string name="toast_not_select_unit_error">単位を選択してください</string>
+    <string name="dropdown_delete_unit">単位削除</string>
+    <string name="annotate_delete_unit_first">本当に単位を削除しますか</string>
+    <string name="annotate_delete_unit_last">？</string>
+
+    <string name="inventory_inactive">販売中止</string>
+    <string name="inventory_price_label">販売価格</string>
+    <string name="annotate_delete_inventory_first">本当にアイテムを削除しますか</string>
+    <string name="annotate_delete_inventory_last">？</string>
+    <string name="form_row_inventory_name_title">アイテム名</string>
+    <string name="form_row_inventory_price_title">販売価格</string>
+    <string name="form_row_inventory_unit_title">単位</string>
+    <string name="form_row_inventory_color_title">色</string>
+    <string name="form_row_inventory_icon_title">アイコン</string>
+    <string name="form_row_inventory_active_title">状態</string>
+    <string name="form_inventory_color_cancel">キャンセル</string>
+
+    <string name="dialog_delete_invoice">選択したアイテムをキャンセルしますか</string>
+    <string name="state_no_invoice">まだお客様の注文がありません</string>
+    <string name="title_click_to_create_invoice">ここまたは+アイコンをクリックして注文</string>
+    <string name="invoice_item_button_cancel">キャンセル</string>
+    <string name="invoice_item_button_payment">支払い受領</string>
+    <string name="invoice_form_totalAmount">合計金額</string>
+
+    <string name="payment_invoice">請求書</string>
+    <string name="payment_invoiceNo">番号：</string>
+    <string name="payment_invoiceTable">テーブル：</string>
+    <string name="payment_invoiceDate">日付：</string>
+    <string name="payment_amount">支払い金額</string>
+    <string name="payment_receiveAmount">お客様からの受取金額</string>
+    <string name="payment_returnAmount">お客様への返金額</string>
+    <string name="payment_headerTable_inventoryName">アイテム名</string>
+    <string name="payment_headerTable_quantity">数量</string>
+    <string name="payment_headerTable_price">単価</string>
+    <string name="payment_headerTable_amount">合計</string>
+
+    <string name="xAxisLabel_day">（日）</string>
+    <string name="xAxisLabel_month">（月）</string>
+    <string name="pie_chart_total_amount">総\n収益\n</string>
+
+    <string-array name="day_in_week">
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+        <item>日</item>
+    </string-array>
+
+    <string-array name="day_in_month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <string-array name="month_in_year">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+
+    <string-array name="statistic_overview_title">
+        <item>昨日</item>
+        <item>今日</item>
+        <item>今週</item>
+        <item>今月</item>
+        <item>今年</item>
+    </string-array>
+
+    <string-array name="statistic_time_week_title">
+        <item>月曜日</item>
+        <item>火曜日</item>
+        <item>水曜日</item>
+        <item>木曜日</item>
+        <item>金曜日</item>
+        <item>土曜日</item>
+        <item>日曜日</item>
+    </string-array>
+
+    <string-array name="statistic_time_month_title">
+        <item>1日</item>
+        <item>2日</item>
+        <item>3日</item>
+        <item>4日</item>
+        <item>5日</item>
+        <item>6日</item>
+        <item>7日</item>
+        <item>8日</item>
+        <item>9日</item>
+        <item>10日</item>
+        <item>11日</item>
+        <item>12日</item>
+        <item>13日</item>
+        <item>14日</item>
+        <item>15日</item>
+        <item>16日</item>
+        <item>17日</item>
+        <item>18日</item>
+        <item>19日</item>
+        <item>20日</item>
+        <item>21日</item>
+        <item>22日</item>
+        <item>23日</item>
+        <item>24日</item>
+        <item>25日</item>
+        <item>26日</item>
+        <item>27日</item>
+        <item>28日</item>
+        <item>29日</item>
+        <item>30日</item>
+        <item>31日</item>
+    </string-array>
+
+    <string-array name="statistic_time_year_title">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+
+    <string name="statistic_state_title_Overview">最近</string>
+    <string name="statistic_state_title_ThisWeek">今週</string>
+    <string name="statistic_state_title_ThisMonth">今月</string>
+    <string name="statistic_state_title_ThisYear">今年</string>
+    <string name="statistic_state_title_LastWeek">先週</string>
+    <string name="statistic_state_title_LastMonth">先月</string>
+    <string name="statistic_state_title_LastYear">昨年</string>
+    <string name="statistic_state_title_Other">その他</string>
+
+    <string name="statistic_header_title">時間</string>
+    <string name="statistic_state_no_data">収益レポートにデータがありません</string>
+    <string name="statistic_lineChart_yLabel">（千円）</string>
+
+    <string name="dialog_select_time_title">時間</string>
+    <string name="dialog_select_state_title">時間</string>
+    <string name="dialog_select_time_startDate_label">開始日</string>
+    <string name="dialog_select_time_endDate_label">終了日</string>
+
+    <string name="not_synchronize_state">まだ同期されていません</string>
+    <string name="synchronize_button_title">今すぐ同期</string>
+    <string name="synchronize_loading_title">データ同期中…</string>
+    <string name="annotate_lastSyncTime">最終同期：</string>
+
+    <string name="annotate_countSync_first">同期されていない</string>
+    <string name="annotate_countSync_last">件の取引があります。他のデバイスではこれらの変更が反映されません。ネットワーク接続を確認して同期してください。</string>
+
+    <string name="language_vi">ベトナム語</string>
+    <string name="language_en">英語</string>
+    <string name="language_ja">日本語</string>
+    <string name="language_ko">韓国語</string>
+    <string name="language_zh">中国語</string>
+    <string name="language_fr">フランス語</string>
+    <string name="language_it">イタリア語</string>
+    <string name="language_es">スペイン語</string>
+
+</resources>
