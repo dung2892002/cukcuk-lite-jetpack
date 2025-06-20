@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukImageButton
 import com.example.presentation.theme.CukcukTheme
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.enums.CalculatorButton
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -75,12 +77,39 @@ fun CalculatorDialog(
     }
 
     val keys = listOf(
-        listOf("C", "Giảm", "Tăng", "Xóa"),
-        listOf("7", "8", "9", "-"),
-        listOf("4", "5", "6", "+"),
-        listOf("1", "2", "3", "±"),
-        listOf("0", "000", ",", "XONG", "=")
+        listOf(
+            CalculatorButton.CLEAR,
+            CalculatorButton.DECREASE,
+            CalculatorButton.INCREASE,
+            CalculatorButton.DELETE
+        ),
+        listOf(
+            CalculatorButton.SEVEN,
+            CalculatorButton.EIGHT,
+            CalculatorButton.NINE,
+            CalculatorButton.SUBTRACT
+        ),
+        listOf(
+            CalculatorButton.FOUR,
+            CalculatorButton.FIVE,
+            CalculatorButton.SIX,
+            CalculatorButton.ADD
+        ),
+        listOf(
+            CalculatorButton.ONE,
+            CalculatorButton.TWO,
+            CalculatorButton.THREE,
+            CalculatorButton.TOGGLE_SIGN
+        ),
+        listOf(
+            CalculatorButton.ZERO,
+            CalculatorButton.TRIPLE_ZERO,
+            CalculatorButton.DECIMAL,
+            CalculatorButton.DONE,
+            CalculatorButton.EQUAL
+        )
     )
+
 
     Box(
         modifier = Modifier
@@ -160,11 +189,11 @@ fun CalculatorDialog(
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             row.forEach { key ->
-                                if (key != "Xóa" && key != "=" && key != "XONG")
+                                if (key != CalculatorButton.DELETE && key != CalculatorButton.EQUAL && key != CalculatorButton.DONE)
                                     CukcukButton(
-                                        title = key,
+                                        title = stringResource(key.label),
                                         onClick = {
-                                            viewModel.onClickButton(key)
+                                            viewModel.onClickButton(key, context)
                                         },
                                         bgColor = colorResource(R.color.calculator_button),
                                         textColor = Color.Black,
@@ -175,13 +204,14 @@ fun CalculatorDialog(
                                                 width = (1/2).dp,
                                                 color = Color.Gray,
                                                 shape = RoundedCornerShape(4.dp)
-                                            )
+                                            ),
+                                        fontSize = if (key == CalculatorButton.INCREASE || key == CalculatorButton.DECREASE) 12 else 16
                                     )
-                                if (key == "Xóa")
+                                if (key == CalculatorButton.DELETE )
                                     CukcukImageButton(
-                                        title = key,
+                                        title = stringResource(key.label),
                                         onClick = {
-                                            viewModel.onClickButton(key)
+                                            viewModel.onClickButton(key, context)
                                         },
                                         bgColor = colorResource(R.color.calculator_button),
                                         modifier = Modifier
@@ -195,11 +225,11 @@ fun CalculatorDialog(
                                         icon = painterResource(R.drawable.ic_remove)
                                     )
 
-                                if (key == "=" && isCalculateState == true)
+                                if (key == CalculatorButton.EQUAL && isCalculateState == true)
                                     CukcukButton(
-                                        title = key,
+                                        title = stringResource(key.label),
                                         onClick = {
-                                            viewModel.onClickButton(key)
+                                            viewModel.onClickButton(key, context)
                                         },
                                         bgColor = colorResource(R.color.main_color),
                                         textColor = Color.White,
@@ -213,11 +243,11 @@ fun CalculatorDialog(
                                             )
                                     )
 
-                                if (key == "XONG" && isCalculateState == false)
+                                if (key == CalculatorButton.DONE && isCalculateState == false)
                                     CukcukButton(
-                                        title = key,
+                                        title = stringResource(key.label),
                                         onClick = {
-                                            viewModel.onClickButton(key)
+                                            viewModel.onClickButton(key, context)
                                         },
                                         bgColor = colorResource(R.color.main_color),
                                         textColor = Color.White,

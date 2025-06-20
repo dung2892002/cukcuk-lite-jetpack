@@ -1,11 +1,14 @@
 package com.example.presentation.ui.calculator
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.R
+import com.example.presentation.enums.CalculatorButton
 import kotlin.text.toDouble
 
 class CalculatorViewModel : ViewModel() {
@@ -32,11 +35,12 @@ class CalculatorViewModel : ViewModel() {
     val errorMessage: State<String?> = _errorMessage
 
 
-    fun onClickButton(label: String) {
+    fun onClickButton(key: CalculatorButton, context: Context) {
+        val label = context.getString(key.label)
         if (firstInput) {
-            if (label.all { it.isDigit() } || label == "000") {
+            if (label.all { it.isDigit() } || key == CalculatorButton.TRIPLE_ZERO) {
                 var input = _resultValue.value
-                input = if (label == "000") "0" else label
+                input = if (key == CalculatorButton.TRIPLE_ZERO) "0" else label
                 firstInput = false
                 _resultValue.value = input
                 return
@@ -44,27 +48,25 @@ class CalculatorViewModel : ViewModel() {
                 firstInput = false
             }
         }
-        when (label) {
-            "C" -> setValue("0")
-            "Xóa" -> {
+        when (key) {
+            CalculatorButton.CLEAR -> setValue("0")
+            CalculatorButton.DELETE -> {
                 val tmp = _resultValue.value.dropLast(1)
                 setValue( tmp.ifEmpty { "0" })
             }
-            "Giảm" -> {
+            CalculatorButton.DECREASE -> {
                 var input = _resultValue.value
-                input = evaluate(input)
-                input = if (input.toDouble() > 1) (input.toDouble() - 1).toString() else "0"
+                input = evaluate("$input-1")
                 _resultValue.value = input
                 setCalculateState(false)
             }
-            "Tăng" -> {
+            CalculatorButton.INCREASE -> {
                 var input = _resultValue.value
-                input = evaluate(input)
-                input = (input.toDouble() + 1).toString()
+                input = evaluate("$input+1")
                 _resultValue.value = input
                 setCalculateState(false)
             }
-            "+" -> {
+            CalculatorButton.ADD -> {
                 var input = _resultValue.value
                 setCalculateState(true)
                 if (input.last() == '+' || input.last() == '.' || input.last() == '-') {
@@ -73,7 +75,7 @@ class CalculatorViewModel : ViewModel() {
                 input += "+"
                 _resultValue.value = input
             }
-            "-" -> {
+            CalculatorButton.SUBTRACT -> {
                 var input = _resultValue.value
                 setCalculateState(true)
                 if (input.last() == '+' || input.last() == '.' || input.last() == '-') {
@@ -82,13 +84,13 @@ class CalculatorViewModel : ViewModel() {
                 input += "-"
                 _resultValue.value = input
             }
-            "=" -> {
+            CalculatorButton.EQUAL -> {
                 var input = _resultValue.value
                 input = evaluate(input)
                 setCalculateState(false)
                 _resultValue.value = input
             }
-            "±" -> {
+            CalculatorButton.TOGGLE_SIGN -> {
                 var input = _resultValue.value
                 input = evaluate(input)
                 if (input.first() == '-') input.drop(1)
@@ -96,22 +98,20 @@ class CalculatorViewModel : ViewModel() {
                 setCalculateState(false)
                 _resultValue.value = input
             }
-            "," -> {
+            CalculatorButton.DECIMAL -> {
                 var input = _resultValue.value
                 if (isValidDecimalInput(input)) input += "."
                 _resultValue.value = input
             }
-            "XONG" -> {
-                handleSubmit()
+            CalculatorButton.DONE -> {
+                handleSubmit(context)
             }
             else -> {
                 var input = _resultValue.value
                 if (input == "0") {
-                    if (label == "0" || label == "000") return
-                    input = label
+                    if (key == CalculatorButton.ZERO || key == CalculatorButton.TRIPLE_ZERO) return
                 } else {
                     if (!hasTwoDecimalPlaces(input) && checkMaxLengthInput()) {
-                        println("pass")
                         input += label
                     }
                 }
@@ -120,14 +120,14 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
-    private fun handleSubmit() {
+    private fun handleSubmit(context: Context) {
         if (resultValue.value.toDouble() > _maxValue.doubleValue) {
-            var msgError = "${_message.value} không thể vượt quá ${FormatDisplay.formatNumber(_maxValue.doubleValue.toString())}"
+            var msgError = "${_message.value} ${context.getString(R.string.calculator_error_maxValue)} ${FormatDisplay.formatNumber(_maxValue.doubleValue.toString())}"
             setMessageError(msgError)
             return
         }
         if (resultValue.value.toDouble() < _minValue.doubleValue) {
-            var msgError = "${_message.value} không thể thấp hơn ${FormatDisplay.formatNumber(_minValue.doubleValue.toString())}"
+            var msgError = "${_message.value} ${context.getString(R.string.calculator_error_minValue)} ${FormatDisplay.formatNumber(_minValue.doubleValue.toString())}"
             setMessageError(msgError)
             return
         }
@@ -173,6 +173,7 @@ class CalculatorViewModel : ViewModel() {
 
     private fun evaluate(input: String): String {
         var expr = input
+
 
         if (input.last() == '+' || input.last() == '-')
             expr = input.dropLast(1)
@@ -242,15 +243,8 @@ class CalculatorViewModel : ViewModel() {
             }
         }.parse()
 
-        var roundedResult = "%.2f".format(result)
-        while (roundedResult.last() == '0' && roundedResult.contains('.')) {
-            roundedResult = roundedResult.dropLast(1)
-        }
-
-        if (roundedResult.last() == '.') {
-            roundedResult = roundedResult.dropLast(1)
-        }
-        return roundedResult
+        val resultStr = result.toBigDecimal().stripTrailingZeros().toPlainString()
+        return resultStr
     }
 
     private fun checkMaxLengthInput() : Boolean {

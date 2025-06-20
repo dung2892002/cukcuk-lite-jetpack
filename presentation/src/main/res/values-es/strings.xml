@@ -262,4 +262,13 @@
     <string name="language_it">Italiano</string>
     <string name="language_es">Español</string>
 
+    <string name="key_decrease">Disminuir</string>
+    <string name="key_increase">Aumentar</string>
+    <string name="key_delete">Eliminar</string>
+    <string name="key_done">HECHO</string>
+
+    <string name="calculator_error_minValue">no puede ser menor</string>
+    <string name="calculator_error_maxValue">no puede superar</string>
+
+
 </resources>

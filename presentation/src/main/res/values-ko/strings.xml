@@ -262,4 +262,12 @@
     <string name="language_it">이탈리아어</string>
     <string name="language_es">스페인어</string>
 
+    <string name="key_decrease">감소</string>
+    <string name="key_increase">증가</string>
+    <string name="key_delete">삭제</string>
+    <string name="key_done">완료</string>
+
+    <string name="calculator_error_minValue">더 낮을 수 없습니다</string>
+    <string name="calculator_error_maxValue">초과할 수 없습니다</string>
+
 </resources>

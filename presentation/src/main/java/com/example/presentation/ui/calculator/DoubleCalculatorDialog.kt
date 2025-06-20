@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukImageButton
 import com.example.presentation.theme.CukcukTheme
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.enums.CalculatorButton
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -64,10 +66,26 @@ fun DoubleCalculatorDialog(
     }
 
     val keys = listOf(
-        listOf("7", "8", "9", "Xóa"),
-        listOf("4", "5", "6", "C"),
-        listOf("1", "2", "3", ","),
+        listOf(
+            CalculatorButton.SEVEN,
+            CalculatorButton.EIGHT,
+            CalculatorButton.NINE,
+            CalculatorButton.DELETE
+        ),
+        listOf(
+            CalculatorButton.FOUR,
+            CalculatorButton.FIVE,
+            CalculatorButton.SIX,
+            CalculatorButton.CLEAR
+        ),
+        listOf(
+            CalculatorButton.ONE,
+            CalculatorButton.TWO,
+            CalculatorButton.THREE,
+            CalculatorButton.DECIMAL
+        )
     )
+
 
     Box(
         modifier = Modifier
@@ -111,11 +129,11 @@ fun DoubleCalculatorDialog(
                             .padding(vertical = 5.dp, horizontal = 5.dp),
                     ) {
                         row.forEach { key ->
-                            if (key == "Xóa") {
+                            if (key == CalculatorButton.DELETE) {
                                 CukcukImageButton(
-                                    title = "Xóa",
+                                    title = stringResource(key.label),
                                     onClick = {
-                                        viewModel.onClickButton("Xóa")
+                                        viewModel.onClickButton(key, context)
                                     },
                                     bgColor = Color.White,
                                     modifier = Modifier
@@ -127,9 +145,9 @@ fun DoubleCalculatorDialog(
                             }
                             else {
                                 CukcukButton(
-                                    title = key,
+                                    title = stringResource(key.label),
                                     onClick = {
-                                        viewModel.onClickButton(key)
+                                        viewModel.onClickButton(key, context)
                                     },
                                     bgColor = Color.White,
                                     textColor = Color.Black,
@@ -149,9 +167,9 @@ fun DoubleCalculatorDialog(
                         .padding(vertical = 5.dp, horizontal = 5.dp),
                 ) {
                     CukcukButton(
-                        title = "0",
+                        title = stringResource(CalculatorButton.ZERO.label),
                         onClick = {
-                            viewModel.onClickButton("0")
+                            viewModel.onClickButton(CalculatorButton.ZERO, context)
                         },
                         bgColor = Color.White,
                         textColor = Color.Black,
@@ -162,9 +180,9 @@ fun DoubleCalculatorDialog(
                     )
 
                     CukcukButton(
-                        title = "000",
+                        title = stringResource(CalculatorButton.TRIPLE_ZERO.label),
                         onClick = {
-                            viewModel.onClickButton("000")
+                            viewModel.onClickButton(CalculatorButton.TRIPLE_ZERO, context)
                         },
                         bgColor = Color.White,
                         textColor = Color.Black,
@@ -175,9 +193,9 @@ fun DoubleCalculatorDialog(
                     )
 
                     CukcukButton(
-                        title = "ĐỒNG Ý",
+                        title = stringResource(R.string.button_title_Accept),
                         onClick = {
-                            viewModel.onClickButton("XONG")
+                            viewModel.onClickButton(CalculatorButton.DONE, context)
                         },
                         bgColor = colorResource(R.color.main_color),
                         textColor = Color.White,
