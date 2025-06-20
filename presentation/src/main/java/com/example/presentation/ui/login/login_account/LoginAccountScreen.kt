@@ -29,6 +29,7 @@ import com.example.presentation.R
 import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukDialog
 import com.example.presentation.components.CukcukToolbar
+import com.example.presentation.mapper.getErrorMessage
 import com.example.presentation.utils.SharedPrefManager
 import org.koin.androidx.compose.koinViewModel
 
@@ -55,7 +56,7 @@ fun LoginAccountScreen(
             }
         }
         else {
-            Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, response.getErrorMessage(context), Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -1,0 +1,13 @@
+package com.example.domain.enums
+
+enum class DomainError {
+    UNKNOWN_ERROR,
+    AUTHENTICATION_ERROR,
+    INVENTORY_NAME_BLANK,
+    PRICE_LESS_THAN_OR_EQUAL_ZERO,
+    UNIT_NULL,
+    INVENTORY_IS_USED_IN_INVOICE,
+    INVOICE_BLANK,
+    UNIT_NAME_EXIST,
+    UNIT_IS_USED,
+}

@@ -48,6 +48,7 @@ import com.example.presentation.components.CukcukImageBox
 import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.ui.calculator.CalculatorDialog
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.components.CukcukLoadingDialog
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -65,6 +66,7 @@ fun InventoryFormScreen(
     val showDialogDelete = viewModel.isOpenDialogDelete.value
     val showCalculator = viewModel.showCalculator.value
     val isSubmitSuccess = viewModel.isSubmitSuccess.value
+    val loading = viewModel.loading.value
 
     LaunchedEffect(errorMessage) {
         if (errorMessage != null) {
@@ -115,7 +117,7 @@ fun InventoryFormScreen(
                 menuTitle =  stringResource(R.string.toolbar_menuTitle_Submit),
                 false,
                 onBackClick =  {navController.popBackStack()},
-                onMenuClick = {viewModel.submit()} )
+                onMenuClick = {viewModel.submit(context)} )
         },
         bottomBar = {
             Row(
@@ -142,7 +144,7 @@ fun InventoryFormScreen(
                     bgColor = colorResource(R.color.main_color),
                     textColor = Color.White,
                     onClick = {
-                        viewModel.submit()
+                        viewModel.submit(context)
                     },
                     modifier = Modifier.weight(1f)
                 )
@@ -250,13 +252,15 @@ fun InventoryFormScreen(
         }
     }
 
+
+
     if (showDialogDelete) {
         CukcukDialog(
             title = stringResource(R.string.dialog_content),
             message = buildDialogContent(),
             valueTextField = null,
             onConfirm = {
-                viewModel.delete()
+                viewModel.delete(context)
             },
             onCancel = {
                 viewModel.closeDialogDelete()
@@ -305,6 +309,10 @@ fun InventoryFormScreen(
                 viewModel.updatePrice(it.toDouble())
             },
         )
+    }
+
+    if (loading) {
+        CukcukLoadingDialog()
     }
 }
 

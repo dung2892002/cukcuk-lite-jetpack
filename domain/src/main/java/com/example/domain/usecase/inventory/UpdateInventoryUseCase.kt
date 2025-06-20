@@ -12,7 +12,7 @@ class UpdateInventoryUseCase (
     private val repository: InventoryRepository,
     private val syncHelper: SynchronizeHelper
 ){
-    suspend operator fun invoke(inventory: Inventory) : ResponseData {
+    suspend operator fun invoke(inventory: Inventory) : ResponseData<Inventory> {
         val response = InventoryValidator.validate(inventory)
         if (!response.isSuccess) {
             return response
@@ -22,7 +22,7 @@ class UpdateInventoryUseCase (
 
         response.isSuccess = repository.updateInventory(inventory)
         if (response.isSuccess) {
-            response.message = null
+            response.error = null
             syncHelper.updateSync(SynchronizeTable.Inventory, inventory.InventoryID)
         }
         return response

@@ -1,22 +1,22 @@
 package com.example.domain.utils
 
+import com.example.domain.enums.DomainError
 import com.example.domain.model.ResponseData
 import com.example.domain.model.Inventory
 
 object InventoryValidator {
 
-    //validate input nhập thông tin inventory
-    fun validate(inventory: Inventory): ResponseData {
-        if (inventory.InventoryName.isEmpty()) {
-            return ResponseData(false, "Tên món ăn không được để trống")
+    fun validate(inventory: Inventory): ResponseData<Inventory> {
+        if (inventory.InventoryName.trim().isEmpty()) {
+            return ResponseData(false, DomainError.INVENTORY_NAME_BLANK)
         }
 
         if (inventory.Price <= 0) {
-            return ResponseData(false, "Giá phải lớn hơn 0")
+            return ResponseData(false, DomainError.PRICE_LESS_THAN_OR_EQUAL_ZERO)
         }
 
         if (inventory.UnitID == null) {
-            return ResponseData(false, "Đơn vị tính không được để trống")
+            return ResponseData(false, DomainError.UNIT_NULL)
         }
 
         return ResponseData(true)

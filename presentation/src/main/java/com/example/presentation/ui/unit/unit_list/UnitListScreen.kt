@@ -26,6 +26,7 @@ import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukDialog
+import com.example.presentation.components.CukcukLoadingDialog
 import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.ui.unit.unit_form.UnitForm
 import org.koin.androidx.compose.koinViewModel
@@ -47,6 +48,8 @@ fun UnitListScreen(
 
     val unitSelected = viewModel.unitSelected.value
     val errorMessage = viewModel.errorMessage.value
+
+    val loading = viewModel.loading.value
 
 
     LaunchedEffect(errorMessage) {
@@ -143,7 +146,10 @@ fun UnitListScreen(
             unitId = unitUpdate?.UnitID,
             onClose = {state ->
                 viewModel.closeFormAndDialog(state)
-            }
+            },
+            onLoadingChanged = {loadingState ->
+                viewModel.setLoading(loadingState)
+            },
         )
     }
 
@@ -156,11 +162,15 @@ fun UnitListScreen(
                 viewModel.closeFormAndDialog(false)
             },
             onConfirm = {
-                viewModel.deleteUnit()
+                viewModel.deleteUnit(context)
             },
             confirmButtonText = stringResource(R.string.button_title_Yes),
             cancelButtonText = stringResource(R.string.button_title_No),
         )
+    }
+
+    if (loading) {
+        CukcukLoadingDialog()
     }
 }
 

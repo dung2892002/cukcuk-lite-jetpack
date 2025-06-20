@@ -1,5 +1,6 @@
 package com.example.presentation.ui.invoice.invoice_list
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Invoice
 import com.example.domain.usecase.invoice.DeleteInvoiceUseCase
 import com.example.domain.usecase.invoice.GetInvoicesNotPaymentUseCase
+import com.example.presentation.mapper.getErrorMessage
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -24,8 +27,11 @@ class InvoiceListViewModel (
     private val _selectedInvoice = mutableStateOf<Invoice?>(null)
     val selectedInvoice: State<Invoice?> = _selectedInvoice
 
-    val _errorMessage = mutableStateOf<String?>(null)
+    private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: State<String?> = _errorMessage
+
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> = _loading
 
     init {
         loadInvoiceNotPayment()
@@ -33,8 +39,18 @@ class InvoiceListViewModel (
 
     fun loadInvoiceNotPayment() {
         viewModelScope.launch {
-            val invoicesData = getInvoicesNotPaymentUseCase()
-            _invoices.value = invoicesData
+            try {
+                _loading.value = true
+                delay(200)
+                val invoicesData = getInvoicesNotPaymentUseCase()
+                _invoices.value = invoicesData
+            }
+            catch (ex: Exception) {
+                _errorMessage.value = ex.message
+                ex.printStackTrace()
+            } finally {
+                _loading.value = false
+            }
         }
     }
 
@@ -48,13 +64,22 @@ class InvoiceListViewModel (
         _selectedInvoice.value = null
     }
 
-    fun deleteInvoice() {
+    fun deleteInvoice(context: Context) {
         viewModelScope.launch {
-            val response = deleteInvoiceUseCase(selectedInvoice.value!!)
-            _errorMessage.value = response.message
-            if (response.isSuccess) {
-                loadInvoiceNotPayment()
-                closeDialogDelete()
+            try {
+                _loading.value = true
+                val response = deleteInvoiceUseCase(selectedInvoice.value!!)
+                _errorMessage.value = response.getErrorMessage(context)
+                if (response.isSuccess) {
+                    loadInvoiceNotPayment()
+                    closeDialogDelete()
+                }
+            }
+            catch (ex: Exception) {
+                _errorMessage.value = ex.message
+                ex.printStackTrace()
+            } finally {
+                _loading.value = false
             }
         }
     }

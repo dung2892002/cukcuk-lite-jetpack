@@ -15,6 +15,7 @@ import com.example.domain.usecase.statistic.GetStatisticByTimeUseCase
 import com.example.domain.usecase.statistic.GetStatisticOverviewUseCase
 import com.example.presentation.enums.LineChartLabels
 import com.example.domain.enums.StateStatistic
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -51,6 +52,9 @@ class StatisticViewModel(
 
     private val _lineChartLabel = mutableStateOf(LineChartLabels.DAY_IN_WEEK)
     val lineChartLabels: State<LineChartLabels> = _lineChartLabel
+
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> = _loading
 
     fun changeState(state: StateStatistic, context: Context) {
         if (state != StateStatistic.Other){
@@ -102,42 +106,62 @@ class StatisticViewModel(
 
     fun getStatisticOverview(context: Context)  {
         viewModelScope.launch {
-            val titles = context.resources.getStringArray(com.example.presentation.R.array.statistic_overview_title)
-            val statisticResults = getStatisticOverviewUseCase()
-            _statisticOverview.value = statisticResults.mapIndexed { index, item ->
-                item.copy(
-                    Title = getTitleStatistic(titles, index)
-                )
+            try {
+                _loading.value = true
+                delay(200)
+                val titles = context.resources.getStringArray(com.example.presentation.R.array.statistic_overview_title)
+                val statisticResults = getStatisticOverviewUseCase()
+                _statisticOverview.value = statisticResults.mapIndexed { index, item ->
+                    item.copy(
+                        Title = getTitleStatistic(titles, index)
+                    )
+                }
+            }
+            catch (e: Exception) {
+                println(e)
+            }
+            finally {
+                _loading.value = false
             }
         }
     }
 
     fun getStatisticByTime(state: StateStatistic, context: Context) {
         viewModelScope.launch {
-            val titles = when (state) {
-                StateStatistic.LastWeek -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_week_title)
-                StateStatistic.ThisWeek -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_week_title)
-                StateStatistic.LastMonth -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_month_title)
-                StateStatistic.ThisMonth -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_month_title)
-                StateStatistic.LastYear -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_year_title)
-                StateStatistic.ThisYear -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_year_title)
-                else -> emptyArray()
-            }
+            try {
+                _loading.value = true
+                delay(200)
+                val titles = when (state) {
+                    StateStatistic.LastWeek -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_week_title)
+                    StateStatistic.ThisWeek -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_week_title)
+                    StateStatistic.LastMonth -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_month_title)
+                    StateStatistic.ThisMonth -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_month_title)
+                    StateStatistic.LastYear -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_year_title)
+                    StateStatistic.ThisYear -> context.resources.getStringArray(com.example.presentation.R.array.statistic_time_year_title)
+                    else -> emptyArray()
+                }
 
-            val statisticResults = getStatisticByTimeUseCase(state)!!
-            _statisticByTime.value = statisticResults.mapIndexed { index, item ->
-                item.copy(
-                    Title = getTitleStatistic(titles,index)
-                )
-            }
+                val statisticResults = getStatisticByTimeUseCase(state)!!
+                _statisticByTime.value = statisticResults.mapIndexed { index, item ->
+                    item.copy(
+                        Title = getTitleStatistic(titles,index)
+                    )
+                }
 
-            when(state) {
-                StateStatistic.ThisWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
-                StateStatistic.LastWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
-                StateStatistic.ThisMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
-                StateStatistic.LastMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
-                StateStatistic.ThisYear -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
-                else -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
+                when(state) {
+                    StateStatistic.ThisWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
+                    StateStatistic.LastWeek -> setLineChartLabels(LineChartLabels.DAY_IN_WEEK)
+                    StateStatistic.ThisMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
+                    StateStatistic.LastMonth -> setLineChartLabels(LineChartLabels.DAY_IN_MONTH)
+                    StateStatistic.ThisYear -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
+                    else -> setLineChartLabels(LineChartLabels.MONTH_IN_YEAR)
+                }
+            }
+            catch (e: Exception) {
+                println(e)
+            }
+            finally {
+                _loading.value = false
             }
         }
     }
@@ -148,8 +172,18 @@ class StatisticViewModel(
 
     fun getStatisticByInventory(start: LocalDateTime, end: LocalDateTime) {
         viewModelScope.launch {
-            _statisticByInventory.value = getStatisticByInventoryUseCase(start, end)
-            _totalAmount.doubleValue = _statisticByInventory.value.sumOf { it.Amount }
+            try {
+                _loading.value = true
+                delay(200)
+                _statisticByInventory.value = getStatisticByInventoryUseCase(start, end)
+                _totalAmount.doubleValue = _statisticByInventory.value.sumOf { it.Amount }
+            }
+            catch (e: Exception) {
+                println(e)
+            }
+            finally {
+                _loading.value = false
+            }
         }
     }
 
