@@ -39,6 +39,7 @@ import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.ui.calculator.CalculatorDialog
 import com.example.presentation.ui.calculator.IntegerCalculatorDialog
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.components.CukcukLoadingDialog
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -57,6 +58,7 @@ fun InvoiceFormScreen(
     val showCalculatorNumberPeople = viewModel.showCalculatorNumberPeople.value
     val currentInventoryIndex = viewModel.currentInventoryIndex.value
     val errorMessage = viewModel.errorMessage.value
+    val loading = viewModel.loading.value
 
     LaunchedEffect(errorMessage) {
         if (errorMessage != null) {
@@ -295,5 +297,9 @@ fun InvoiceFormScreen(
                 viewModel.updateQuantityInventory(it.toDouble())
             }
         )
+    }
+
+    if (loading) {
+        CukcukLoadingDialog()
     }
 }
