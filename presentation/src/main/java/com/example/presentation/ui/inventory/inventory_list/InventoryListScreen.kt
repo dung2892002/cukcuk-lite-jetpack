@@ -31,6 +31,7 @@ import com.example.presentation.R
 import com.example.domain.model.Inventory
 import com.example.presentation.components.CukcukImageBox
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.components.CukcukLoadingDialog
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -40,6 +41,7 @@ fun InventoryListScreen(
 ) {
 
     val inventories = viewModel.inventories.value
+    val loading = viewModel.loading.value
 
     LaunchedEffect(Unit) {
         viewModel.loadInventories()
@@ -55,6 +57,10 @@ fun InventoryListScreen(
                 navController.navigate("inventory_form?inventoryId=${inventory.InventoryID}")
             })
         }
+    }
+
+    if (loading) {
+        CukcukLoadingDialog()
     }
 }
 

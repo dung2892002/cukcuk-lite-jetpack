@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.domain.enums.StateStatistic
+import com.example.presentation.components.CukcukLoadingDialog
 import com.example.presentation.mapper.getTitleResId
 import com.example.presentation.shared.SharedViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -49,6 +50,8 @@ fun StatisticScreen(
     val lineChartLabels = viewModel.lineChartLabels.value
 
     val isShowOverview = sharedViewModel.isShowOverviewStatistic.value
+    val loading = viewModel.loading.value
+
     val context = LocalContext.current
     LaunchedEffect(isShowOverview) {
         if (isShowOverview) {
@@ -165,6 +168,10 @@ fun StatisticScreen(
                 viewModel.closeDialogSelectTime()
             }
         )
+    }
+
+    if (loading) {
+        CukcukLoadingDialog()
     }
 }
 

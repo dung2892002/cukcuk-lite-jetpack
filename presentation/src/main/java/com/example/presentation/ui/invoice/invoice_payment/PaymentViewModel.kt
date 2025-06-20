@@ -10,6 +10,7 @@ import com.example.domain.model.ResponseData
 import com.example.domain.model.Invoice
 import com.example.domain.usecase.invoice.GetInvoiceDataToPaymentUseCase
 import com.example.domain.usecase.invoice.PaymentInvoiceUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
@@ -31,6 +32,9 @@ class PaymentViewModel (
     private val _showCalculator = mutableStateOf(false)
     val showCalculator: State<Boolean> = _showCalculator
 
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> = _loading
+
     init {
         val currentUnitId = savedStateHandle.get<String>("invoiceId")?.let { UUID.fromString(it) }
         if (currentUnitId != null) {
@@ -40,8 +44,19 @@ class PaymentViewModel (
 
     fun loadData(invoiceId: UUID) {
         viewModelScope.launch {
-            _invoice.value = getInvoiceDataToPaymentUseCase(invoiceId)
-            _invoiceDetailsCount.intValue = _invoice.value.InvoiceDetails.size
+            try {
+                _loading.value = true
+                delay(200)
+                _invoice.value = getInvoiceDataToPaymentUseCase(invoiceId)
+                _invoiceDetailsCount.intValue = _invoice.value.InvoiceDetails.size
+            }
+            catch (ex: Exception) {
+                println("Error loading invoice data: ${ex.message}")
+                ex.printStackTrace()
+            }
+            finally {
+                _loading.value = false
+            }
         }
     }
 

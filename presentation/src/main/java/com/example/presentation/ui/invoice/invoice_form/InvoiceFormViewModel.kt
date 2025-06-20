@@ -12,6 +12,7 @@ import com.example.domain.usecase.invoice.CreateInvoiceUseCase
 import com.example.domain.usecase.invoice.GetInventorySelectUseCase
 import com.example.domain.usecase.invoice.GetInvoiceDetailUseCase
 import com.example.domain.usecase.invoice.UpdateInvoiceUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -43,6 +44,9 @@ class InvoiceFormViewModel(
     private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: State<String?> = _errorMessage
 
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> = _loading
+
 
     init {
         val id = savedStateHandle.get<String>("invoiceId")?.let { UUID.fromString(it) }
@@ -51,26 +55,47 @@ class InvoiceFormViewModel(
 
     fun fetchData(invoiceId: UUID?) {
         viewModelScope.launch {
-            if (invoiceId != null) _invoice.value = getInvoiceDetailUseCase(invoiceId)
-            _inventoriesSelect.value = getInventorySelectUseCase(invoiceId)
+            try {
+                _loading.value = true
+                delay(200)
+                if (invoiceId != null) _invoice.value = getInvoiceDetailUseCase(invoiceId)
+                _inventoriesSelect.value = getInventorySelectUseCase(invoiceId)
+            }
+            catch (e: Exception) {
+                _errorMessage.value = e.message
+            }
+            finally {
+                _loading.value = false
+            }
         }
     }
 
     suspend fun submitForm() : UUID? {
-        val response = if (invoice.value.InvoiceID == null) {
-            createInvoiceUseCase(_invoice.value, _inventoriesSelect.value)
-        } else {
-            updateInvoiceUseCase(_invoice.value, _inventoriesSelect.value)
-        }
+        try {
+            _loading.value = true
+            delay(200)
+            val response = if (invoice.value.InvoiceID == null) {
+                createInvoiceUseCase(_invoice.value, _inventoriesSelect.value)
+            } else {
+                updateInvoiceUseCase(_invoice.value, _inventoriesSelect.value)
+            }
 
-        if (response.isSuccess) {
-            val id = response.message
-            _errorMessage.value = null
-            return UUID.fromString(id)
-        }
+            if (response.isSuccess) {
+                val id = response.message
+                _errorMessage.value = null
+                return UUID.fromString(id)
+            }
 
-        _errorMessage.value = response.message
-        return null
+            _errorMessage.value = response.message
+            return null
+        }
+        catch (e: Exception) {
+            _errorMessage.value = e.message
+            return null
+        }
+        finally {
+            _loading.value = false
+        }
     }
 
     fun openCalculatorQuantity(index: Int) {

@@ -263,4 +263,5 @@
     <string name="language_it">Ý</string>
     <string name="language_es">Tây Ban Nha</string>
 
+    <string name="loading_title">Loading…</string>
 </resources>

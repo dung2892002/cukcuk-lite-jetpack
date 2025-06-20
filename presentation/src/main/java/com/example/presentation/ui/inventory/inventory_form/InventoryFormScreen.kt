@@ -48,6 +48,7 @@ import com.example.presentation.components.CukcukImageBox
 import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.ui.calculator.CalculatorDialog
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.components.CukcukLoadingDialog
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -65,6 +66,7 @@ fun InventoryFormScreen(
     val showDialogDelete = viewModel.isOpenDialogDelete.value
     val showCalculator = viewModel.showCalculator.value
     val isSubmitSuccess = viewModel.isSubmitSuccess.value
+    val loading = viewModel.loading.value
 
     LaunchedEffect(errorMessage) {
         if (errorMessage != null) {
@@ -250,6 +252,8 @@ fun InventoryFormScreen(
         }
     }
 
+
+
     if (showDialogDelete) {
         CukcukDialog(
             title = stringResource(R.string.dialog_content),
@@ -305,6 +309,10 @@ fun InventoryFormScreen(
                 viewModel.updatePrice(it.toDouble())
             },
         )
+    }
+
+    if (loading) {
+        CukcukLoadingDialog()
     }
 }
 
