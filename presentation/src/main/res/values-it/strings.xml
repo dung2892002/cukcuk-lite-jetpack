@@ -263,4 +263,16 @@
     <string name="language_es">Spagnolo</string>
 
     <string name="loading_title">Loading…</string>
+    <string name="ERROR_UNKNOWN">Errore sconosciuto</string>
+    <string name="ERROR_AUTHENTICATION">Informazioni di accesso errate</string>
+    <string name="ERROR_INVENTORY_NAME_BLANK">Il nome dell\'articolo non può essere vuoto</string>
+    <string name="ERROR_PRICE_LESS_THAN_OR_EQUAL_ZERO">Il prezzo non può essere inferiore o uguale a zero</string>
+    <string name="ERROR_UNIT_NULL">L\'unità non può essere vuota</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_FIRST">Articolo</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_LAST">è utilizzato in una fattura e non può essere eliminato</string>
+    <string name="ERROR_INVOICE_BLANK">Per favore, seleziona un articolo</string>
+    <string name="ERROR_UNIT_NAME_EXIST_FIRST">Unità</string>
+    <string name="ERROR_UNIT_NAME_EXIST_LAST">esiste già</string>
+    <string name="ERROR_UNIT_IS_USED_FIRST">Unità</string>
+    <string name="ERROR_UNIT_IS_USED_LAST">è in uso e non può essere eliminata</string>
 </resources>

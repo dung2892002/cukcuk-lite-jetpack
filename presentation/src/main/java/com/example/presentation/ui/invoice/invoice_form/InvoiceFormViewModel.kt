@@ -1,5 +1,6 @@
 package com.example.presentation.ui.invoice.invoice_form
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +13,7 @@ import com.example.domain.usecase.invoice.CreateInvoiceUseCase
 import com.example.domain.usecase.invoice.GetInventorySelectUseCase
 import com.example.domain.usecase.invoice.GetInvoiceDetailUseCase
 import com.example.domain.usecase.invoice.UpdateInvoiceUseCase
+import com.example.presentation.mapper.getErrorMessage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -70,7 +72,7 @@ class InvoiceFormViewModel(
         }
     }
 
-    suspend fun submitForm() : UUID? {
+    suspend fun submitForm(context: Context) : UUID? {
         try {
             _loading.value = true
             delay(200)
@@ -81,12 +83,13 @@ class InvoiceFormViewModel(
             }
 
             if (response.isSuccess) {
-                val id = response.message
+                val invoiceData = response.objectData as Invoice
+                val id = invoiceData.InvoiceID
                 _errorMessage.value = null
-                return UUID.fromString(id)
+                return id
             }
 
-            _errorMessage.value = response.message
+            _errorMessage.value = response.getErrorMessage(context)
             return null
         }
         catch (e: Exception) {
@@ -151,5 +154,9 @@ class InvoiceFormViewModel(
         _showCalculatorQuantity.value = false
         _showCalculatorTableName.value = false
         _showCalculatorNumberPeople.value = false
+    }
+
+    fun setErrorMessage(message: String?) {
+        _errorMessage.value = message
     }
 }

@@ -3,6 +3,7 @@ package com.example.presentation.ui.login.login_account
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.domain.enums.DomainError
 import com.example.domain.model.ResponseData
 
 class LoginAccountViewModel(
@@ -39,8 +40,8 @@ class LoginAccountViewModel(
         _showDialogForgetPassword.value = false
     }
 
-    fun handleLogin() : ResponseData{
-        val response = ResponseData(false, "Tài khoản hoặc mật khẩu không đúng")
+    fun handleLogin() : ResponseData<String>{
+        val response = ResponseData<String>(false, DomainError.AUTHENTICATION_ERROR)
         if (_account.value == "dung2002" && _password.value == "Dung2002*")
             response.isSuccess = true
         return response

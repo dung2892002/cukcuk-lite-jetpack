@@ -263,4 +263,16 @@
     <string name="language_es">スペイン語</string>
 
     <string name="loading_title">Loading…</string>
+    <string name="ERROR_UNKNOWN">不明なエラー</string>
+    <string name="ERROR_AUTHENTICATION">ログイン情報が正しくありません</string>
+    <string name="ERROR_INVENTORY_NAME_BLANK">商品名を空にすることはできません</string>
+    <string name="ERROR_PRICE_LESS_THAN_OR_EQUAL_ZERO">価格は0以下にすることはできません</string>
+    <string name="ERROR_UNIT_NULL">単位を空にすることはできません</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_FIRST">商品</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_LAST">は請求書で使用されており、削除できません</string>
+    <string name="ERROR_INVOICE_BLANK">商品を選択してください</string>
+    <string name="ERROR_UNIT_NAME_EXIST_FIRST">単位</string>
+    <string name="ERROR_UNIT_NAME_EXIST_LAST">はすでに存在します</string>
+    <string name="ERROR_UNIT_IS_USED_FIRST">単位</string>
+    <string name="ERROR_UNIT_IS_USED_LAST">は使用中で、削除できません</string>
 </resources>

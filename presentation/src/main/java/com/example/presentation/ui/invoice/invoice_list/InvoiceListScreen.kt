@@ -138,7 +138,7 @@ fun InvoiceListScreen(
                 append(stringResource(R.string.dialog_delete_invoice))
             },
             onConfirm = {
-                viewModel.deleteInvoice()
+                viewModel.deleteInvoice(context)
             },
             onCancel = {
                 viewModel.closeDialogDelete()

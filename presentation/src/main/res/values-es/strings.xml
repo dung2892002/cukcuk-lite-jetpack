@@ -263,4 +263,16 @@
     <string name="language_es">Español</string>
 
     <string name="loading_title">Loading…</string>
+    <string name="ERROR_UNKNOWN">Error desconocido</string>
+    <string name="ERROR_AUTHENTICATION">Información de inicio de sesión incorrecta</string>
+    <string name="ERROR_INVENTORY_NAME_BLANK">El nombre del artículo no puede estar en blanco</string>
+    <string name="ERROR_PRICE_LESS_THAN_OR_EQUAL_ZERO">El precio no puede ser menor o igual a cero</string>
+    <string name="ERROR_UNIT_NULL">La unidad no puede estar en blanco</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_FIRST">Artículo</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_LAST">está usado en una factura y no se puede eliminar</string>
+    <string name="ERROR_INVOICE_BLANK">Por favor, selecciona un artículo</string>
+    <string name="ERROR_UNIT_NAME_EXIST_FIRST">Unidad</string>
+    <string name="ERROR_UNIT_NAME_EXIST_LAST">ya existe</string>
+    <string name="ERROR_UNIT_IS_USED_FIRST">Unidad</string>
+    <string name="ERROR_UNIT_IS_USED_LAST">está en uso y no se puede eliminar</string>
 </resources>

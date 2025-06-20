@@ -1,5 +1,6 @@
 package com.example.presentation.ui.invoice.invoice_list
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Invoice
 import com.example.domain.usecase.invoice.DeleteInvoiceUseCase
 import com.example.domain.usecase.invoice.GetInvoicesNotPaymentUseCase
+import com.example.presentation.mapper.getErrorMessage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -62,12 +64,12 @@ class InvoiceListViewModel (
         _selectedInvoice.value = null
     }
 
-    fun deleteInvoice() {
+    fun deleteInvoice(context: Context) {
         viewModelScope.launch {
             try {
                 _loading.value = true
                 val response = deleteInvoiceUseCase(selectedInvoice.value!!)
-                _errorMessage.value = response.message
+                _errorMessage.value = response.getErrorMessage(context)
                 if (response.isSuccess) {
                     loadInvoiceNotPayment()
                     closeDialogDelete()

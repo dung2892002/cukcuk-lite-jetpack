@@ -263,4 +263,16 @@
     <string name="language_es">西班牙语</string>
 
     <string name="loading_title">Loading…</string>
+    <string name="ERROR_UNKNOWN">Lỗi không xác định</string>
+    <string name="ERROR_AUTHENTICATION">登录信息错误</string>
+    <string name="ERROR_INVENTORY_NAME_BLANK">Tên mặt hàng không được để trống</string>
+    <string name="ERROR_PRICE_LESS_THAN_OR_EQUAL_ZERO">Giá không được nhỏ hơn hoặc bằng 0</string>
+    <string name="ERROR_UNIT_NULL">Đơn vị không được để trống</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_FIRST">Mặt hàng</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_LAST">đã được sử dụng trong hóa đơn, không thể xóa</string>
+    <string name="ERROR_INVOICE_BLANK">Vui lòng chọn mặt hàng</string>
+    <string name="ERROR_UNIT_NAME_EXIST_FIRST">Đơn vị</string>
+    <string name="ERROR_UNIT_NAME_EXIST_LAST">đã tồn tại</string>
+    <string name="ERROR_UNIT_IS_USED_FIRST">Đơn vị</string>
+    <string name="ERROR_UNIT_IS_USED_LAST">đã được sử dụng, không thể xóa</string>
 </resources>

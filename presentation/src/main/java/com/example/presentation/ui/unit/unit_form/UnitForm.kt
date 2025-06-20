@@ -44,6 +44,7 @@ fun UnitForm(
     LaunchedEffect(errorMessage) {
         if (errorMessage != null) {
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            viewModel.setErrorMessage(null)
         }
     }
 
@@ -60,7 +61,7 @@ fun UnitForm(
             else stringResource(id = R.string.dialog_edit_unit_title),
             message = null,
             valueTextField = unit.UnitName,
-            onConfirm = { viewModel.submitForm() },
+            onConfirm = { viewModel.submitForm(context) },
             onCancel = { closeForm(false) },
             confirmButtonText = stringResource(R.string.button_title_Submit),
             cancelButtonText = stringResource(R.string.button_title_Cancel),
