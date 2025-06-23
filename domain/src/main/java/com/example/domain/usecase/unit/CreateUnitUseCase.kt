@@ -1,5 +1,6 @@
 package com.example.domain.usecase.unit
 
+import com.example.domain.enums.DomainError
 import com.example.domain.model.ResponseData
 import com.example.domain.model.Unit
 import com.example.domain.repository.UnitRepository
@@ -12,11 +13,12 @@ class CreateUnitUseCase(
     private val repository: UnitRepository,
     private val syncHelper: SynchronizeHelper
 ) {
-    suspend operator fun invoke(unit: Unit) : ResponseData {
-        var response = ResponseData(false, "Có lỗi xảy ra")
+    suspend operator fun invoke(unit: Unit) : ResponseData<Unit> {
+        var response = ResponseData<Unit>(false, DomainError.UNKNOWN_ERROR)
         response.isSuccess = !repository.checkExistUnitName(unit.UnitName.trim(), null)
         if (!response.isSuccess) {
-            response.message = "Đơn vị tính <${unit.UnitName.trim()}> đã tồn tại"
+            response.error = DomainError.UNIT_NAME_EXIST
+            response.objectData = unit
             return response
         }
 
@@ -25,7 +27,7 @@ class CreateUnitUseCase(
 
         response.isSuccess = repository.createUnit(unit)
         if (response.isSuccess) {
-            response.message = null
+            response.error = null
             syncHelper.insertSync(SynchronizeTable.Unit, unit.UnitID)
         }
         return response

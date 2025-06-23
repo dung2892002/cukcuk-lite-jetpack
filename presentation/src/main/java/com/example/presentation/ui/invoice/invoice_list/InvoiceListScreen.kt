@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.components.CukcukDialog
+import com.example.presentation.components.CukcukLoadingDialog
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -48,6 +49,7 @@ fun InvoiceListScreen(
     val invoices = viewModel.invoices.value
     val isShowDeleteDialog = viewModel.showDeleteDialog.value
     val errorMessage = viewModel.errorMessage.value
+    val loading = viewModel.loading.value
 
     LaunchedEffect(Unit) {
         viewModel.loadInvoiceNotPayment()
@@ -136,7 +138,7 @@ fun InvoiceListScreen(
                 append(stringResource(R.string.dialog_delete_invoice))
             },
             onConfirm = {
-                viewModel.deleteInvoice()
+                viewModel.deleteInvoice(context)
             },
             onCancel = {
                 viewModel.closeDialogDelete()
@@ -144,6 +146,10 @@ fun InvoiceListScreen(
             confirmButtonText = stringResource(R.string.button_title_Yes),
             cancelButtonText = stringResource(R.string.button_title_No)
         )
+    }
+
+    if (loading) {
+        CukcukLoadingDialog()
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.presentation.ui.unit.unit_list
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -8,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Unit
 import com.example.domain.usecase.unit.DeleteUnitUseCase
 import com.example.domain.usecase.unit.GetAllUnitUseCase
+import com.example.presentation.mapper.getErrorMessage
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -36,6 +39,9 @@ class UnitListViewModel(
     private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: State<String?> = _errorMessage
 
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> = _loading
+
 
     init {
         viewModelScope.launch {
@@ -46,9 +52,18 @@ class UnitListViewModel(
     }
 
     private suspend fun loadUnits() {
-        val data = getAllUnitUseCase()
-        _units.value = data
-        _unitUpdate.value = null
+        try {
+            setLoading(true)
+            delay(200)
+            val data = getAllUnitUseCase()
+            _units.value = data
+            _unitUpdate.value = null
+        }
+        catch (e: Exception) {
+            _errorMessage.value = e.message
+        } finally {
+            setLoading(false)
+        }
     }
 
     fun findUnitSelected(unitId: UUID?) {
@@ -60,14 +75,24 @@ class UnitListViewModel(
     }
 
 
-    fun deleteUnit() {
+    fun deleteUnit(context: Context) {
         viewModelScope.launch {
-            val response = deleteUnitUseCase(_unitUpdate.value!!)
-            setErrorMessage(response.message)
-            if (response.isSuccess) {
-                if (_unitUpdate.value?.UnitID == _unitSelected.value?.UnitID)
-                    _unitSelected.value = null
-                closeFormAndDialog(true)
+            try {
+                setLoading(true)
+                delay(200)
+                val response = deleteUnitUseCase(_unitUpdate.value!!)
+                setErrorMessage(response.getErrorMessage(context))
+                if (response.isSuccess) {
+                    if (_unitUpdate.value?.UnitID == _unitSelected.value?.UnitID)
+                        _unitSelected.value = null
+                    closeFormAndDialog(true)
+                }
+            }
+            catch (e: Exception) {
+                setErrorMessage(e.message)
+            } finally {
+                _unitUpdate.value = null
+                setLoading(false)
             }
         }
     }
@@ -95,5 +120,9 @@ class UnitListViewModel(
 
     fun setErrorMessage(message: String?) {
         _errorMessage.value = message
+    }
+
+    fun setLoading(value: Boolean) {
+        _loading.value = value
     }
 }

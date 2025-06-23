@@ -123,7 +123,7 @@ fun SynchronizeScreen(
 
     if(loading) {
         CukcukLoadingDialog(
-            title = stringResource(R.string.annotate_lastSyncTime)
+            titleResId = R.string.synchronize_loading_title
         )
     }
 }

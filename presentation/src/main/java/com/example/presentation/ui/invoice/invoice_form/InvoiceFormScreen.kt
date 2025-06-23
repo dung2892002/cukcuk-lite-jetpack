@@ -39,6 +39,7 @@ import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.ui.calculator.CalculatorDialog
 import com.example.presentation.ui.calculator.IntegerCalculatorDialog
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.components.CukcukLoadingDialog
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -57,16 +58,18 @@ fun InvoiceFormScreen(
     val showCalculatorNumberPeople = viewModel.showCalculatorNumberPeople.value
     val currentInventoryIndex = viewModel.currentInventoryIndex.value
     val errorMessage = viewModel.errorMessage.value
+    val loading = viewModel.loading.value
 
     LaunchedEffect(errorMessage) {
         if (errorMessage != null) {
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            viewModel.setErrorMessage(null)
         }
     }
 
     fun payment() {
         coroutineScope.launch {
-            val invoiceId = viewModel.submitForm()
+            val invoiceId = viewModel.submitForm(context)
             if (invoiceId != null) {
                 navController.navigate("payment?invoiceId=${invoiceId}")
             }
@@ -76,7 +79,7 @@ fun InvoiceFormScreen(
 
     fun submit() {
         coroutineScope.launch {
-            val id = viewModel.submitForm()
+            val id = viewModel.submitForm(context)
             if(id != null) {
                 navController.popBackStack()
             }
@@ -295,5 +298,9 @@ fun InvoiceFormScreen(
                 viewModel.updateQuantityInventory(it.toDouble())
             }
         )
+    }
+
+    if (loading) {
+        CukcukLoadingDialog()
     }
 }

@@ -1,5 +1,6 @@
 package com.example.presentation.ui.inventory.inventory_form
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -12,6 +13,8 @@ import com.example.domain.usecase.inventory.DeleteInventoryUseCase
 import com.example.domain.usecase.inventory.GetInventoryDetailUseCase
 import com.example.domain.usecase.inventory.UpdateInventoryUseCase
 import com.example.presentation.enums.ColorInventory
+import com.example.presentation.mapper.getErrorMessage
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -44,6 +47,9 @@ class InventoryFormViewModel(
     private val _isSubmitSuccess = mutableStateOf(false)
     val isSubmitSuccess: State<Boolean> = _isSubmitSuccess
 
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> = _loading
+
 
     init {
         viewModelScope.launch {
@@ -54,30 +60,64 @@ class InventoryFormViewModel(
     }
 
     suspend fun loadInventory(inventoryID: UUID) {
-        val data = getInventory(inventoryID)
-        _inventory.value = data
-    }
-
-    fun submit() {
-        viewModelScope.launch {
-            val response = if (_inventory.value.InventoryID == null) {
-                createInventoryUseCase(_inventory.value.copy())
-            } else {
-                updateInventoryUseCase(_inventory.value.copy())
-            }
-
-            updateErrorMessage(response.message)
-            updateSuccessState(response.isSuccess)
+        try {
+            _loading.value = true
+            delay(200)
+            val data = getInventory(inventoryID)
+            _inventory.value = data
+        }
+        catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        finally {
+            _loading.value = false
         }
     }
 
-    fun delete() {
+    fun submit(context: Context) {
         viewModelScope.launch {
-            val response = deleteInventoryUseCase(_inventory.value)
-            if (response.isSuccess) closeDialogDelete()
+            try {
+                _loading.value = true
+                delay(200)
+                val response = if (_inventory.value.InventoryID == null) {
+                    createInventoryUseCase(_inventory.value.copy())
+                } else {
+                    updateInventoryUseCase(_inventory.value.copy())
+                }
 
-            updateErrorMessage(response.message)
-            updateSuccessState(response.isSuccess)
+                updateErrorMessage(response.getErrorMessage(context))
+                updateSuccessState(response.isSuccess)
+            }
+            catch (ex: Exception) {
+                ex.printStackTrace()
+                updateErrorMessage(ex.message)
+                updateSuccessState(false)
+            }
+            finally {
+                _loading.value = false
+            }
+        }
+    }
+
+    fun delete(context: Context) {
+        viewModelScope.launch {
+            try {
+                _loading.value = true
+                delay(200)
+                val response = deleteInventoryUseCase(_inventory.value)
+                if (response.isSuccess) closeDialogDelete()
+
+                updateErrorMessage(response.getErrorMessage(context))
+                updateSuccessState(response.isSuccess)
+            }
+            catch (ex: Exception) {
+                ex.printStackTrace()
+                updateErrorMessage(ex.message)
+                updateSuccessState(false)
+            }
+            finally {
+                _loading.value = false
+            }
         }
     }
 

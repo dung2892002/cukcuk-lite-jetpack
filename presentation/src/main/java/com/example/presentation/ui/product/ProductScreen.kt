@@ -73,9 +73,7 @@ fun ProductScreen(
                 )
             }
             if (loading) {
-                CukcukLoadingDialog(
-                    title = "Loading products...",
-                )
+                CukcukLoadingDialog()
             }
         }
     }

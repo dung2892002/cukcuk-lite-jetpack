@@ -44,6 +44,8 @@ import com.example.presentation.components.CukcukToolbar
 import com.example.presentation.ui.calculator.DoubleCalculatorDialog
 import com.example.domain.utils.FormatDisplay.formatNumber
 import com.example.domain.utils.FormatDisplay.formatTo12HourWithCustomAMPM
+import com.example.presentation.components.CukcukLoadingDialog
+import com.example.presentation.mapper.getErrorMessage
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -57,6 +59,7 @@ fun PaymentScreen(
     val invoice = viewModel.invoice.value
     val detailsCount = viewModel.invoiceDetailCounts.value
     val showCalculator = viewModel.showCalculator.value
+    val loading = viewModel.loading.value
     val coroutineScope = rememberCoroutineScope()
 
     fun handlePayment() {
@@ -68,7 +71,7 @@ fun PaymentScreen(
                     launchSingleTop = true
                 }
             } else {
-                Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, response.getErrorMessage(context), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -272,6 +275,10 @@ fun PaymentScreen(
                 viewModel.updateAmount(it.toDouble())
             }
         )
+    }
+
+    if (loading) {
+        CukcukLoadingDialog()
     }
 }
 
