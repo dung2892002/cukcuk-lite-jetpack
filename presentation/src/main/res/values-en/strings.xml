@@ -262,4 +262,5 @@
     <string name="language_it">Italian</string>
     <string name="language_es">Spanish</string>
 
+    <string name="loading_title">Loading…</string>
 </resources>

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,7 +24,7 @@ import com.example.presentation.theme.CukcukTheme
 
 @Composable
 fun CukcukLoadingDialog(
-    title: String = ""
+    titleResId: Int = R.string.loading_title
 ) {
     Dialog(
         onDismissRequest = {}
@@ -42,7 +43,7 @@ fun CukcukLoadingDialog(
                 modifier = Modifier.padding(horizontal = 30.dp)
             )
             Text(
-                text = title,
+                text = stringResource(titleResId),
                 fontSize = 14.sp,
                 color = Color.Gray,
                 modifier = Modifier.weight(1f)
@@ -56,7 +57,7 @@ fun CukcukLoadingDialog(
 fun LoadingDialogPreview() {
     CukcukTheme {
         CukcukLoadingDialog(
-            title = "Đang đồng bộ dữ liệu ..."
+            titleResId = R.string.synchronize_loading_title
         )
     }
 }
