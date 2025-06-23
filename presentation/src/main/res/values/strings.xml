@@ -263,6 +263,35 @@
     <string name="language_it">Ý</string>
     <string name="language_es">Tây Ban Nha</string>
 
+    //calculator button labels
+    <string name="key_clear" translatable="false">C</string>
+    <string name="key_decrease">Giảm</string>
+    <string name="key_increase">Tăng</string>
+    <string name="key_delete">Xóa</string>
+
+    <string name="key_7" translatable="false">7</string>
+    <string name="key_8" translatable="false">8</string>
+    <string name="key_9" translatable="false">9</string>
+    <string name="key_subtract" translatable="false">-</string>
+
+    <string name="key_4" translatable="false">4</string>
+    <string name="key_5" translatable="false">5</string>
+    <string name="key_6" translatable="false">6</string>
+    <string name="key_add" translatable="false">+</string>
+
+    <string name="key_1" translatable="false">1</string>
+    <string name="key_2" translatable="false">2</string>
+    <string name="key_3" translatable="false">3</string>
+    <string name="key_toggle_sign" translatable="false">±</string>
+
+    <string name="key_0" translatable="false">0</string>
+    <string name="key_000" translatable="false">000</string>
+    <string name="key_decimal" translatable="false">,</string>
+    <string name="key_done">XONG</string>
+    <string name="key_equal" translatable="false">=</string>
+
+    <string name="calculator_error_minValue">không thể thấp hơn</string>
+    <string name="calculator_error_maxValue">không thể vượt quá</string>
     <string name="loading_title">Loading…</string>
 
     <string name="ERROR_UNKNOWN">Lỗi không xác định</string>

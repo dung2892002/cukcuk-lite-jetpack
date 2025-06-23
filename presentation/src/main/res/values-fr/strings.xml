@@ -262,6 +262,14 @@
     <string name="language_it">Italien</string>
     <string name="language_es">Espagnol</string>
 
+    <string name="key_decrease">Diminuer</string>
+    <string name="key_increase">Augmenter</string>
+    <string name="key_delete">Supprimer</string>
+    <string name="key_done">TERMINÉ</string>
+
+    <string name="calculator_error_minValue">ne peut pas être inférieur</string>
+    <string name="calculator_error_maxValue">ne peut pas dépasser</string>
+
     <string name="loading_title">Loading…</string>
     <string name="ERROR_UNKNOWN">Erreur inconnue</string>
     <string name="ERROR_AUTHENTICATION">Informations de connexion incorrectes</string>
@@ -275,4 +283,5 @@
     <string name="ERROR_UNIT_NAME_EXIST_LAST">existe déjà</string>
     <string name="ERROR_UNIT_IS_USED_FIRST">Unité</string>
     <string name="ERROR_UNIT_IS_USED_LAST">est utilisée et ne peut pas être supprimée</string>
+
 </resources>

@@ -262,6 +262,14 @@
     <string name="language_it">意大利语</string>
     <string name="language_es">西班牙语</string>
 
+    <string name="key_decrease">减少</string>
+    <string name="key_increase">增加</string>
+    <string name="key_delete">删除</string>
+    <string name="key_done">完成</string>
+
+    <string name="calculator_error_minValue">不能低于</string>
+    <string name="calculator_error_maxValue">不能超过</string>
+
     <string name="loading_title">Loading…</string>
     <string name="ERROR_UNKNOWN">Lỗi không xác định</string>
     <string name="ERROR_AUTHENTICATION">登录信息错误</string>

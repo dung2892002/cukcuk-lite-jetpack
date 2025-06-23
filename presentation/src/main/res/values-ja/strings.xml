@@ -262,6 +262,14 @@
     <string name="language_it">イタリア語</string>
     <string name="language_es">スペイン語</string>
 
+    <string name="key_decrease">減少</string>
+    <string name="key_increase">増加</string>
+    <string name="key_delete">削除</string>
+    <string name="key_done">完了</string>
+
+    <string name="calculator_error_minValue">これより小さくできません</string>
+    <string name="calculator_error_maxValue">これを超えることはできません</string>
+
     <string name="loading_title">Loading…</string>
     <string name="ERROR_UNKNOWN">不明なエラー</string>
     <string name="ERROR_AUTHENTICATION">ログイン情報が正しくありません</string>

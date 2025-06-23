@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,6 +36,7 @@ import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukImageButton
 import com.example.presentation.theme.CukcukTheme
 import com.example.domain.utils.FormatDisplay
+import com.example.presentation.enums.CalculatorButton
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -72,11 +74,28 @@ fun IntegerCalculatorDialog(
     }
 
     val keys = listOf(
-        listOf("Giảm", "Tăng", "C"),
-        listOf("7", "8", "9"),
-        listOf("4", "5", "6"),
-        listOf("1", "2", "3"),
+        listOf(
+            CalculatorButton.DECREASE,
+            CalculatorButton.INCREASE,
+            CalculatorButton.CLEAR
+        ),
+        listOf(
+            CalculatorButton.SEVEN,
+            CalculatorButton.EIGHT,
+            CalculatorButton.NINE
+        ),
+        listOf(
+            CalculatorButton.FOUR,
+            CalculatorButton.FIVE,
+            CalculatorButton.SIX
+        ),
+        listOf(
+            CalculatorButton.ONE,
+            CalculatorButton.TWO,
+            CalculatorButton.THREE
+        )
     )
+
 
     Box(
         modifier = Modifier
@@ -145,9 +164,9 @@ fun IntegerCalculatorDialog(
                 }
 
                 CukcukImageButton(
-                    title = "Xóa",
+                    title = stringResource(CalculatorButton.DELETE.label),
                     onClick = {
-                        viewModel.onClickButton("Xóa")
+                        viewModel.onClickButton(CalculatorButton.DELETE, context)
                     },
                     bgColor = colorResource(R.color.calculator_button),
                     modifier = Modifier
@@ -174,9 +193,9 @@ fun IntegerCalculatorDialog(
                 ) {
                     row.forEach { key ->
                         CukcukButton(
-                            title = key,
+                            title = stringResource(key.label),
                             onClick = {
-                                viewModel.onClickButton(key)
+                                viewModel.onClickButton(key, context)
                             },
                             bgColor = colorResource(R.color.calculator_button),
                             textColor = Color.Black,
@@ -203,9 +222,9 @@ fun IntegerCalculatorDialog(
                     .padding(5.dp),
             ) {
                 CukcukButton(
-                    title = "0",
+                    title = stringResource(CalculatorButton.ZERO.label),
                     onClick = {
-                        viewModel.onClickButton("0")
+                        viewModel.onClickButton(CalculatorButton.ZERO, context)
                     },
                     bgColor = colorResource(R.color.calculator_button),
                     textColor = Color.Black,
@@ -221,9 +240,9 @@ fun IntegerCalculatorDialog(
                 )
 
                 CukcukButton(
-                    title = "XONG",
+                    title = stringResource(CalculatorButton.DONE.label),
                     onClick = {
-                        viewModel.onClickButton("XONG")
+                        viewModel.onClickButton(CalculatorButton.DONE, context)
                     },
                     bgColor = colorResource(R.color.main_color),
                     textColor = Color.White,
