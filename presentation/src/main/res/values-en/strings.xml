@@ -263,4 +263,16 @@
     <string name="language_es">Spanish</string>
 
     <string name="loading_title">Loading…</string>
+    <string name="ERROR_UNKNOWN">Unknown error</string>
+    <string name="ERROR_AUTHENTICATION">Incorrect login information</string>
+    <string name="ERROR_INVENTORY_NAME_BLANK">Item name cannot be blank</string>
+    <string name="ERROR_PRICE_LESS_THAN_OR_EQUAL_ZERO">Price cannot be less than or equal to zero</string>
+    <string name="ERROR_UNIT_NULL">Unit cannot be blank</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_FIRST">Item</string>
+    <string name="ERROR_INVENTORY_IS_USED_IN_INVOICE_LAST">is used in an invoice and cannot be deleted</string>
+    <string name="ERROR_INVOICE_BLANK">Please select an item</string>
+    <string name="ERROR_UNIT_NAME_EXIST_FIRST">Unit</string>
+    <string name="ERROR_UNIT_NAME_EXIST_LAST">already exists</string>
+    <string name="ERROR_UNIT_IS_USED_FIRST">Unit</string>
+    <string name="ERROR_UNIT_IS_USED_LAST">is in use and cannot be deleted</string>
 </resources>

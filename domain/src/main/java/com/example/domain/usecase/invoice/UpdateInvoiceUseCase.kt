@@ -1,5 +1,6 @@
 package com.example.domain.usecase.invoice
 
+import com.example.domain.enums.DomainError
 import com.example.domain.model.InventorySelect
 import com.example.domain.model.InvoiceDetailChangeResult
 import com.example.domain.model.ResponseData
@@ -17,11 +18,11 @@ class UpdateInvoiceUseCase (
     private val syncHelper: SynchronizeHelper
 ) {
     suspend operator fun invoke(invoice: Invoice,
-                        inventoriesSelect: List<InventorySelect>) : ResponseData {
-        var response = ResponseData(false, "Có lỗi xảy ra")
+                        inventoriesSelect: List<InventorySelect>) : ResponseData<Invoice>  {
+        var response = ResponseData<Invoice> (false, DomainError.UNKNOWN_ERROR)
 
         if (invoice.Amount == 0.0) {
-            response.message = "Vui lòng chọn món"
+            response.error = DomainError.INVOICE_BLANK
             return response
         }
 
@@ -36,7 +37,7 @@ class UpdateInvoiceUseCase (
 
         response.isSuccess = repository.updateInvoice(invoice, result.toCreate, result.toUpdate, result.toDelete)
         if (response.isSuccess) {
-            response.message = invoice.InvoiceID.toString()
+            response.objectData = invoice
             syncHelper.updateSync(SynchronizeTable.Invoice, invoice.InvoiceID)
             syncHelper.deleteInvoiceDetail(result.toDelete)
             syncHelper.createInvoiceDetail(result.toCreate)

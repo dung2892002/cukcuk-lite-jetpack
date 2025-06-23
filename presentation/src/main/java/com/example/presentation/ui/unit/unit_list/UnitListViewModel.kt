@@ -1,5 +1,6 @@
 package com.example.presentation.ui.unit.unit_list
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -8,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Unit
 import com.example.domain.usecase.unit.DeleteUnitUseCase
 import com.example.domain.usecase.unit.GetAllUnitUseCase
+import com.example.presentation.mapper.getErrorMessage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -73,13 +75,13 @@ class UnitListViewModel(
     }
 
 
-    fun deleteUnit() {
+    fun deleteUnit(context: Context) {
         viewModelScope.launch {
             try {
                 setLoading(true)
                 delay(200)
                 val response = deleteUnitUseCase(_unitUpdate.value!!)
-                setErrorMessage(response.message)
+                setErrorMessage(response.getErrorMessage(context))
                 if (response.isSuccess) {
                     if (_unitUpdate.value?.UnitID == _unitSelected.value?.UnitID)
                         _unitSelected.value = null

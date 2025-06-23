@@ -1,5 +1,6 @@
 package com.example.presentation.ui.inventory.inventory_form
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -12,6 +13,7 @@ import com.example.domain.usecase.inventory.DeleteInventoryUseCase
 import com.example.domain.usecase.inventory.GetInventoryDetailUseCase
 import com.example.domain.usecase.inventory.UpdateInventoryUseCase
 import com.example.presentation.enums.ColorInventory
+import com.example.presentation.mapper.getErrorMessage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -72,7 +74,7 @@ class InventoryFormViewModel(
         }
     }
 
-    fun submit() {
+    fun submit(context: Context) {
         viewModelScope.launch {
             try {
                 _loading.value = true
@@ -83,7 +85,7 @@ class InventoryFormViewModel(
                     updateInventoryUseCase(_inventory.value.copy())
                 }
 
-                updateErrorMessage(response.message)
+                updateErrorMessage(response.getErrorMessage(context))
                 updateSuccessState(response.isSuccess)
             }
             catch (ex: Exception) {
@@ -97,7 +99,7 @@ class InventoryFormViewModel(
         }
     }
 
-    fun delete() {
+    fun delete(context: Context) {
         viewModelScope.launch {
             try {
                 _loading.value = true
@@ -105,7 +107,7 @@ class InventoryFormViewModel(
                 val response = deleteInventoryUseCase(_inventory.value)
                 if (response.isSuccess) closeDialogDelete()
 
-                updateErrorMessage(response.message)
+                updateErrorMessage(response.getErrorMessage(context))
                 updateSuccessState(response.isSuccess)
             }
             catch (ex: Exception) {

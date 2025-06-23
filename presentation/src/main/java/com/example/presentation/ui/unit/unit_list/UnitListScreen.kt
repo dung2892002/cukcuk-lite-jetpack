@@ -162,7 +162,7 @@ fun UnitListScreen(
                 viewModel.closeFormAndDialog(false)
             },
             onConfirm = {
-                viewModel.deleteUnit()
+                viewModel.deleteUnit(context)
             },
             confirmButtonText = stringResource(R.string.button_title_Yes),
             cancelButtonText = stringResource(R.string.button_title_No),

@@ -1,6 +1,9 @@
 package com.example.domain.model
 
-data class ResponseData (
-    var isSuccess: Boolean,
-    var message: String? = null
+import com.example.domain.enums.DomainError
+
+data class ResponseData<T> (
+    var isSuccess: Boolean = true,
+    var error: DomainError? = null,
+    var objectData: T? = null
 )

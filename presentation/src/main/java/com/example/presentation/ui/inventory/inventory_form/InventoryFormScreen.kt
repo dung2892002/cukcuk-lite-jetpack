@@ -117,7 +117,7 @@ fun InventoryFormScreen(
                 menuTitle =  stringResource(R.string.toolbar_menuTitle_Submit),
                 false,
                 onBackClick =  {navController.popBackStack()},
-                onMenuClick = {viewModel.submit()} )
+                onMenuClick = {viewModel.submit(context)} )
         },
         bottomBar = {
             Row(
@@ -144,7 +144,7 @@ fun InventoryFormScreen(
                     bgColor = colorResource(R.color.main_color),
                     textColor = Color.White,
                     onClick = {
-                        viewModel.submit()
+                        viewModel.submit(context)
                     },
                     modifier = Modifier.weight(1f)
                 )
@@ -260,7 +260,7 @@ fun InventoryFormScreen(
             message = buildDialogContent(),
             valueTextField = null,
             onConfirm = {
-                viewModel.delete()
+                viewModel.delete(context)
             },
             onCancel = {
                 viewModel.closeDialogDelete()

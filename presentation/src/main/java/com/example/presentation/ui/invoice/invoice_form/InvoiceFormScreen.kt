@@ -63,12 +63,13 @@ fun InvoiceFormScreen(
     LaunchedEffect(errorMessage) {
         if (errorMessage != null) {
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            viewModel.setErrorMessage(null)
         }
     }
 
     fun payment() {
         coroutineScope.launch {
-            val invoiceId = viewModel.submitForm()
+            val invoiceId = viewModel.submitForm(context)
             if (invoiceId != null) {
                 navController.navigate("payment?invoiceId=${invoiceId}")
             }
@@ -78,7 +79,7 @@ fun InvoiceFormScreen(
 
     fun submit() {
         coroutineScope.launch {
-            val id = viewModel.submitForm()
+            val id = viewModel.submitForm(context)
             if(id != null) {
                 navController.popBackStack()
             }

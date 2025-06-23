@@ -68,7 +68,7 @@ class PaymentViewModel (
         closeCalculator()
     }
 
-    suspend fun paymentInvoice(): ResponseData {
+    suspend fun paymentInvoice(): ResponseData<Invoice> {
         val response = paymentInvoiceUseCase(_invoice.value)
         return response
     }
