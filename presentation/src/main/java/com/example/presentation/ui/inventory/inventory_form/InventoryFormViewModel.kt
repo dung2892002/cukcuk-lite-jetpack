@@ -77,8 +77,6 @@ class InventoryFormViewModel(
     fun submit(context: Context) {
         viewModelScope.launch {
             try {
-                _loading.value = true
-                delay(200)
                 val response = if (_inventory.value.InventoryID == null) {
                     createInventoryUseCase(_inventory.value.copy())
                 } else {
@@ -94,7 +92,6 @@ class InventoryFormViewModel(
                 updateSuccessState(false)
             }
             finally {
-                _loading.value = false
             }
         }
     }
@@ -102,8 +99,6 @@ class InventoryFormViewModel(
     fun delete(context: Context) {
         viewModelScope.launch {
             try {
-                _loading.value = true
-                delay(200)
                 val response = deleteInventoryUseCase(_inventory.value)
                 if (response.isSuccess) closeDialogDelete()
 
@@ -116,7 +111,6 @@ class InventoryFormViewModel(
                 updateSuccessState(false)
             }
             finally {
-                _loading.value = false
             }
         }
     }

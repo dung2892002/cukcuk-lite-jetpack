@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -92,7 +93,7 @@ fun InvoiceFormScreen(
                 title = stringResource(R.string.toolbar_title_InvoiceForm),
                 menuTitle = stringResource(R.string.toolbar_menuTitle_InvoiceForm),
                 hasMenuIcon = false,
-                onBackClick = {navController.popBackStack()},
+                onBackClick = { navController.popBackStack() },
                 onMenuClick = {
                     payment()
                 }
@@ -104,7 +105,7 @@ fun InvoiceFormScreen(
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(4.dp)
+                        .height(8.dp)
                         .background(
                             color = Color.White
                         )
@@ -116,7 +117,6 @@ fun InvoiceFormScreen(
                         )
                         .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
-
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_table),
@@ -177,7 +177,6 @@ fun InvoiceFormScreen(
                 }
                 Row(
                     modifier = Modifier
-                        .padding(bottom = 20.dp)
                         .background(
                             color = colorResource(R.color.invoice_form_bottom_last)
                         )
@@ -217,7 +216,8 @@ fun InvoiceFormScreen(
                 }
             }
         },
-        containerColor = Color.White
+        containerColor = Color.White,
+        modifier = Modifier.navigationBarsPadding()
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
@@ -268,8 +268,9 @@ fun InvoiceFormScreen(
     }
 
     if (showCalculatorNumberPeople) {
+        val input = invoice.NumberOfPeople
         IntegerCalculatorDialog(
-            input = invoice.NumberOfPeople.toString(),
+            input = if (input > 0) input.toString() else "",
             title = stringResource(R.string.calculator_title_invoice_numberPeople),
             message = stringResource(R.string.calculator_message_invoice_numberPeople),
             maxValue = 9999.0,
@@ -278,8 +279,7 @@ fun InvoiceFormScreen(
                 viewModel.closeCalculator()
             },
             onSubmit = {
-                println(it)
-                viewModel.updateNewNumberPeople(it.toDouble().toInt())
+                viewModel.updateNewNumberPeople(it)
             }
         )
     }

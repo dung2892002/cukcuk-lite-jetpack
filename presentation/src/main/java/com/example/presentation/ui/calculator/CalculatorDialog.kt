@@ -57,6 +57,7 @@ fun CalculatorDialog(
     val submitState = viewModel.submitState.value
     val isCalculateState = viewModel.isCalculateState.value
     val messageError = viewModel.errorMessage.value
+    val firstInput = viewModel.firstInput.value
 
     LaunchedEffect(Unit) {
         viewModel.setInitState(input,minValue, maxValue, message)
@@ -155,7 +156,7 @@ fun CalculatorDialog(
                     .background(
                         color = Color.White,
                     )
-                    .padding(10.dp)
+                    .padding(12.dp)
             ) {
                 Row(
                     modifier = Modifier
@@ -173,7 +174,12 @@ fun CalculatorDialog(
                     Text(
                         text = FormatDisplay.formatExpression(resultValue),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        fontSize = 20.sp,
+                        modifier = Modifier.then(
+                            if (firstInput) Modifier
+                                .background(Color.LightGray)
+                            else Modifier
+                            )
                     )
                 }
 
@@ -267,7 +273,6 @@ fun CalculatorDialog(
             }
         }
     }
-
 }
 
 @Preview

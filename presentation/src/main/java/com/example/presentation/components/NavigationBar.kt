@@ -41,8 +41,8 @@ fun AppNavigationBarOverlay(
 
     Box(
         modifier = modifier
+            .systemBarsPadding()
             .fillMaxSize()
-            .padding(vertical = 20.dp)
     ) {
         Box(
             modifier = Modifier
@@ -60,7 +60,7 @@ fun AppNavigationBarOverlay(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorResource(R.color.main_color))
-                    .padding(start = 20.dp, bottom = 20.dp, top = 4.dp)
+                    .padding(start = 20.dp, bottom = 20.dp, top = 20.dp)
             ) {
                 Image(
                     painter = painterResource(R.drawable.default_avatar),

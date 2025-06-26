@@ -24,7 +24,8 @@ class InvoiceFormViewModel(
     private val updateInvoiceUseCase: UpdateInvoiceUseCase,
     private val createInvoiceUseCase: CreateInvoiceUseCase,
     savedStateHandle: SavedStateHandle
-) : ViewModel(){
+) : ViewModel() {
+
     private val _invoice = mutableStateOf<Invoice>(Invoice())
     val invoice: State<Invoice> = _invoice
 
@@ -48,7 +49,6 @@ class InvoiceFormViewModel(
 
     private val _loading = mutableStateOf(false)
     val loading: State<Boolean> = _loading
-
 
     init {
         val id = savedStateHandle.get<String>("invoiceId")?.let { UUID.fromString(it) }
@@ -74,8 +74,6 @@ class InvoiceFormViewModel(
 
     suspend fun submitForm(context: Context) : UUID? {
         try {
-            _loading.value = true
-            delay(200)
             val response = if (invoice.value.InvoiceID == null) {
                 createInvoiceUseCase(_invoice.value, _inventoriesSelect.value)
             } else {
@@ -95,9 +93,6 @@ class InvoiceFormViewModel(
         catch (e: Exception) {
             _errorMessage.value = e.message
             return null
-        }
-        finally {
-            _loading.value = false
         }
     }
 
@@ -137,18 +132,15 @@ class InvoiceFormViewModel(
         )
     }
 
-
     fun updateNewTable(newTable: String) {
         _invoice.value = _invoice.value.copy(TableName = newTable)
         closeCalculator()
     }
 
-    fun updateNewNumberPeople(newNumberPeople: Int) {
-        _invoice.value = _invoice.value.copy(NumberOfPeople = newNumberPeople)
+    fun updateNewNumberPeople(value: String) {
+        if (value.isNotEmpty()) _invoice.value = _invoice.value.copy(NumberOfPeople = value.toDouble().toInt())
         closeCalculator()
     }
-
-
 
     fun closeCalculator() {
         _showCalculatorQuantity.value = false

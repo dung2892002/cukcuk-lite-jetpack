@@ -49,7 +49,7 @@
     <string name="toolbar_title_UnitList">Liste des unités</string>
     <string name="toolbar_title_AddInventory">Ajouter un article</string>
     <string name="toolbar_title_EditInventory">Modifier un article</string>
-    <string name="toolbar_title_InvoiceForm">Sélectionner un article</string>
+    <string name="toolbar_title_InvoiceForm">Sélectionner</string>
     <string name="toolbar_title_Payment">Recevoir le paiement</string>
     <string name="toolbar_title_Synchronize">Synchroniser les données</string>
     <string name="toolbar_title_StatisticByInventory">Chiffre d\'affaires par article</string>

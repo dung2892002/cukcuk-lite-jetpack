@@ -29,7 +29,8 @@ class CalculatorViewModel : ViewModel() {
 
     private val _message = mutableStateOf("")
 
-    private var firstInput = true
+    private val _firstInput = mutableStateOf(true)
+    val firstInput: State<Boolean> = _firstInput
 
     private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: State<String?> = _errorMessage
@@ -37,15 +38,15 @@ class CalculatorViewModel : ViewModel() {
 
     fun onClickButton(key: CalculatorButton, context: Context) {
         val label = context.getString(key.label)
-        if (firstInput) {
+        if (_firstInput.value ) {
             if (label.all { it.isDigit() } || key == CalculatorButton.TRIPLE_ZERO) {
                 var input = _resultValue.value
                 input = if (key == CalculatorButton.TRIPLE_ZERO) "0" else label
-                firstInput = false
+                _firstInput.value = false
                 _resultValue.value = input
                 return
             } else {
-                firstInput = false
+                _firstInput.value = false
             }
         }
         when (key) {
@@ -109,7 +110,10 @@ class CalculatorViewModel : ViewModel() {
             else -> {
                 var input = _resultValue.value
                 if (input == "0") {
-                    if (key == CalculatorButton.ZERO || key == CalculatorButton.TRIPLE_ZERO) return
+                    if (key != CalculatorButton.TRIPLE_ZERO) {
+                        _resultValue.value = label
+                    }
+                    return
                 } else {
                     if (!hasTwoDecimalPlaces(input) && checkMaxLengthInput()) {
                         input += label
@@ -121,6 +125,11 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun handleSubmit(context: Context) {
+        if (resultValue.value.isEmpty()) {
+            _submitState.value = true
+            return
+        }
+
         if (resultValue.value.toDouble() > _maxValue.doubleValue) {
             var msgError = "${_message.value} ${context.getString(R.string.calculator_error_maxValue)} ${FormatDisplay.formatNumber(_maxValue.doubleValue.toString())}"
             setMessageError(msgError)
@@ -147,12 +156,10 @@ class CalculatorViewModel : ViewModel() {
         _maxValue.doubleValue = max
         _submitState.value = false
         _message.value = message
-        firstInput = true
+        _firstInput.value = true
         _maxLengthValue.intValue = max.toLong()
                                         .let { kotlin.math.abs(it) }
                                         .toString().length
-
-        println(_maxLengthValue.intValue)
     }
 
     fun setValue(value: String) {

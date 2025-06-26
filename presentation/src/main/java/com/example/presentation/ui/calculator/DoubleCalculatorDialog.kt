@@ -3,6 +3,8 @@ package com.example.presentation.ui.calculator
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,13 +27,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presentation.R
 import com.example.presentation.components.CukcukButton
 import com.example.presentation.components.CukcukImageButton
-import com.example.presentation.theme.CukcukTheme
 import com.example.domain.utils.FormatDisplay
 import com.example.presentation.enums.CalculatorButton
 import org.koin.androidx.compose.koinViewModel
@@ -36,9 +39,11 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun DoubleCalculatorDialog(
     input: String = "0.0",
+    title: String = "",
     message: String = "",
     maxValue: Double = 999999999.0,
     minValue: Double = 0.0,
+    onClose: () -> Unit,
     onSubmit: (String) -> Unit,
     viewModel: CalculatorViewModel = koinViewModel()
 ) {
@@ -46,6 +51,7 @@ fun DoubleCalculatorDialog(
     val resultValue = viewModel.resultValue.value
     val submitState = viewModel.submitState.value
     val messageError = viewModel.errorMessage.value
+    val firstInput = viewModel.firstInput.value
 
     LaunchedEffect(Unit) {
         viewModel.setInitState(input,minValue, maxValue, message)
@@ -101,6 +107,31 @@ fun DoubleCalculatorDialog(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(colorResource(R.color.main_color))
+                    .padding(6.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    modifier = Modifier.wrapContentHeight()
+                )
+
+                Icon(
+                    painter = painterResource(R.drawable.quit_icon),
+                    contentDescription = "Close",
+                    tint = Color.Unspecified,
+                    modifier = Modifier.combinedClickable(onClick = {
+                        onClose()
+                    })
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
                     .height(48.dp)
                     .padding(horizontal = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -112,6 +143,11 @@ fun DoubleCalculatorDialog(
                     text = FormatDisplay.formatExpression(resultValue),
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
+                    modifier = Modifier.then(
+                        if (firstInput) Modifier
+                            .background(Color.LightGray)
+                        else Modifier
+                    )
                 )
             }
 
@@ -164,7 +200,7 @@ fun DoubleCalculatorDialog(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 5.dp, horizontal = 5.dp),
+                        .padding(top = 5.dp, bottom = 15.dp, start = 5.dp, end = 5.dp),
                 ) {
                     CukcukButton(
                         title = stringResource(CalculatorButton.ZERO.label),
@@ -207,16 +243,5 @@ fun DoubleCalculatorDialog(
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun DoubleCalculatorDialogPreview() {
-    CukcukTheme {
-        DoubleCalculatorDialog(
-            input = "0.0",
-            onSubmit = {}
-        )
     }
 }

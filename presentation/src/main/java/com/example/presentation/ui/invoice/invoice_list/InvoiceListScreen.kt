@@ -108,7 +108,7 @@ fun InvoiceListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = colorResource(R.color.background_color)
+                    color = colorResource(R.color.background_color_bold)
                 )
                 .padding(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
