@@ -10,9 +10,9 @@ enum class NavItemGroup(
         label = R.string.nav_item_group_Setting,
         items = listOf(
             NavItem.SynchronizeData,
+            NavItem.Language,
             NavItem.Setting,
             NavItem.LinkAccount,
-            NavItem.Language
         )
     ),
     Help(

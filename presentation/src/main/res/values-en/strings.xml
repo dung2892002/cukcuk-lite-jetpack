@@ -56,7 +56,7 @@
     <string name="toolbar_title_Language">Language</string>
 
     <string name="toolbar_menuTitle_Submit">Save</string>
-    <string name="toolbar_menuTitle_InvoiceForm">Collect Payment</string>
+    <string name="toolbar_menuTitle_InvoiceForm">Payment</string>
     <string name="toolbar_menuTitle_Payment">Done</string>
 
     <string name="dialog_add_unit_title">Add Unit</string>
@@ -82,7 +82,7 @@
     <string name="state_no_invoice">No customer orders yet</string>
     <string name="title_click_to_create_invoice">Click here or the + icon to place an order</string>
     <string name="invoice_item_button_cancel">Cancel</string>
-    <string name="invoice_item_button_payment">Collect Payment</string>
+    <string name="invoice_item_button_payment">Payment</string>
     <string name="invoice_form_totalAmount">Total Amount</string>
 
     <string name="payment_invoice">INVOICE</string>

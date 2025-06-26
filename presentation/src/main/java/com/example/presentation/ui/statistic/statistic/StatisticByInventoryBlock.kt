@@ -35,7 +35,7 @@ fun StatisticByInventoryBlock(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(180.dp)
+                .height(220.dp)
                 .padding(10.dp)
                 .background(
                     color = Color.White
@@ -53,7 +53,7 @@ fun StatisticByInventoryBlock(
                 .background(
                     color = Color.White
                 )
-                .padding(vertical = 6.dp)
+                .padding(top = 6.dp)
         ) {
             itemsIndexed(statisticByInventory) { index, item ->
                 StatisticByInventoryItem(item, index, statisticByInventory.size)

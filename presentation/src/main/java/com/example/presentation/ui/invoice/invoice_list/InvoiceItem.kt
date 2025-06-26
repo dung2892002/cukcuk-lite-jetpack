@@ -11,14 +11,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
@@ -45,6 +45,7 @@ fun InvoiceItem(
     onDeleteClick: () -> Unit,
     onPaymentClick: () -> Unit
 ) {
+    val dividerWidth = 0.2
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,18 +60,6 @@ fun InvoiceItem(
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .drawBehind {
-                    val strokeWidth = 1.dp.toPx()
-                    val yStart = 0f
-                    val yEnd = size.height
-                    val x = size.width - strokeWidth / 2
-                    drawLine(
-                        color = Color.Gray,
-                        start = Offset(x, yStart),
-                        end = Offset(x, yEnd),
-                        strokeWidth = strokeWidth
-                    )
-                }
                 .background(
                     color = Color.Transparent
                 )
@@ -113,6 +102,10 @@ fun InvoiceItem(
             }
         }
 
+        VerticalDivider(
+            color = Color.Gray,
+            thickness = dividerWidth.dp
+        )
         Column(
             modifier = Modifier.padding(0.dp).fillMaxHeight()
                 .background(
@@ -121,17 +114,6 @@ fun InvoiceItem(
         ) {
             Row(
                 modifier = Modifier
-                    .drawBehind{
-                        val xStart = 0f
-                        val xEnd = size.width
-                        val y = size.height
-                        drawLine(
-                            color = Color.Gray,
-                            start = Offset(xStart, y),
-                            end =  Offset(xEnd, y),
-                            strokeWidth = 1.dp.toPx()
-                        )
-                    }
                     .weight(1f)
                     .background(
                         color = Color.Transparent
@@ -139,12 +121,13 @@ fun InvoiceItem(
                     .clickable{
                         onItemClicked()
                     }
-                    .padding(start = 10.dp),
+                    .padding(0.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(
                     modifier = Modifier
                         .weight(1f)
+                        .padding(start = 10.dp)
                 ) {
                     Text(
                         text = annotatedStringFromListItemName(invoice.ListItemName),
@@ -166,9 +149,15 @@ fun InvoiceItem(
 
             }
 
+            HorizontalDivider(
+                color = Color.Gray,
+                thickness = dividerWidth.dp
+            )
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(44.dp)
                     .padding(0.dp),
             ) {
                 InvoiceButton(
@@ -181,6 +170,11 @@ fun InvoiceItem(
                     modifier = Modifier.weight(1f)
                 )
 
+                VerticalDivider(
+                    color = Color.Gray,
+                    thickness = dividerWidth.dp
+                )
+
                 InvoiceButton(
                     icon = painterResource(R.drawable.ic_dollar),
                     tint = colorResource(R.color.dollar_icon_color),
@@ -189,7 +183,6 @@ fun InvoiceItem(
                         onPaymentClick()
                     },
                     modifier = Modifier.weight(1f),
-                    hasBorder = true
                 )
             }
         }
@@ -202,27 +195,13 @@ fun InvoiceButton(
     label: String,
     tint: Color = Color.Unspecified,
     onClick: () -> Unit,
-    modifier: Modifier,
-    hasBorder: Boolean = false
+    modifier: Modifier
 ) {
     Row(
         modifier = modifier
+            .fillMaxHeight()
             .background(
                 color = colorResource(R.color.invoice_item_color)
-            )
-            .then(
-                if (hasBorder) Modifier.drawBehind {
-                    val strokeWidth = 1.dp.toPx()
-                    val yStart = 0f
-                    val yEnd = size.height
-                    val x = 0f
-                    drawLine(
-                        color = Color.Gray,
-                        start = Offset(x, yStart),
-                        end = Offset(x, yEnd),
-                        strokeWidth = strokeWidth
-                    )
-                } else Modifier
             )
             .clickable {
                 onClick()
@@ -239,7 +218,9 @@ fun InvoiceButton(
         )
         Text(
             text = label,
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

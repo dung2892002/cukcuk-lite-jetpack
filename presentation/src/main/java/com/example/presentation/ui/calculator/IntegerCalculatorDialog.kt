@@ -54,6 +54,7 @@ fun IntegerCalculatorDialog(
     val resultValue = viewModel.resultValue.value
     val submitState = viewModel.submitState.value
     val messageError = viewModel.errorMessage.value
+    val firstInput = viewModel.firstInput.value
 
     LaunchedEffect(Unit) {
         viewModel.setInitState(input,minValue, maxValue, message)
@@ -140,13 +141,13 @@ fun IntegerCalculatorDialog(
                     .background(
                         color = Color.White,
                     )
-                    .padding(vertical = 10.dp, horizontal = 5.dp),
+                    .padding(10.dp, 16.dp, 10.dp, 6.dp)
             ) {
                 Row(
                     modifier = Modifier
                         .weight(2f)
                         .height(48.dp)
-                        .padding(horizontal = 5.dp)
+                        .padding(horizontal = 8.dp)
                         .border(
                             width = (1/2).dp,
                             color = Color.Gray,
@@ -160,6 +161,11 @@ fun IntegerCalculatorDialog(
                         text = FormatDisplay.formatExpression(resultValue),
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
+                        modifier = Modifier.then(
+                            if (firstInput) Modifier
+                                .background(Color.LightGray)
+                            else Modifier
+                        )
                     )
                 }
 
@@ -172,7 +178,7 @@ fun IntegerCalculatorDialog(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp)
-                        .padding(horizontal = 5.dp)
+                        .padding(horizontal = 8.dp)
                         .border(
                             width = (1/2).dp,
                             color = Color.Gray,
@@ -189,7 +195,7 @@ fun IntegerCalculatorDialog(
                         .background(
                             color = Color.White,
                         )
-                        .padding(vertical = 10.dp, horizontal = 5.dp),
+                        .padding(vertical = 6.dp, horizontal = 10.dp),
                 ) {
                     row.forEach { key ->
                         CukcukButton(
@@ -202,7 +208,7 @@ fun IntegerCalculatorDialog(
                             modifier = Modifier
                                 .weight(1f)
                                 .height(48.dp)
-                                .padding(horizontal = 5.dp)
+                                .padding(horizontal = 6.dp)
                                 .border(
                                     width = (1/2).dp,
                                     color = Color.Gray,
@@ -219,7 +225,7 @@ fun IntegerCalculatorDialog(
                     .background(
                         color = Color.White,
                     )
-                    .padding(5.dp),
+                    .padding(10.dp, 6.dp, 10.dp, 16.dp)
             ) {
                 CukcukButton(
                     title = stringResource(CalculatorButton.ZERO.label),
@@ -231,7 +237,7 @@ fun IntegerCalculatorDialog(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp)
-                        .padding(horizontal = 5.dp)
+                        .padding(horizontal = 6.dp)
                         .border(
                             width = (1/2).dp,
                             color = Color.Gray,
@@ -249,7 +255,7 @@ fun IntegerCalculatorDialog(
                     modifier = Modifier
                         .weight(2f)
                         .height(48.dp)
-                        .padding(horizontal = 5.dp)
+                        .padding(horizontal = 6.dp)
                 )
             }
         }

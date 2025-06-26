@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.StatisticByInventory
 import com.example.domain.usecase.statistic.GetStatisticByInventoryUseCase
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -20,21 +19,16 @@ class StatisticByInventoryViewModel (
     private val _totalAmount = mutableDoubleStateOf(0.0)
     val totalAmount: State<Double> = _totalAmount
 
-    private val _loading = mutableStateOf(false)
-    val loading: State<Boolean> = _loading
 
     fun handleStatistic(start: LocalDateTime, end: LocalDateTime) {
         viewModelScope.launch {
             try {
-                _loading.value = true
-                delay(200)
                 _statisticByInventory.value = getStatisticByInventoryUseCase(start, end)
                 _totalAmount.doubleValue = _statisticByInventory.value.sumOf { it.Amount }
             }
             catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                _loading.value = false
             }
         }
     }

@@ -2,18 +2,19 @@ package com.example.presentation.ui.invoice.invoice_payment
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -22,10 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -62,6 +61,8 @@ fun PaymentScreen(
     val loading = viewModel.loading.value
     val coroutineScope = rememberCoroutineScope()
 
+    val strokeWidth = 0.2
+
     fun handlePayment() {
         coroutineScope.launch {
             val response = viewModel.paymentInvoice()
@@ -76,6 +77,8 @@ fun PaymentScreen(
         }
     }
 
+    val scrollState = rememberScrollState()
+
     Scaffold(
         topBar = {
             CukcukToolbar(
@@ -88,15 +91,39 @@ fun PaymentScreen(
                 }
             )
         },
+
+        bottomBar = {
+            Row(
+                modifier = Modifier
+                    .background(
+                        color = colorResource(R.color.background_color_bold)
+                    )
+                    .padding(bottom = 10.dp, start = 12.dp, end = 12.dp)
+            ) {
+                CukcukButton(
+                    title = stringResource(R.string.button_title_Done),
+                    bgColor = colorResource(R.color.main_color),
+                    textColor = Color.White,
+                    onClick = {
+                        handlePayment()
+                    },
+                    padding = 0,
+                    modifier = Modifier.fillMaxWidth().height(40.dp),
+                    fontSize = 20
+                )
+            }
+        },
+        modifier = Modifier.navigationBarsPadding()
     ) {paddingValue ->
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(paddingValue)
                 .background(
                     color = colorResource(R.color.background_color_bold)
                 )
-                .padding(horizontal = 12.dp, vertical = 10.dp)
+                .padding(12.dp)
+                .verticalScroll(scrollState)
         ) {
             Column(
                 modifier = Modifier
@@ -152,26 +179,26 @@ fun PaymentScreen(
                 }
 
 
-                TableHeader()
-                LazyColumn(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(min = 0.dp, max = 340.dp)
-                        .drawBehind {
-                            val borderSize = 1.dp.toPx()
-                            drawRect(
-                                color = Color.Black,
-                                size = size,
-                                style = Stroke(width = borderSize)
-                            )
-                        }
+                        .border(strokeWidth.dp, Color.Black, shape = RectangleShape)
                 ) {
-                    itemsIndexed (invoice.InvoiceDetails) {index, item ->
+                    TableHeader()
+                    HorizontalDivider(
+                        color = Color.Black,
+                        thickness = (strokeWidth * 2).dp
+                    )
+                    invoice.InvoiceDetails.mapIndexed { index, item ->
                         InvoiceDetailItem(
                             item = item,
-                            index = index,
-                            length = detailsCount
                         )
+                        if (index < detailsCount - 1) {
+                            HorizontalDivider(
+                                color = Color.Gray,
+                                thickness = strokeWidth.dp,
+                            )
+                        }
                     }
                 }
 
@@ -193,7 +220,7 @@ fun PaymentScreen(
 
                 HorizontalDivider(
                     color = Color.Black,
-                    thickness = 1.dp
+                    thickness = (strokeWidth * 2).dp
                 )
 
                 Row(
@@ -222,7 +249,7 @@ fun PaymentScreen(
 
                 HorizontalDivider(
                     color = Color.Black,
-                    thickness = 1.dp
+                    thickness = (strokeWidth * 2).dp
                 )
 
                 Row(
@@ -246,33 +273,21 @@ fun PaymentScreen(
                 contentDescription = null,
                 tint = Color.White,
             )
-
-            Spacer(
-                modifier = Modifier.weight(1f)
-            )
-
-            CukcukButton(
-                title = stringResource(R.string.button_title_Done),
-                bgColor = colorResource(R.color.main_color),
-                textColor = Color.White,
-                onClick = {
-                    handlePayment()
-                },
-                padding = 0,
-                modifier = Modifier.fillMaxWidth().height(48.dp),
-                fontSize = 20
-            )
         }
     }
 
     if (showCalculator) {
         DoubleCalculatorDialog(
             input = invoice.ReceiveAmount.toString(),
+            title = stringResource(R.string.calculator_message_payment),
             message = stringResource(R.string.calculator_message_payment),
             maxValue = 999999999.0,
             minValue = 0.0,
             onSubmit = {
                 viewModel.updateAmount(it.toDouble())
+            },
+            onClose = {
+                viewModel.closeCalculator()
             }
         )
     }
@@ -292,14 +307,6 @@ fun TableHeader() {
             .background(
                 color = Color.White
             )
-            .drawBehind {
-                val borderSize = 1.dp.toPx()
-                drawRect(
-                    color = Color.Black,
-                    size = size,
-                    style = Stroke(width = borderSize)
-                )
-            }
             .padding(vertical = 10.dp)
     ) {
         Text(
@@ -343,26 +350,10 @@ fun TableHeader() {
 @Composable
 fun InvoiceDetailItem(
     item: InvoiceDetail,
-    index: Int,
-    length: Int
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .drawBehind{
-                val strokeWidth = 1.dp.toPx()
-                val xStart = 0f
-                val xEnd = size.width
-                val y = size.height
-                if (index < length -1) {
-                    drawLine(
-                        color = Color.Gray,
-                        start = Offset(xStart, y),
-                        end = Offset(xEnd, y),
-                        strokeWidth = strokeWidth
-                    )
-                }
-            }
             .padding(vertical = 10.dp)
     ) {
         Text(

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -25,7 +24,6 @@ import com.example.presentation.ui.inventory.inventory_list.InventoryListScreen
 import com.example.presentation.ui.invoice.invoice_list.InvoiceListScreen
 import com.example.presentation.ui.statistic.statistic.StatisticScreen
 import com.example.presentation.utils.SharedPrefManager
-import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,12 +40,6 @@ fun HomeScreen(
     var title = viewModel.title.value
     var countSync = viewModel.countSync.value
 
-    LaunchedEffect(showNavigationBar) {
-        if (showNavigationBar) {
-            // Delay nhỏ để đảm bảo UI không bị trắng khi click quá nhanh
-            delay(100)
-        }
-    }
 
 
     fun navigateToScreen(navItem: NavItem) {
@@ -74,7 +66,8 @@ fun HomeScreen(
                     title = stringResource(title),
                     menuTitle = null,
                     hasMenuIcon = currentScreen!= Screen.Statistics,
-                    onBackClick = {viewModel.openNavigationView()},
+                    onBackClick = {
+                        viewModel.openNavigationView()},
                     onMenuClick = {
                         if (currentScreen == Screen.Sales) {
                             navController.navigate("invoice_form")
